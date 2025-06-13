@@ -1,0 +1,39 @@
+.btn-superior {
+    margin: 20px;
+    border: none;
+    background: none;
+    position: relative;
+}
+
+.btn-superior-a {
+    text-decoration: none;
+    color: black;
+    font-size: 1.1em;
+}
+
+.btn-superior-a:hover {
+    color: white;
+}
+
+@media (min-width: 576px) {
+    .btn-superior-a {
+        color: white;
+    }
+
+    .btn-superior-a:hover {
+        color: #FEC224;
+    }
+}
+
+.btn-superior-notificacion {
+    color: white;
+    background-color: #DD3B4A;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 5px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 5px;
+    right: -10px;
+}

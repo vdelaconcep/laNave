@@ -1,0 +1,100 @@
+/* Reseteo de aspecto de vínculos */
+a {
+    text-decoration: none;
+    display: block;
+}
+
+/* Visibles */
+#boton-hamburguesa {
+    border: none;
+    color: black;
+}
+
+#boton-hamburguesa {
+    font-size: 1.3em;
+}
+
+#boton-hamburguesa:hover {
+    color: white;
+}
+
+.menu-grande-item {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: white;
+}
+
+.menu-grande-item:hover {
+    color: #FEC224;
+}
+
+.menu-grande-li {
+    margin: 0 4%;
+}
+
+/* Desplegables */
+.menu-chico {
+    width: 100vw;
+    top: 2px !important;
+}
+
+.menu-chico,
+.sub-menu-grande {
+    border: 2px solid grey !important
+}
+
+.menu-chico,
+.desplegable-chico {
+    background-color: black !important;
+}
+
+.dropdown-chico,
+.desplegable-chico,
+.dropdown-item-grande {
+    color: white !important;
+}
+
+.dropdown-item-chico {
+    color: black;
+    padding: 6px;
+}
+
+.dropdown-chico:hover,
+.desplegable-chico:hover,
+.dropdown-item-chico:hover,
+.dropdown-item-grande:hover {
+    background-color: white !important;
+    color: black !important;
+}
+
+.sub-menu-grande {
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 400px;
+    overflow: hidden;
+    top: 11px !important;
+}
+
+/* Modificaciones en pantallas grandes */
+
+@media (min-width: 576px) {
+
+    #div-superior {
+        background-color: black;
+        margin-bottom: 20px;
+        padding-bottom: 1px;
+        height: 52px;
+    }
+
+    #boton-hamburguesa {
+        color: white !important;
+    }
+
+    #boton-hamburguesa:hover {
+        color: #FEC224 !important;
+    }
+
+    .menu-chico {
+        width: 70vw;
+    }
+}
