@@ -1,10 +1,8 @@
-/* Barra de búsqueda */
-.search-container {
-    margin-top: 5px;
+.busqueda-div {
     position: relative;
 }
 
-.search-input {
+.busqueda-input {
     background-color: darkgrey;
     height: 35px;
     border-radius: 30px;
@@ -13,10 +11,12 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.boton-busqueda {
+.busqueda-boton {
     position: absolute;
     top: 50%;
     left: 25px;
     transform: translateY(-65%);
     color: black;
+    background-color: transparent;
+    border: none;
 }

@@ -1,0 +1,31 @@
+.detalle-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    display: none;
+}
+
+.detalle-verProducto {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.detalle-verProducto-imagen {
+    height: 70vh;
+    max-width: 1000px;
+    margin-bottom: 10vh;
+}
+
+@media (max-width: 576px) {
+    .detalle-overlay {
+        display: none !important;
+    }
+}
