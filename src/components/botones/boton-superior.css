@@ -1,10 +1,13 @@
 .btn-superior {
+    margin: 20px;
     border: none;
     background: none;
     position: relative;
 }
 
 .btn-superior-a {
+    text-decoration: none;
+    color: black;
     font-size: 1.1em;
 }
 
@@ -23,8 +26,11 @@
 }
 
 .btn-superior-notificacion {
+    color: white;
     background-color: #DD3B4A;
+    text-align: center;
     font-size: 12px;
+    font-weight: bold;
     padding: 0 5px;
     border-radius: 50%;
     position: absolute;

@@ -1,4 +1,6 @@
-.busqueda-div {
+/* Barra de búsqueda */
+.search-container {
+    margin-top: 5px;
     position: relative;
 }
 
@@ -17,6 +19,4 @@
     left: 25px;
     transform: translateY(-65%);
     color: black;
-    background-color: transparent;
-    border: none;
 }
