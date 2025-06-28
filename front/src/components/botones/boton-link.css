@@ -1,31 +1,24 @@
-.btn-superior {
-    margin: 20px;
-    border: none;
-    background: none;
+.btnLink-Link {
+    color: black;
+    font-size: 1.1em;
     position: relative;
 }
 
-.btn-superior-a {
-    text-decoration: none;
-    color: black;
-    font-size: 1.1em;
-}
-
-.btn-superior-a:hover {
+.btnLink-Link:hover {
     color: white;
 }
 
 @media (min-width: 576px) {
-    .btn-superior-a {
+    .btnLink-Link {
         color: white;
     }
 
-    .btn-superior-a:hover {
+    .btnLink-Link:hover {
         color: #FEC224;
     }
 }
 
-.btn-superior-notificacion {
+.btnLink-notificacion {
     color: white;
     background-color: #DD3B4A;
     text-align: center;
