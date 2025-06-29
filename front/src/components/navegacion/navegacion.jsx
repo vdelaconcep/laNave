@@ -28,19 +28,26 @@ const fijos = [
     }
 ];
 
-const Navegacion = () => {
+const Navegacion = ({ pantalla }) => {
+
+    const clases = {
+        nav: pantalla === 'pantallaChica' ? 'dropdown' : '',
+        ul: pantalla === 'pantallaChica' ? 'dropdown-menu' : ''
+    }
 
     return (
-        <nav>
-            <button className='menuBarras btn d-block d-lg-none' type='button'>
-                <i className="fa-solid fa-bars"></i> <i className="fa-solid fa-caret-down"></i>
-            </button>
-            <ul className='d-none d-lg-flex list-unstyled mb-0'>
-                <ItemDesplegable titulo={"Productos"} listaVinculos={dataProductos} pantalla={"pantallaGrande"} />
-                {fijos.map((vinculo) => (
-                    <li key={vinculo.linkTo} className="menuPrincipal-item"><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
-                ))}
-            </ul>
+        <nav className={`${clases.nav}`}>
+            <div className='dropdown'>
+                <button className='menuBarras btn d-block d-lg-none text-white' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                    <i className="fa-solid fa-bars"></i>  <i className="fa-solid fa-caret-down"></i>
+                </button>
+                <ul className={`${clases.ul} d-lg-flex list-unstyled mb-0`}>
+                    <ItemDesplegable titulo={"Productos"} listaVinculos={dataProductos} pantalla={pantalla} />
+                    {fijos.map((vinculo) => (
+                        <li key={vinculo.linkTo} className="menuPrincipal-item"><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
+                    ))}
+                </ul>
+            </div>
         </nav>
     );
 };

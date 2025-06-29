@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import '@/components/botones/boton-link.css';
+import '@/components/botones/botones.css';
 
 const BotonLink = ({ vinculo, texto, numero }) => {
     return (
