@@ -1,3 +1,6 @@
+.busqueda-form {
+    position: relative;
+}
 
 .busqueda-input {
     background-color: darkgrey;
@@ -6,7 +9,6 @@
     padding-left: 40px;
     border: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative;
 }
 
 .busqueda-btn {
@@ -14,7 +16,7 @@
     border: none;
     color: black;
     position: absolute;
-    top: 50%;
-    left: 25px;
+    top: 60%;
+    left: 15px;
     transform: translateY(-65%);
 }
