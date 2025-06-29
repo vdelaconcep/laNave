@@ -1,0 +1,23 @@
+.navegacion-item .btn:focus,
+.navegacion.item .btn:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.navegacion-item {
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navegacion-item:hover {
+    color: #FEC224;
+}
+
+.navegacion-item .btn, .navegacion-item .links {
+    color: inherit;
+    font-weight: inherit;
+    padding: 10px;
+}

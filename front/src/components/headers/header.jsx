@@ -14,9 +14,9 @@ const Header = () => {
                     <Navegacion pantalla={'pantallaChica'} />   
                 </div>
                 <div className="ps-3 d-none d-sm-block">
-                    <Link to="/" title="Página principal"><img src={logo} alt="logo" style={{ height: "50px" }} /></Link>
+                    <Link to="/" className='links' title="Página principal"><img src={logo} alt="logo" style={{ height: "50px" }} /></Link>
                 </div>
-                <div className="d-none d-lg-block mt-3 ps-4 ps-xl-0 ms-md-auto">
+                <div className="d-none d-lg-block ps-4 ps-xl-0 ms-md-auto">
                     <Navegacion pantalla={'pantallaGrande'} />
                 </div>
                 <div className="search-container ps-3 pe-3 pt-0 pb-2 d-none d-md-block ms-auto mt-2 w-25">
@@ -30,7 +30,7 @@ const Header = () => {
                 </div>
             </section>
             <section className="d-sm-none">
-                <Link to="/"><img className="w-100 mt-0 mb-0 p-0" src={banner} alt="banner" /></Link>
+                <Link to="/" className='links'><img className="w-100 mt-0 mb-0 p-0" src={banner} alt="banner" /></Link>
                 <p className="text-end mt-0 pt-0 pe-3"><b>REMERAS - BUZOS - MOCHILAS</b></p>
             </section>
         </header>

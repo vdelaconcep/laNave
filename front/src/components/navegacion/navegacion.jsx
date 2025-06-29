@@ -44,7 +44,7 @@ const Navegacion = ({ pantalla }) => {
                 <ul className={`${clases.ul} d-lg-flex list-unstyled mb-0`}>
                     <ItemDesplegable titulo={"Productos"} listaVinculos={dataProductos} pantalla={pantalla} />
                     {fijos.map((vinculo) => (
-                        <li key={vinculo.linkTo} className="menuPrincipal-item"><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
+                        <li key={vinculo.linkTo} className="navegacion-item"><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
                     ))}
                 </ul>
             </div>

@@ -10,9 +10,9 @@ const ItemDesplegable = ({ titulo, listaVinculos, pantalla }) => {
     const claseUl = pantalla === "pantallaChica" ? "collapse" : "dropdown-menu";
 
     return (
-        <li className="dropdown menuPrincipal-item desplegable">
+        <li className="dropdown navegacion-item">
             <button
-                className="btn btn-desplegable dropdown-toggle" type="button"
+                className="btn dropdown-toggle" type="button"
                 data-bs-toggle={dataBsToggleBoton}
                 data-bs-target={`#${idLista}`}
                 aria-expanded="false"
