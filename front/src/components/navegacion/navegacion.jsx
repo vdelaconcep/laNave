@@ -31,13 +31,13 @@ const fijos = [
 const Navegacion = ({ pantalla }) => {
 
     const clases = {
-        nav: pantalla === 'pantallaChica' ? 'dropdown' : '',
+        div: pantalla === 'pantallaChica' ? 'dropdown' : '',
         ul: pantalla === 'pantallaChica' ? 'dropdown-menu' : ''
     }
 
     return (
-        <nav className={`${clases.nav}`}>
-            <div className='dropdown'>
+        <nav>
+            <div className={`${clases.div}`}>
                 <button className='menuBarras btn d-block d-lg-none text-white' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
                     <i className="fa-solid fa-bars"></i>  <i className="fa-solid fa-caret-down"></i>
                 </button>

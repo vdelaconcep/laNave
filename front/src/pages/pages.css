@@ -5,4 +5,6 @@
 
 .links {
     text-decoration: none;
+    display: block;
+    text-align: center;
 }

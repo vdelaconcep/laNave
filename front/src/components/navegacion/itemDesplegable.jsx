@@ -7,10 +7,12 @@ const ItemDesplegable = ({ titulo, listaVinculos, pantalla }) => {
 
     const dataBsToggleBoton = pantalla === "pantallaChica" ? "collapse" : "dropdown";
 
+    const claseLi = pantalla === "pantallaChica" ? "" : "dropdown-center";
+
     const claseUl = pantalla === "pantallaChica" ? "collapse" : "dropdown-menu";
 
     return (
-        <li className="dropdown navegacion-item">
+        <li className={`${claseLi} navegacion-item`}>
             <button
                 className="btn dropdown-toggle" type="button"
                 data-bs-toggle={dataBsToggleBoton}
@@ -18,12 +20,13 @@ const ItemDesplegable = ({ titulo, listaVinculos, pantalla }) => {
                 aria-expanded="false"
                 aria-controls="lista-desplegable"
                 onClick={(e) => e.stopPropagation()}
+                style={{border: "none"}}
             >
                 {titulo}
             </button>
             <ul id={`${idLista}`} className={`lista-desplegable list-unstyled ${claseUl}`}>
                 {listaVinculos.map((vinculo) => (
-                    <li key={vinculo.linkTo} className="menuDesplegable-item text-white"><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
+                    <li key={vinculo.linkTo} className="menuDesplegable-item"><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
                 ))}
             </ul>
         </li>
