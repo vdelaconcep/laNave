@@ -16,35 +16,48 @@
     font-size: inherit;
     height: 55px;
     padding: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-.listaDesplegable {
-    background-color: black;
-    border: 2px solid grey;
-}
-
-@keyframes mostrarMenu {
+@keyframes mostrarMenuY {
     0% {transform: scaleY(0)}
     80% {transform: scaleY(0.8)}
     100% {transform: scaleY(1)}
 }
 
-@keyframes ocultarMenu {
+@keyframes ocultarMenuY {
     0% {transform: scaleY(1)}
     20% {transform: scaleY(0.8)}
     100% {transform: scaleY(0)}
 }
 
+@keyframes mostrarMenuX {
+    0% {transform: translateX(0)}
+    80% {transform: translateX(480px)}
+    100% {transform: translateX(600px)}
+}
+
+@keyframes ocultarMenuX {
+    0% {transform: scaleX(1)}
+    20% {transform: scaleX(0.8)}
+    100% {transform: scaleX(0)}
+}
+
 .listaDesplegable {
+    background-color: black;
+    border: 2px solid grey;
     position: absolute;
-    top: 52px !important;
+    top: 54px !important;
     left: -54px !important;
     z-index: 1000;
     transform-origin: top center;
-    display: block !important;
+    display: block;
+}
+
+.listaDesplegable.pChica {
+    border-radius: 0;
+    border-bottom-right-radius: 5px;
+    left: -600px !important;
+    transform-origin: left center;
 }
 
 .listaDesplegable:not(.show):not(.ocultando) {
@@ -53,16 +66,28 @@
 
 .listaDesplegable.show {
     visibility: visible;
-    animation: mostrarMenu 300ms ease-in-out forwards;
+    animation: mostrarMenuY 300ms ease-in-out forwards;
+}
+
+.listaDesplegable.pChica.show {
+    animation: mostrarMenuX 300ms ease-in-out forwards;
 }
 
 .listaDesplegable.ocultando {
     visibility: visible;
-    animation: ocultarMenu 100ms ease-in-out forwards;
+    animation: ocultarMenuY 100ms ease-in-out forwards;
+}
+
+.listaDesplegable-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .listaDesplegable-item .links,
 .listaDesplegable-item .btn{
+    width: 100%;
     padding: 10px 80px;
     color: white;
     font-size: 1.1em;
@@ -73,4 +98,15 @@
 .listaDesplegable-item .btn:hover {
     color: black;
     background-color: white;
+}
+
+.menuBarras {
+    height: 55px;
+    font-size: 1.2em;
+}
+
+@media (max-width: 576px) {
+    .menuBarras {
+        color: black !important;
+    }
 }

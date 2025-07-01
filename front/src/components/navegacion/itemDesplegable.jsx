@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useRef, useEffect} from "react";
+import { useRef, useEffect} from "react";
 import '@/components/navegacion/navegacion.css';
 
 const ItemDesplegable = ({ titulo, listaVinculos, pantalla, desplegado, setDesplegado }) => {
@@ -17,7 +17,7 @@ const ItemDesplegable = ({ titulo, listaVinculos, pantalla, desplegado, setDespl
     const btnRef = useRef(null);
 
     useEffect(() => {
-        if (ulRef.current) {
+        if (ulRef.current && pantalla !== 'pantallaChica') {
             if (estaDesplegado) {
                 ulRef.current.classList.add("show");
                 ulRef.current.classList.remove("ocultando");
@@ -33,7 +33,7 @@ const ItemDesplegable = ({ titulo, listaVinculos, pantalla, desplegado, setDespl
 
     useEffect(() => {
         const cerrarMenu = (e) => {
-            if (estaDesplegado && !btnRef.current.contains(e.target)) {
+            if (estaDesplegado && !btnRef.current.contains(e.target) && pantalla !== 'pantallaChica') {
                 setDesplegado(null);
             }
         };
@@ -56,7 +56,7 @@ const ItemDesplegable = ({ titulo, listaVinculos, pantalla, desplegado, setDespl
                     e.stopPropagation();
                     setDesplegado(estaDesplegado ? null : titulo);
                 }}
-                style={{border: "none"}}
+                style={{border: "none", borderRadius: "0"}}
             >
                 {titulo}
             </button>

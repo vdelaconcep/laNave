@@ -48,6 +48,7 @@ const fijos = [
 const Navegacion = ({ pantalla }) => {
 
     const clases = {
+        pantalla: pantalla === 'pantallaChica' ? 'pChica' : '',
         div: pantalla === 'pantallaChica' ? 'dropdown' : '',
         ul: pantalla === 'pantallaChica' ? 'dropdown-menu listaDesplegable' : '',
         li: pantalla === 'pantallaChica' ? 'listaDesplegable-item' : 'navegacion-item'
@@ -65,16 +66,24 @@ const Navegacion = ({ pantalla }) => {
                     aria-expanded='false'
                     style={{ border: "none" }}
                 >
-                    <i className="fa-solid fa-bars"></i>  <i className="fa-solid fa-caret-down"></i>
+                    <i className="fa-solid fa-bars"></i>
                 </button>
 
-                <ul className={`${clases.ul} d-lg-flex list-unstyled mb-0`}>
-                    <li className='d-block d-md-none'>
+                <ul className={`${clases.ul} ${clases.pantalla} d-lg-flex list-unstyled mb-0`}>
+                    <li className='d-block d-md-none p-2 ps-4 pe-4'>
                         <Busqueda />
                     </li>
                     <ItemDesplegable
                         titulo={"Productos"}
                         listaVinculos={dataProductos}
+                        pantalla={pantalla}
+                        desplegado={desplegado}
+                        setDesplegado={setDesplegado}
+                    />
+
+                    <ItemDesplegable
+                        titulo={"Servicios"}
+                        listaVinculos={dataServicios}
                         pantalla={pantalla}
                         desplegado={desplegado}
                         setDesplegado={setDesplegado}

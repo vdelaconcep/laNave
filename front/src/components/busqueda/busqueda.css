@@ -20,3 +20,17 @@
     left: 15px;
     transform: translateY(-65%);
 }
+
+@media (max-width: 768px) {
+    .busqueda-input, .busqueda-input:focus {
+        border-radius: 0;
+        background-color: transparent;
+        color: white;
+        border-bottom: 2px solid gray;
+    }
+
+    .busqueda-btn {
+        color: darkgrey;
+        right: -80%;
+    }
+}
