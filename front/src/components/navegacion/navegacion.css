@@ -26,10 +26,16 @@
     border: 2px solid grey;
 }
 
-@keyframes growDown {
+@keyframes mostrarMenu {
     0% {transform: scaleY(0)}
     80% {transform: scaleY(0.8)}
     100% {transform: scaleY(1)}
+}
+
+@keyframes ocultarMenu {
+    0% {transform: scaleY(1)}
+    20% {transform: scaleY(0.8)}
+    100% {transform: scaleY(0)}
 }
 
 .listaDesplegable {
@@ -37,13 +43,22 @@
     top: 52px !important;
     left: -54px !important;
     z-index: 1000;
-    display: none;
     transform-origin: top center;
+    display: block !important;
+}
+
+.listaDesplegable:not(.show):not(.ocultando) {
+    visibility: hidden;
 }
 
 .listaDesplegable.show {
-    display: block;
-    animation: growDown 300ms ease-in-out forwards;
+    visibility: visible;
+    animation: mostrarMenu 300ms ease-in-out forwards;
+}
+
+.listaDesplegable.ocultando {
+    visibility: visible;
+    animation: ocultarMenu 100ms ease-in-out forwards;
 }
 
 .listaDesplegable-item .links,

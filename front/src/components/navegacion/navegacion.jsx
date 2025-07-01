@@ -1,9 +1,25 @@
 import ItemDesplegable from '@/components/navegacion/itemDesplegable';
-import Busqueda from '@/components/busqueda/busqueda'
+import Busqueda from '@/components/busqueda/busqueda';
+import { useState } from 'react';
 import '@/components/navegacion/navegacion.css';
 import { Link } from "react-router-dom";
 
 const dataProductos = [
+    {
+        texto: "Remeras",
+        linkTo: "/remeras"
+    },
+    {
+        texto: "Buzos",
+        linkTo: "/buzos"
+    },
+    {
+        texto: "Mochilas",
+        linkTo: "/mochilas"
+    }
+];
+
+const dataServicios = [
     {
         texto: "Remeras",
         linkTo: "/remeras"
@@ -37,6 +53,8 @@ const Navegacion = ({ pantalla }) => {
         li: pantalla === 'pantallaChica' ? 'listaDesplegable-item' : 'navegacion-item'
     }
 
+    const [desplegado, setDesplegado] = useState(null)
+
     return (
         <nav>
             <div className={`${clases.div}`}>
@@ -54,7 +72,13 @@ const Navegacion = ({ pantalla }) => {
                     <li className='d-block d-md-none'>
                         <Busqueda />
                     </li>
-                    <ItemDesplegable titulo={"Productos"} listaVinculos={dataProductos} pantalla={pantalla} />
+                    <ItemDesplegable
+                        titulo={"Productos"}
+                        listaVinculos={dataProductos}
+                        pantalla={pantalla}
+                        desplegado={desplegado}
+                        setDesplegado={setDesplegado}
+                    />
                     {fijos.map((vinculo) => (
                         <li key={vinculo.linkTo} className={`${clases.li}`}><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
                     ))}
