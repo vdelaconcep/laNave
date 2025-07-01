@@ -1,4 +1,5 @@
 import ItemDesplegable from '@/components/navegacion/itemDesplegable';
+import Busqueda from '@/components/busqueda/busqueda'
 import '@/components/navegacion/navegacion.css';
 import { Link } from "react-router-dom";
 
@@ -32,19 +33,30 @@ const Navegacion = ({ pantalla }) => {
 
     const clases = {
         div: pantalla === 'pantallaChica' ? 'dropdown' : '',
-        ul: pantalla === 'pantallaChica' ? 'dropdown-menu' : ''
+        ul: pantalla === 'pantallaChica' ? 'dropdown-menu listaDesplegable' : '',
+        li: pantalla === 'pantallaChica' ? 'listaDesplegable-item' : 'navegacion-item'
     }
 
     return (
         <nav>
             <div className={`${clases.div}`}>
-                <button className='menuBarras btn d-block d-lg-none text-white' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                <button
+                    className='menuBarras btn d-block d-lg-none text-white'
+                    type='button'
+                    data-bs-toggle='dropdown'
+                    aria-expanded='false'
+                    style={{ border: "none" }}
+                >
                     <i className="fa-solid fa-bars"></i>  <i className="fa-solid fa-caret-down"></i>
                 </button>
+
                 <ul className={`${clases.ul} d-lg-flex list-unstyled mb-0`}>
+                    <li className='d-block d-md-none'>
+                        <Busqueda />
+                    </li>
                     <ItemDesplegable titulo={"Productos"} listaVinculos={dataProductos} pantalla={pantalla} />
                     {fijos.map((vinculo) => (
-                        <li key={vinculo.linkTo} className="navegacion-item"><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
+                        <li key={vinculo.linkTo} className={`${clases.li}`}><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
                     ))}
                 </ul>
             </div>

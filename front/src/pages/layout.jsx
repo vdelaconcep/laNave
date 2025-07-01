@@ -11,7 +11,7 @@ function Layout() {
     return (
         <>
             <div className="layout-div">
-                <div className="layout-main bg-dark">
+                <div className="layout-main">
                     <Header />
                     <Outlet />
                 </div>
