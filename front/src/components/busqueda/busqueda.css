@@ -28,9 +28,4 @@
         color: white;
         border-bottom: 2px solid gray;
     }
-
-    .busqueda-btn {
-        color: darkgrey;
-        right: -80%;
-    }
 }
