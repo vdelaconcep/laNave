@@ -1,3 +1,7 @@
+.division {
+    color: gray;
+    margin: 8px 0;
+}
 
 .navegacion-item {
     color: white;
@@ -37,9 +41,9 @@
 }
 
 @keyframes ocultarMenuX {
-    0% {transform: scaleX(1)}
-    20% {transform: scaleX(0.8)}
-    100% {transform: scaleX(0)}
+    0% {transform: translateX(600px)}
+    20% {transform: translateX(480px)}
+    100% {transform: translateX(0)}
 }
 
 .listaDesplegable {
@@ -58,6 +62,14 @@
     border-bottom-right-radius: 5px;
     left: -600px !important;
     transform-origin: left center;
+    width: 50vw;
+}
+
+@media (max-width: 576px) {
+    .listaDesplegable.pChica {
+        width: 100vw;
+        border-bottom-right-radius: 0;
+    }
 }
 
 .listaDesplegable:not(.show):not(.ocultando) {
@@ -70,7 +82,7 @@
 }
 
 .listaDesplegable.pChica.show {
-    animation: mostrarMenuX 300ms ease-in-out forwards;
+    animation: mostrarMenuX 400ms ease-in-out forwards;
 }
 
 .listaDesplegable.ocultando {
@@ -109,4 +121,14 @@
     .menuBarras {
         color: black !important;
     }
+}
+
+.listaColapsable {
+    width: 100%;
+    background-color: #8EDCC0;
+    color: black;
+}
+
+.listaColapsable .links {
+    color: inherit
 }

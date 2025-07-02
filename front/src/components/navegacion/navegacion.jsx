@@ -70,9 +70,10 @@ const Navegacion = ({ pantalla }) => {
                 </button>
 
                 <ul className={`${clases.ul} ${clases.pantalla} d-lg-flex list-unstyled mb-0`}>
-                    <li className='d-block d-md-none p-2 ps-4 pe-4'>
+                    <li className='d-block d-md-none p-4 pt-2 pb-2'>
                         <Busqueda />
                     </li>
+                    <hr className='division d-block d-md-none'/>
                     <ItemDesplegable
                         titulo={"Productos"}
                         listaVinculos={dataProductos}
@@ -80,7 +81,6 @@ const Navegacion = ({ pantalla }) => {
                         desplegado={desplegado}
                         setDesplegado={setDesplegado}
                     />
-
                     <ItemDesplegable
                         titulo={"Servicios"}
                         listaVinculos={dataServicios}
