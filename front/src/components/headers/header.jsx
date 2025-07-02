@@ -1,4 +1,4 @@
-import Navegacion from '@/components/navegacion/navegacion'
+import Navegacion from '@/components/navegacion/navegacion';
 import Busqueda from '@/components/busqueda/busqueda';
 import BotonLink from '@/components/botones/boton-link';
 import { Link } from "react-router-dom";

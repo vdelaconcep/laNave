@@ -1,25 +1,11 @@
 import ItemDesplegable from '@/components/navegacion/itemDesplegable';
 import Busqueda from '@/components/busqueda/busqueda';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import '@/components/navegacion/navegacion.css';
 import { Link } from "react-router-dom";
 
+// Vínculos del menú de navegación (títulos y rutas)
 const dataProductos = [
-    {
-        texto: "Remeras",
-        linkTo: "/remeras"
-    },
-    {
-        texto: "Buzos",
-        linkTo: "/buzos"
-    },
-    {
-        texto: "Mochilas",
-        linkTo: "/mochilas"
-    }
-];
-
-const dataServicios = [
     {
         texto: "Remeras",
         linkTo: "/remeras"
@@ -47,29 +33,63 @@ const fijos = [
 
 const Navegacion = ({ pantalla }) => {
 
+    // Clases variables según pantalla
     const clases = {
         pantalla: pantalla === 'pantallaChica' ? 'pChica' : '',
         div: pantalla === 'pantallaChica' ? 'dropdown' : '',
         ul: pantalla === 'pantallaChica' ? 'dropdown-menu listaDesplegable' : '',
         li: pantalla === 'pantallaChica' ? 'listaDesplegable-item' : 'navegacion-item'
-    }
+    };
 
-    const [desplegado, setDesplegado] = useState(null)
+    // Controles para abrir y cerrar listas desplegables en distintas pantallas
+    const [desplegadoMenuGrande, setDesplegadoMenuGrande] = useState(null);
+    const [desplegadoMenuChico, setDesplegadoMenuChico] = useState(false);
+    
+    const ulRef = useRef(null);
+    const btnRef = useRef(null);
 
+    // Para abrir y cerrar al hacer click en el botón
+    useEffect(() => {
+        if (desplegadoMenuChico) {
+            ulRef.current.classList.add("show");
+            ulRef.current.classList.remove("ocultando");
+        } else if (ulRef.current.classList.contains("show")) {
+            ulRef.current.classList.add("ocultando");
+            setTimeout(() => {
+                ulRef.current.classList.remove("ocultando");
+                ulRef.current.classList.remove("show");
+            }, 200);
+        }
+    }, [desplegadoMenuChico]);
+
+    // Para cerrar menú desplegado al hacer click en otro punto de la pantalla
+    useEffect(() => {
+        const cerrarMenu = (e) => {
+            if (desplegadoMenuChico && !btnRef.current.contains(e.target)) {
+                setDesplegadoMenuChico(false);
+            }
+        };
+
+        document.addEventListener("click", cerrarMenu);
+        return () => document.removeEventListener("click", cerrarMenu);
+    }, [desplegadoMenuChico, setDesplegadoMenuChico]);
+
+    // Componente de navegación
     return (
         <nav>
             <div className={`${clases.div}`}>
                 <button
                     className='menuBarras btn d-block d-lg-none text-white'
+                    ref={btnRef}
                     type='button'
-                    data-bs-toggle='dropdown'
                     aria-expanded='false'
                     style={{ border: "none" }}
+                    onClick={() => { desplegadoMenuChico ? setDesplegadoMenuChico(false) : setDesplegadoMenuChico(true) }}
                 >
                     <i className="fa-solid fa-bars"></i>
                 </button>
 
-                <ul className={`${clases.ul} ${clases.pantalla} d-lg-flex list-unstyled mb-0`}>
+                <ul className={`${clases.ul} ${clases.pantalla} d-lg-flex list-unstyled mb-0`} ref={ulRef}>
                     <li className='d-block d-md-none p-4 pt-2 pb-2'>
                         <Busqueda />
                     </li>
@@ -78,15 +98,8 @@ const Navegacion = ({ pantalla }) => {
                         titulo={"Productos"}
                         listaVinculos={dataProductos}
                         pantalla={pantalla}
-                        desplegado={desplegado}
-                        setDesplegado={setDesplegado}
-                    />
-                    <ItemDesplegable
-                        titulo={"Servicios"}
-                        listaVinculos={dataServicios}
-                        pantalla={pantalla}
-                        desplegado={desplegado}
-                        setDesplegado={setDesplegado}
+                        desplegado={desplegadoMenuGrande}
+                        setDesplegado={setDesplegadoMenuGrande}
                     />
                     {fijos.map((vinculo) => (
                         <li key={vinculo.linkTo} className={`${clases.li}`}><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>

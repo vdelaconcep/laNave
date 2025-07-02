@@ -65,18 +65,17 @@
     width: 50vw;
 }
 
-@media (max-width: 576px) {
-    .listaDesplegable.pChica {
-        width: 100vw;
-        border-bottom-right-radius: 0;
-    }
+
+.listaDesplegable.pChica {
+    width: 100vw;
+    border-bottom-right-radius: 0;
 }
 
 .listaDesplegable:not(.show):not(.ocultando) {
     visibility: hidden;
 }
 
-.listaDesplegable.show {
+.listaDesplegable.pGrande.show {
     visibility: visible;
     animation: mostrarMenuY 300ms ease-in-out forwards;
 }
@@ -85,9 +84,14 @@
     animation: mostrarMenuX 400ms ease-in-out forwards;
 }
 
-.listaDesplegable.ocultando {
+.listaDesplegable.pGrande.ocultando {
     visibility: visible;
-    animation: ocultarMenuY 100ms ease-in-out forwards;
+    animation: ocultarMenuY 200ms ease-in-out forwards;
+}
+
+.listaDesplegable.pChica.ocultando {
+    visibility: visible;
+    animation: ocultarMenuX 300ms ease-in-out forwards;
 }
 
 .listaDesplegable-item {
