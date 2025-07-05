@@ -1,8 +1,10 @@
+/* Línea divisoria en lista desplegable de pantallas chicas */
 .division {
     color: gray;
     margin: 8px 0;
 }
 
+/* Items primarios de la lista de navegación */
 .navegacion-item {
     color: white;
     font-weight: bold;
@@ -22,33 +24,34 @@
     padding: 15px;
 }
 
+/* Mostrar-ocultar menú desplegable en pantalla grande */
 @keyframes mostrarMenuY {
-    0% {transform: scaleY(0)}
-    80% {transform: scaleY(0.8)}
-    100% {transform: scaleY(1)}
+    from {transform: scaleY(0)}
+    to {transform: scaleY(1)}
 }
 
 @keyframes ocultarMenuY {
-    0% {transform: scaleY(1)}
-    20% {transform: scaleY(0.8)}
-    100% {transform: scaleY(0)}
+    from {transform: scaleY(1)}
+    to {transform: scaleY(0)}
 }
 
+/* Mostrar-ocultar menú desplegable en pantalla chica */
 @keyframes mostrarMenuX {
-    0% {transform: translateX(0)}
-    80% {transform: translateX(480px)}
-    100% {transform: translateX(600px)}
+    from {transform: translateX(0)}
+    to {transform: translateX(600px)}
 }
 
 @keyframes ocultarMenuX {
-    0% {transform: translateX(600px)}
-    20% {transform: translateX(480px)}
-    100% {transform: translateX(0)}
+    from {transform: translateX(600px)}
+    to {transform: translateX(0)}
 }
 
+/* Lista despegable (según pantalla) */
 .listaDesplegable {
     background-color: black;
     border: 2px solid grey;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
     position: absolute;
     top: 54px !important;
     left: -54px !important;
@@ -65,18 +68,19 @@
     width: 50vw;
 }
 
-
-.listaDesplegable.pChica {
-    width: 100vw;
-    border-bottom-right-radius: 0;
+@media (max-width: 576px) {
+    .listaDesplegable.pChica {
+        width: 100vw;
+        border-bottom-right-radius: 0;  
+    }
 }
 
+/* Animaciones de entrada y salida de la lista desplegable */
 .listaDesplegable:not(.show):not(.ocultando) {
     visibility: hidden;
 }
 
 .listaDesplegable.pGrande.show {
-    visibility: visible;
     animation: mostrarMenuY 300ms ease-in-out forwards;
 }
 
@@ -85,15 +89,14 @@
 }
 
 .listaDesplegable.pGrande.ocultando {
-    visibility: visible;
     animation: ocultarMenuY 200ms ease-in-out forwards;
 }
 
 .listaDesplegable.pChica.ocultando {
-    visibility: visible;
     animation: ocultarMenuX 300ms ease-in-out forwards;
 }
 
+/* Items secundarios (ítems de lista desplegable) */
 .listaDesplegable-item {
     display: flex;
     flex-direction: column;
@@ -108,12 +111,29 @@
     color: white;
     font-size: 1.1em;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .listaDesplegable-item .links:hover,
 .listaDesplegable-item .btn:hover {
     color: black;
     background-color: white;
+}
+
+/* Menú hamburguesa (botón) */
+@keyframes giro {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(180deg);}
+}
+
+.abierto {
+    animation: giro 400ms ease forwards;
+}
+
+.cerrado {
+    animation: giro 300ms ease reverse forwards;
 }
 
 .menuBarras {
@@ -127,6 +147,7 @@
     }
 }
 
+/* Lista e ítems terciarios colapsables (vía "Item desplegable" en pantallas chicas) */
 .listaColapsable {
     width: 100%;
     background-color: #8EDCC0;

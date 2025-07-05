@@ -65,6 +65,7 @@ const ItemDesplegable = ({ titulo, listaVinculos, pantalla, desplegado, setDespl
                 {titulo}
             </button>
 
+            {/* Lista contenida en el ítem */}
             <ul
                 id={`${idLista}`}
                 className={`list-unstyled ${clases.ul} ${clases.pantalla}`}
