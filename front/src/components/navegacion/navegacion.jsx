@@ -53,35 +53,47 @@ const Navegacion = ({ pantalla }) => {
     const [desplegadoMenuGrande, setDesplegadoMenuGrande] = useState(null);
     const [desplegadoMenuChico, setDesplegadoMenuChico] = useState(false);
     
+    // Referencias
     const ulRef = useRef(null);
-    const btnRef = useRef(null);
     const contenidoBtnRef = useRef(null);
-    const busquedaRef = useRef(null);
+
+    // Elementos que no van a hacer que se cierre el menú desplegable al hacer click en ellos
+    const noCerrarRef = useRef({});
+
+    const asignarRef = (referencia) => (a) => {
+        if (a) noCerrarRef.current[referencia] = a;
+        else delete noCerrarRef.current[referencia];
+    };
 
     // Para abrir y cerrar el menú hamburguesa (menuChico)
     useEffect(() => {
         if (desplegadoMenuChico) {
-            ulRef.current.classList.add("show");
             ulRef.current.classList.remove("ocultando");
+            ulRef.current.classList.add("show");
             contenidoBtnRef.current.classList.add("abierto");
+            
 
         } else if (ulRef.current.classList.contains("show")) {
             ulRef.current.classList.add("ocultando");
-            contenidoBtnRef.current.classList.add("cerrado");
             contenidoBtnRef.current.classList.remove("abierto");
+            contenidoBtnRef.current.classList.add("cerrado");
+            
             
             setTimeout(() => {
                 ulRef.current.classList.remove("ocultando");
                 ulRef.current.classList.remove("show");
-                contenidoBtnRef.current.classList.remove("cerrado")
+                contenidoBtnRef.current.classList.remove("cerrado");
             }, 300);
         }
     }, [desplegadoMenuChico]);
 
     // Para cerrar menú desplegado al hacer click en otro punto de la pantalla
     useEffect(() => {
+
         const cerrarMenu = (e) => {
-            if (desplegadoMenuChico && !btnRef.current.contains(e.target) && !busquedaRef.current.contains(e.target)) {
+            const noCerrar = Object.values(noCerrarRef.current).some(el => el && el.contains(e.target))
+            
+            if (desplegadoMenuChico && !noCerrar) {
                 setDesplegadoMenuChico(false);
             }
         };
@@ -96,7 +108,7 @@ const Navegacion = ({ pantalla }) => {
             <div className={`${clases.div}`}>
                 <button
                     className='menuBarras btn d-block d-lg-none ms-1'
-                    ref={btnRef}
+                    ref={asignarRef('boton')}
                     type='button'
                     aria-expanded='false'
                     style={{ border: "none" }}
@@ -104,7 +116,7 @@ const Navegacion = ({ pantalla }) => {
                 >
                         <i
                             ref={contenidoBtnRef}
-                            className={`fa-solid ${desplegadoMenuChico ? 'fa-x abierto' : 'fa-bars cerrado'}`}></i>
+                            className={`fa-solid ${desplegadoMenuChico ? 'fa-x' : 'fa-bars'}`}></i>
                 </button>
 
                 <ul className={`${clases.ul} ${clases.pantalla} d-lg-flex list-unstyled mb-0`} ref={ulRef}>
@@ -118,11 +130,14 @@ const Navegacion = ({ pantalla }) => {
                             <i className="fa-solid fa-x"></i>
                         </button>
                         <div
-                            ref={busquedaRef} className='div-busqueda-chico d-flex justify-content-center p-sm-4 pt-2 pb-2 pt-sm-2 pb-sm-2 w-100 ms-2 me-4 ms-sm-0 me-sm-0'>
+                            ref={asignarRef('busqueda')} className='div-busqueda-chico d-flex justify-content-center p-sm-4 pt-2 pb-2 pt-sm-2 pb-sm-2 w-100 ms-2 me-4 ms-sm-0 me-sm-0'>
                             <Busqueda />
                         </div>
                     </li>
-                    <hr className='division d-block d-md-none'/>
+                    <hr
+                        className='division d-block d-md-none'
+                        ref={asignarRef('division')}
+                    />
                     <ItemDesplegable
                         titulo={"Productos"}
                         listaVinculos={dataProductos}

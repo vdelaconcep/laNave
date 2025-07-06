@@ -12,7 +12,6 @@
 }
 
 .navegacion-item:hover {
-    /* text-shadow: 1px 1px #FEC224; */
     background-color: rgb(88, 88, 88);
     border-radius: 5px;
 }
@@ -22,7 +21,7 @@
     color: inherit;
     font-weight: inherit;
     font-size: inherit;
-    padding: 15px;
+    padding: 10px;
 }
 
 /* Mostrar-ocultar menú desplegable en pantalla grande */
@@ -54,7 +53,7 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     position: absolute;
-    top: 58px !important;
+    top: 53px !important;
     left: -54px !important;
     z-index: 1000;
     transform-origin: top center;
@@ -131,22 +130,29 @@
     to {transform: rotate(180deg);}
 }
 
+@keyframes giroReverse {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(-180deg);}
+}
+
 .abierto {
     animation: giro 400ms ease forwards;
 }
 
 .cerrado {
-    animation: giro 300ms ease reverse forwards;
+    animation: giroReverse 300ms ease forwards;
 }
 
 .menuBarras {
     color: white;
     height: 60px;
+    width: 60px;
     font-size: 1.2em;
 }
 
 .menuBarras:hover {
-    color: #FEC224;
+    color: white;
+    text-shadow: 1px 1px #FEC224;
 }
 
 @media (max-width: 576px) {
@@ -156,6 +162,7 @@
 
     .menuBarras:hover {
         color: white;
+        text-shadow: 1px 1px black;
     }
 
     .div-busqueda-chico {
