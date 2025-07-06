@@ -1,6 +1,6 @@
 /* Línea divisoria en lista desplegable de pantallas chicas */
 .division {
-    color: gray;
+    color: rgb(192, 190, 190);
     margin: 8px 0;
 }
 
@@ -12,7 +12,9 @@
 }
 
 .navegacion-item:hover {
-    color: #FEC224;
+    /* text-shadow: 1px 1px #FEC224; */
+    background-color: rgb(88, 88, 88);
+    border-radius: 5px;
 }
 
 .navegacion-item .btn,
@@ -68,11 +70,10 @@
     width: 50vw;
 }
 
-
-
 @media (max-width: 576px) {
     .listaDesplegable.pChica {
         top: 0 !important;
+        padding-top: 0;
         width: 80vw; 
     }
 }
@@ -139,13 +140,26 @@
 }
 
 .menuBarras {
+    color: white;
     height: 60px;
     font-size: 1.2em;
 }
 
+.menuBarras:hover {
+    color: #FEC224;
+}
+
 @media (max-width: 576px) {
     .menuBarras {
-        color: black !important;
+        color: black;
+    }
+
+    .menuBarras:hover {
+        color: white;
+    }
+
+    .div-busqueda-chico {
+        padding-top: 14px !important;
     }
 }
 

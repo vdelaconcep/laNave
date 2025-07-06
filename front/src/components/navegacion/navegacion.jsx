@@ -95,7 +95,7 @@ const Navegacion = ({ pantalla }) => {
         <nav>
             <div className={`${clases.div}`}>
                 <button
-                    className='menuBarras btn d-block d-lg-none ms-1 text-white'
+                    className='menuBarras btn d-block d-lg-none ms-1'
                     ref={btnRef}
                     type='button'
                     aria-expanded='false'
@@ -108,10 +108,19 @@ const Navegacion = ({ pantalla }) => {
                 </button>
 
                 <ul className={`${clases.ul} ${clases.pantalla} d-lg-flex list-unstyled mb-0`} ref={ulRef}>
-                    <li
-                        ref={busquedaRef}
-                        className='d-block d-md-none p-4 pt-2 pb-2'>
-                        <Busqueda />
+                    <li className='d-flex
+                    justify-content-sm-center d-md-none'>
+                        <button
+                            className='menuBarras btn ms-1 text-white d-block d-sm-none'
+                            type='button'
+                            style={{ border: "none" }}
+                        >
+                            <i className="fa-solid fa-x"></i>
+                        </button>
+                        <div
+                            ref={busquedaRef} className='div-busqueda-chico d-flex justify-content-center p-sm-4 pt-2 pb-2 pt-sm-2 pb-sm-2 w-100 ms-2 me-4 ms-sm-0 me-sm-0'>
+                            <Busqueda />
+                        </div>
                     </li>
                     <hr className='division d-block d-md-none'/>
                     <ItemDesplegable
