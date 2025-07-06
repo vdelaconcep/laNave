@@ -1,7 +1,18 @@
+import { useEffect, useContext } from 'react';
+import { BackgroundContext } from '@/context/backgroundContext';
+
 const Contacto = () => {
+    const { setBackground } = useContext(BackgroundContext);
+
+    useEffect(() => {
+        setBackground('bg-contacto');
+        return () => setBackground('');
+    }, []);
+
     return (
-        <h1>Contacto
-        </h1>
+        <main>
+            <h1 className="text-white text-center">Contacto</h1>
+        </main>
     );
 };
 

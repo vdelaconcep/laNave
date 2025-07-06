@@ -95,7 +95,7 @@ const Navegacion = ({ pantalla }) => {
         <nav>
             <div className={`${clases.div}`}>
                 <button
-                    className='menuBarras btn d-block d-lg-none text-white'
+                    className='menuBarras btn d-block d-lg-none ms-1 text-white'
                     ref={btnRef}
                     type='button'
                     aria-expanded='false'

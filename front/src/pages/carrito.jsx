@@ -1,6 +1,18 @@
+import { useEffect, useContext } from 'react';
+import { BackgroundContext } from '@/context/backgroundContext';
+
 const Carrito = () => {
+    const { setBackground } = useContext(BackgroundContext);
+    
+        useEffect(() => {
+            setBackground('bg-carrito');
+            return () => setBackground('');
+        }, []);
+    
     return (
-        <h1>Carrito</h1>
+        <main>
+            <h1 className="text-white text-center">Carrito</h1>
+        </main>
     );
 };
 

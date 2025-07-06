@@ -1,8 +1,18 @@
+import { useEffect, useContext } from 'react';
+import { BackgroundContext } from '@/context/backgroundContext';
+
 const Busqueda = () => {
+    const { setBackground } = useContext(BackgroundContext);
+
+    useEffect(() => {
+        setBackground('bg-productos');
+        return () => setBackground('');
+    }, []);
+
     return (
-        <section className="productos-section">
+        <main>
             <h1 className="text-white text-center">Resutados de la búsqueda</h1>
-        </section>
+        </main>
     );
 };
 

@@ -1,8 +1,18 @@
+import { useEffect, useContext } from 'react';
+import { BackgroundContext } from '@/context/backgroundContext';
+
 const Login = () => {
+    const { setBackground } = useContext(BackgroundContext);
+
+    useEffect(() => {
+        setBackground('bg-login');
+        return () => setBackground('');
+    }, []);
+
     return (
-        <section className="login-section">
+        <main>
             <h1 className="text-white text-center">Login</h1>
-        </section>
+        </main>
     );
 };
 

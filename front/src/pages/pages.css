@@ -12,16 +12,31 @@
 }
 
 /* Background de las secciones */
-.productos-section {
-    background-color: #FEC224;
+.bg-productos {
+    background: #FEC224;
 }
 
-.login-section {
-    background: linear-gradient(to top, #794fa0 60%, rgb(12, 12, 104));
+.bg-carrito {
+    background: radial-gradient(at 10% 85%, #E5E636 0%, #A6C852 30%, #80C246 50%, #279D43 80%, #259142 100%);
 }
 
+.bg-contacto {
+    background: linear-gradient(to bottom,#FA7A3E,#fa5a3e);
+}
 
-.productos-section, .login-section {
+.bg-login {
+    background: linear-gradient(to top, #794fa0, #0C0C68);
+}
+
+.bg-nosotros {
+    background: linear-gradient(to bottom, #1899D2, #c1cfd4, #1899D2);
+}
+
+main {
     padding-top: 20px;
     min-height: calc(100vh - 60px);
+}
+
+.layout-main {
+    transition: background 300ms ease;
 }

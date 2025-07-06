@@ -20,7 +20,6 @@
     color: inherit;
     font-weight: inherit;
     font-size: inherit;
-    height: 55px;
     padding: 15px;
 }
 
@@ -53,7 +52,7 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     position: absolute;
-    top: 54px !important;
+    top: 58px !important;
     left: -54px !important;
     z-index: 1000;
     transform-origin: top center;
@@ -63,15 +62,18 @@
 .listaDesplegable.pChica {
     border-radius: 0;
     border-bottom-right-radius: 5px;
+    top: 60px !important;
     left: -600px !important;
     transform-origin: left center;
     width: 50vw;
 }
 
+
+
 @media (max-width: 576px) {
     .listaDesplegable.pChica {
-        width: 100vw;
-        border-bottom-right-radius: 0;  
+        top: 0 !important;
+        width: 80vw; 
     }
 }
 
@@ -137,7 +139,7 @@
 }
 
 .menuBarras {
-    height: 55px;
+    height: 60px;
     font-size: 1.2em;
 }
 
