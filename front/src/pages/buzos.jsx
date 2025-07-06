@@ -1,6 +1,8 @@
 const Buzos = () => {
     return (
-        <h1>Buzos</h1>
+        <section className="productos-section">
+            <h1 className="text-white text-center">Buzos</h1>
+        </section>
     );
 };
 

@@ -1,6 +1,8 @@
 const Mochilas = () => {
     return (
-        <h1>Mochilas</h1>
+        <section className="productos-section">
+            <h1 className="text-white text-center">Mochilas</h1>
+        </section>
     );
 };
 

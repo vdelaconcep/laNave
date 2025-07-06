@@ -1,10 +1,27 @@
+/* Reseteo */
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 .links {
     text-decoration: none;
     display: block;
     text-align: center;
+}
+
+/* Background de las secciones */
+.productos-section {
+    background-color: #FEC224;
+}
+
+.login-section {
+    background: linear-gradient(to top, #794fa0 60%, rgb(12, 12, 104));
+}
+
+
+.productos-section, .login-section {
+    padding-top: 20px;
+    min-height: calc(100vh - 60px);
 }

@@ -23,7 +23,7 @@ const Header = () => {
                     <Busqueda />
                 </div>
                 <div className="pe-2 ms-auto ms-lg-0">
-                    <BotonLink vinculo={"/admin"} texto={<span>Ingresá <i className="fa-solid fa-user-large"></i></span>} numero={null} />
+                    <BotonLink vinculo={"/login"} texto={<span>Ingresá <i className="fa-solid fa-user-large"></i></span>} numero={null} />
                 </div>
                 <div className="pe-2">
                     <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={3} />
