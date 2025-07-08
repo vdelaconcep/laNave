@@ -11,7 +11,7 @@ const Nosotros = () => {
 
     return (
         <main>
-            <h1 className="text-white text-center">Nosotros</h1>
+            <h1 className="pagina-titulo text-white text-center">Nosotros</h1>
         </main>
     );
 };

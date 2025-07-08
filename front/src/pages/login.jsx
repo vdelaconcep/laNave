@@ -11,7 +11,7 @@ const Login = () => {
 
     return (
         <main>
-            <h1 className="text-white text-center">Login</h1>
+            <h1 className="pagina-titulo text-white text-center">Login</h1>
         </main>
     );
 };

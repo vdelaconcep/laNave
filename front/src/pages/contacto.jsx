@@ -11,7 +11,7 @@ const Contacto = () => {
 
     return (
         <main>
-            <h1 className="text-white text-center">Contacto</h1>
+            <h1 className="pagina-titulo text-white text-center">Contacto</h1>
         </main>
     );
 };

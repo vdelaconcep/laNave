@@ -11,7 +11,7 @@ const Remeras = () => {
     
     return (
         <main>
-            <h1 className="text-white text-center">Remeras</h1>
+            <h1 className="pagina-titulo text-white text-center">Remeras</h1>
         </main>
     );
 };

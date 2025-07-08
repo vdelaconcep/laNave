@@ -4,18 +4,19 @@
     position: relative;
 }
 
-.btnLink-Link:hover {
+.btnLink-Link:hover .btnLink-texto{
     color: white;
-    text-shadow: 1px 1px black;
+    text-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 @media (min-width: 576px) {
-    .btnLink-Link {
+    .btnLink-texto {
         color: white;
     }
 
-    .btnLink-Link:hover {
-        color: #FEC224;
+    .btnLink-Link:hover .btnLink-texto {
+        color: white;
+        text-shadow: 1px 1px #FEC224;
     }
 }
 
@@ -24,10 +25,14 @@
     background-color: #DD3B4A;
     text-align: center;
     font-size: 12px;
-    font-weight: bold;
     padding: 0 5px;
     border-radius: 50%;
     position: absolute;
-    bottom: 10px;
-    right: 4px;
+    top: 10px;
+    right: 2px;
+}
+
+.btnLink-Link:hover .btnLink-notificacion {
+    text-shadow: none;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }

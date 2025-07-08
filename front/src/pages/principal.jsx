@@ -11,7 +11,7 @@ const Principal = () => {
     
     return (
         <main>
-            <h1 className="text-white text-center">Principal</h1>
+            <h1 className="pagina-titulo text-white text-center">Principal</h1>
         </main>
     );
 };

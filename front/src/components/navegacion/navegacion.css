@@ -6,14 +6,13 @@
 
 /* Items primarios de la lista de navegación */
 .navegacion-item {
-    color: white;
+    color: rgb(200, 200, 200);
     font-weight: bold;
     font-size: 1.1em;
 }
 
 .navegacion-item:hover {
-    background-color: rgb(88, 88, 88);
-    border-radius: 5px;
+    color: white;
 }
 
 .navegacion-item .btn,
@@ -50,6 +49,7 @@
 .listaDesplegable {
     background-color: black;
     border: 2px solid grey;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     position: absolute;
@@ -121,7 +121,7 @@
 .listaDesplegable-item .links:hover,
 .listaDesplegable-item .btn:hover {
     color: black;
-    background-color: white;
+    background-color: rgb(236, 234, 234);
 }
 
 /* Menú hamburguesa (botón) */
@@ -162,7 +162,7 @@
 
     .menuBarras:hover {
         color: white;
-        text-shadow: 1px 1px black;
+        text-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     }
 
     .div-busqueda-chico {

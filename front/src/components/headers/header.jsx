@@ -23,10 +23,10 @@ const Header = () => {
                     <Busqueda />
                 </div>
                 <div className="pe-2 ms-auto ms-lg-0">
-                    <BotonLink vinculo={"/login"} texto={<span>Ingresá <i className="fa-solid fa-user-large"></i></span>} numero={null} />
+                    <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={3} />
                 </div>
                 <div className="pe-2">
-                    <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={3} />
+                    <BotonLink vinculo={"/login"} texto={<span>Ingresá <i className="fa-solid fa-user-large"></i></span>} numero={null} />
                 </div>
             </section>
             <section className="d-sm-none">
