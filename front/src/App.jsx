@@ -23,7 +23,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Principal />} />
-            
             <Route path="/remeras" element={<Remeras />} />
             <Route path="/buzos" element={<Buzos />} />
             <Route path="/mochilas" element={<Mochilas />} />

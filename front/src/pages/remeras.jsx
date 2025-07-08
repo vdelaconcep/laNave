@@ -1,6 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 
+
 const Remeras = () => {
     const { setBackground } = useContext(BackgroundContext);
     

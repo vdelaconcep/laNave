@@ -1,5 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
+import banner from '@/assets/img/banner2.png';
+import Tarjeta from '@/components/tarjetas/tarjeta'
 
 const Principal = () => {
     const { setBackground } = useContext(BackgroundContext);
@@ -11,7 +13,18 @@ const Principal = () => {
     
     return (
         <main>
-            <h1 className="pagina-titulo text-white text-center">Principal</h1>
+            <section className='banner d-none d-sm-block'>
+                <img
+                    src={banner}
+                    alt="Banner La Nave Rock"
+                    className='w-100'
+                    style={{aspectRatio: '1988/454'}}/>
+                <p className="text-end mt-0 pt-0 pe-3"><b>REMERAS - BUZOS - MOCHILAS</b></p>
+            </section>
+            
+            <section className="tarjetas d-flex flex-wrap justify-content-center pb-5">
+                <Tarjeta />
+            </section>
         </main>
     );
 };
