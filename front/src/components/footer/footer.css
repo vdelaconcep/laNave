@@ -1,0 +1,13 @@
+.a-footer {
+    color: white;
+    font-size: 2em;
+    margin: 0 1%;
+}
+
+footer {
+    background: url('@/assets/img/footer.jpg');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    height: 250px;
+}

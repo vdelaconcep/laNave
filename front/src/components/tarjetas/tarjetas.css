@@ -1,7 +1,7 @@
 .tarjeta-article {
     padding: 10px;
-    width: 300px;
-    height: 473px;
+    width: 280px;
+    height: 440px;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 5px;
 }
@@ -45,7 +45,8 @@
 }
 
 .tarjeta-boton {
-    
+    border-radius: 10px;
+    height: 35px;
     background-color: #49b990;
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.3) inset;
     cursor: pointer;

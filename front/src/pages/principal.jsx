@@ -24,6 +24,20 @@ const Principal = () => {
             
             <section className="tarjetas d-flex flex-wrap justify-content-center pb-5">
                 <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
+                <Tarjeta />
             </section>
         </main>
     );

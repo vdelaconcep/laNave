@@ -1,0 +1,9 @@
+.contacto-div {
+    width: 90%;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.contacto-foto {
+    width: 100%;
+}

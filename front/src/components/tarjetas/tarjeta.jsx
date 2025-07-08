@@ -3,14 +3,14 @@ import '@/components/tarjetas/tarjetas.css';
 
 const Tarjeta = () => {
     return (
-        <article className='tarjeta-article text-white bg-dark'>
+        <article className='tarjeta-article text-white bg-dark m-3'>
             <div className='tarjeta-div-foto'>
                 <img
                     src={remeraAlmendra}
                     alt="Remera Almendra #1"
                     className='tarjeta-foto' />
             </div>
-            <h4 className='tarjeta-titulo p-2 m-0 mt-2'>Remera Almendra Spinetta #1</h4>
+            <h5 className='tarjeta-titulo hstack align-items-center p-2 m-0 mt-2'>Remera Almendra Spinetta #1</h5>
             <div className='hstack justify-content-around align-items-center p-2'>
                 <p className='tarjeta-precio text-info m-0 fs-4 fw-bold'>$18000</p>
                 <div>
@@ -26,8 +26,7 @@ const Tarjeta = () => {
                 </div>
             </div>
             <div className='hstack justify-content-center'>
-                
-                <button className='tarjeta-boton ms-1 w-100' style={{borderRadius: '10px', height: '40px'}}>
+                <button className='tarjeta-boton ms-1 w-100'>
                     <i className="fa-solid fa-plus"></i> Agregar al carrito 
                 </button>
             </div>

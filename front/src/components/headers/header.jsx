@@ -1,6 +1,6 @@
 import Navegacion from '@/components/navegacion/navegacion';
 import Busqueda from '@/components/busqueda/busqueda';
-import BotonLink from '@/components/botones/boton-link';
+import BotonLink from '@/components/botones/botonLink';
 import { Link } from "react-router-dom";
 import logo from '@/assets/img/logo.jpg';
 import banner from '@/assets/img/banner2.png';
