@@ -1,9 +1,80 @@
 .contacto-div {
     width: 90%;
+    max-width: 700px;
     border-radius: 20px;
     overflow: hidden;
+    background-color: #212529;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+}
+
+@media (max-width: 768px) {
+    .contacto-div {
+        background-color: transparent;
+        box-shadow: none;
+    }
 }
 
 .contacto-foto {
     width: 100%;
+}
+
+.contacto-input {
+    height: 32px;
+}
+
+.contacto-textarea, .contacto-input {
+    background-color: #474747 !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 2px;
+}
+
+.contacto-textarea {
+    resize: none;
+}
+
+.contacto-label, .contacto-textarea::placeholder {
+    color: rgb(163, 162, 162) !important;
+}
+
+.contacto-textarea:focus,
+.contacto-input:focus {
+    background-color: white !important;
+    color: black !important;
+}
+
+.botonPrimario-btn {
+    background-color: #49b990;
+    color: black;
+    border: 1.5px solid black;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
+}
+
+.botonPrimario-btn:hover {
+    background-color: #8EDCC0 !important;
+    color: black;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.3) inset;
+}
+
+.botonSecundario-btn {
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
+    color: #8EDCC0 !important;
+    border-color: #8EDCC0 !important;
+}
+
+.botonSecundario-btn:hover {
+    color: white !important;
+    border-color: white !important;
+    background-color: transparent !important;
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .botonSecundario-btn, .botonSecundario-btn:hover {
+        background-color: #212529 !important;
+    }
+
+    .contacto-formDiv {
+        box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+    }
 }

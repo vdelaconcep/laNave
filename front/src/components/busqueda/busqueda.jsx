@@ -9,7 +9,7 @@ const Busqueda = () => {
             <input
                 className="form-control busqueda-input"
                 name="banda"
-                type="text"
+                type="search"
                 placeholder="Buscá por banda"
                 onFocus={() => { setInputFocus(true); }}
                 onBlur={() => { setInputFocus(false); }}

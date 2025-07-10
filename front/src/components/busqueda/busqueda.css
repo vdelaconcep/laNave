@@ -3,13 +3,16 @@
 }
 
 .busqueda-input {
-    background-color: #383838;
+    background-color: #A9A9A9;
     height: 35px;
     min-width: 180px;
     border-radius: 30px;
     padding-left: 40px;
     border: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.busqueda-input:hover {
+    background-color: #bebebe;
 }
 
 @media (max-width: 768px) {
@@ -21,7 +24,7 @@
 .busqueda-btn {
     background-color: transparent;
     border: none;
-    color: rgb(201, 198, 198);
+    color: #212529;
     position: absolute;
     top: 60%;
     left: 15px;
@@ -29,7 +32,7 @@
 }
 
 .busqueda-input::placeholder {
-    color: rgb(201, 198, 198);
+    color: #474747;
 }
 
 .busqueda-input:focus {
@@ -38,7 +41,7 @@
 }
 
 .busqueda-input:focus::placeholder {
-    color: gray;
+    color: #474747;
 }
 
 .busqueda-btn.activo {
