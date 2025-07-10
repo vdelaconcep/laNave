@@ -1,0 +1,12 @@
+.nosotros-section {
+    max-width: 800px;
+    color: white;
+}
+
+.nosotros-fotoDiv {
+    border-radius: 5px;
+    overflow: hidden;
+    width: 75%;
+    min-width: 290px;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+}
