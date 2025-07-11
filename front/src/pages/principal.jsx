@@ -22,7 +22,7 @@ const Principal = () => {
                 <p className="text-end mt-0 pt-0 pe-3"><b>REMERAS - BUZOS - MOCHILAS</b></p>
             </section>
             
-            <section className="tarjetas d-flex flex-wrap justify-content-center pb-5">
+            <section className="tarjetas d-flex flex-wrap justify-content-center pt-0 pt-sm-5 pb-5">
                 <Tarjeta />
                 <Tarjeta />
                 <Tarjeta />

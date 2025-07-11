@@ -1,15 +1,16 @@
 .tarjeta-article {
     padding: 10px;
     width: 280px;
-    height: 435px;
-    border-radius: 20px;
-    background: linear-gradient(to top, #181818, #818181);
+    height: 431px;
+    border: 2px solid #929191;
+    border-radius: 12px;
+    background-color: black;
     box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 5px;
 }
 
 .tarjeta-div-foto {
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 4px;
 }
 
 .tarjeta-foto {
@@ -24,9 +25,10 @@
 }
 
 .tarjeta-titulo {
-    border: 1.5px solid #818181;
-    border-radius: 10px;
-    text-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    /* background-color:#bebebe; */
+    color: white;
+    border-bottom: 1.5px dotted #bebebe;
+    /* border-radius: 4px; */
     word-wrap: break-word;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -40,22 +42,23 @@
 }
 
 .tarjeta-selectTalle {
-    border-radius: 5px;
+    border-radius: 4px;
     text-align: center;
     width: 60px;
+    background-color: #bebebe;
 }
 
 .tarjeta-boton {
-    border-radius: 10px;
+    font-weight: 500;
     height: 35px;
-    background-color: #49b990;
-    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.15) inset;
+    background-color: #8EDCC0;
     border: 1.5px solid black;
     cursor: pointer;
 }
 
 .tarjeta-boton:hover {
-    background-color: #8EDCC0;
+    background-color: rgb(234, 234, 234);
+    border-color: white;
+    box-shadow: none;
     color: black;
-    box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.3) inset;
 }

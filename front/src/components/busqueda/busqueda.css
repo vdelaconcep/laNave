@@ -3,7 +3,7 @@
 }
 
 .busqueda-input {
-    background-color: #A9A9A9;
+    background-color: #929191;
     height: 35px;
     min-width: 180px;
     border-radius: 30px;
@@ -24,7 +24,7 @@
 .busqueda-btn {
     background-color: transparent;
     border: none;
-    color: #212529;
+    color: black;
     position: absolute;
     top: 60%;
     left: 15px;

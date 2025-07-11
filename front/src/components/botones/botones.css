@@ -36,3 +36,30 @@
     text-shadow: none;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
+
+.botonPrimario-btn {
+    background-color: #8EDCC0;
+    color: black;
+    border: 1.5px solid black;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
+}
+
+.botonPrimario-btn:hover {
+    background-color: rgb(234, 234, 234) !important;
+    color: black;
+    box-shadow: none;
+}
+
+.botonSecundario-btn {
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
+    background-color: black;
+    color: #8EDCC0 !important;
+    border-color: #8EDCC0 !important;
+}
+
+.botonSecundario-btn:hover {
+    color: white !important;
+    border-color: white !important;
+    background-color: black !important;
+    box-shadow: none;
+}

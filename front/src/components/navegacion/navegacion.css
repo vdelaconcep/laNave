@@ -1,12 +1,12 @@
 /* Línea divisoria en lista desplegable de pantallas chicas */
 .division {
-    color: rgb(192, 190, 190);
+    color: #bebebe;
     margin: 8px 0;
 }
 
 /* Items primarios de la lista de navegación */
 .navegacion-item {
-    color: rgb(200, 200, 200);
+    color: #bebebe;
     font-weight: bold;
     font-size: 1.2em;
 }
@@ -48,12 +48,15 @@
 /* Lista despegable (según pantalla) */
 .listaDesplegable {
     background-color: black;
-    border: 2px solid grey;
+    border: 2px solid #929191;
+    overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     position: absolute;
-    top: 53px !important;
+    top: 54px !important;
     left: -54px !important;
     z-index: 1000;
     transform-origin: top center;
@@ -62,7 +65,7 @@
 
 .listaDesplegable.pChica {
     border-radius: 0;
-    border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 12px;
     top: 60px !important;
     left: -600px !important;
     transform-origin: left center;
@@ -121,7 +124,7 @@
 .listaDesplegable-item .links:hover,
 .listaDesplegable-item .btn:hover {
     color: black;
-    background-color: rgb(236, 234, 234);
+    background-color: rgb(234, 234, 234);
 }
 
 /* Menú hamburguesa (botón) */

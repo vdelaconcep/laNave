@@ -37,7 +37,7 @@ const Contacto = () => {
                 </div>
                 
                 <form onSubmit={gestionEnvio} className="text-white col-md-6">
-                    <div className="contacto-formDiv container d-flex flex-column rounded-3 p-3 p-md-2 pb-md-3 bg-dark">
+                    <div className="contacto-formDiv container d-flex flex-column rounded-3 p-3 pb-5 p-md-2 pb-md-4">
                         <label htmlFor="nombre" className="contacto-label form-label ps-2 mt-md-1 mb-0">Nombre:</label>
                         <input 
                             className="contacto-input form-control bg-secondary-subtle"
@@ -75,8 +75,8 @@ const Contacto = () => {
                             required></textarea>
                     </div>
                     <div className="text-center mt-5 m-md-1 mb-2">
-                        <BotonSecundario tipo='reset' texto={<><span>Cancelar </span><i className="fa-solid fa-xmark"></i></>} claseAdicional='me-2' />
-                        <BotonPrimario tipo='submit' texto={<><span>Enviar </span><i className="fa-solid fa-paper-plane"></i></>} claseAdicional='ms-2'/>
+                        <BotonPrimario tipo='submit' texto={<><span>Enviar </span><i className="fa-solid fa-paper-plane"></i></>} claseAdicional='me-2' />
+                        <BotonSecundario tipo='reset' texto={<><span>Cancelar </span><i className="fa-solid fa-xmark"></i></>} claseAdicional='ms-2' />
                     </div>
                 </form>
             </div>
