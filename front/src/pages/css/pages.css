@@ -38,6 +38,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .layout-main {
@@ -46,4 +47,13 @@ main {
 
 .pagina-titulo {
     text-shadow: rgba(0, 0, 0, 0.5) 1.95px 1.95px 2.6px;
+}
+
+@keyframes aparecer {
+    0% {opacity: 0; transform: translateY(20px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+
+.aparecer {
+    animation: aparecer 0.8s ease-out;
 }

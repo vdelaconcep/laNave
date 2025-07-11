@@ -1,0 +1,23 @@
+
+.carritoVacio-section {
+    text-shadow: rgba(0, 0, 0, 0.5) 1.95px 1.95px 2.6px;
+    max-width: 800px;
+    color: white;
+}
+
+.carritoVacio-fotoDiv {
+    border-radius: 12px;
+    overflow: hidden;
+    width: 60%;
+    aspect-ratio: 767/512;
+    min-width: 280px;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+}
+
+.carritoVacio-link {
+    color: white;
+}
+
+.carritoVacio-link:hover {
+    text-shadow: 1px 1px #FEC224;
+}

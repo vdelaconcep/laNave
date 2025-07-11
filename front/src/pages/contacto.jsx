@@ -31,7 +31,7 @@ const Contacto = () => {
     return (
         <main>
             <h1 className="pagina-titulo text-white text-center">Dejanos tu mensaje</h1>
-            <div className='contacto-div row mt-4 mb-5'>
+            <div className='contacto-div aparecer row mt-4 mb-5'>
                 <div className='col-6 p-0 d-none d-md-block'>
                     <img className='contacto-foto' src={contactoImagen} alt="Charly hablando por teléfono" />
                 </div>

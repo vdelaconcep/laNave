@@ -14,8 +14,8 @@ const Nosotros = () => {
     return (
         <main>
             <h1 className="pagina-titulo text-white text-center">Sobre nosotros</h1>
-            <section className='nosotros-section container mt-4 mb-5 d-flex flex-column align-items-center'>
-                <p>La Nave es un espacio que celebra nuestra identidad. Nació del amor por los artistas que hicieron del rock nacional una forma de vida, y que siguen marcando generaciones con su música.
+            <section className='nosotros-section aparecer container mt-4 mb-5 d-flex flex-column align-items-center'>
+                <p className='nosotros-texto'>La Nave es un espacio que celebra nuestra identidad. Nació del amor por los artistas que hicieron del rock nacional una forma de vida, y que siguen marcando generaciones con su música.
                 <br /><br />
                     Desde acá queremos rendir homenaje a quienes, entre poesía y guitarras, nos enseñaron a sentir orgullo por lo que somos. Porque el rock argentino nos representa.
                 </p>
