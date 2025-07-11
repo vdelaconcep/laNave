@@ -1,0 +1,56 @@
+.login-div {
+    width: 90%;
+    max-width: 700px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: black;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+}
+
+@media (max-width: 768px) {
+    .login-div {
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+.login-foto {
+    width: 100%;
+}
+
+.login-formDiv {
+    background-color: black;
+}
+
+.login-input {
+    height: 32px;
+}
+
+.login-textarea,
+.login-input {
+    background-color: #474747 !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 2px;
+}
+
+.login-textarea {
+    resize: none;
+}
+
+.login-label,
+.login-textarea::placeholder {
+    color: #bebebe !important;
+}
+
+.login-textarea:focus,
+.login-input:focus {
+    background-color: white !important;
+    color: black !important;
+}
+
+@media (max-width: 768px) {
+    .login-formDiv {
+        box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+    }
+}
