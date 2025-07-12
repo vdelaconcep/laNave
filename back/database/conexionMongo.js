@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 
-// conectamos a la base de datos local
+// conectamos a la base de datos
 const connectDB = async (MONGO_URI) => {
     try {
         await mongoose.connect(MONGO_URI);
@@ -13,4 +13,4 @@ const connectDB = async (MONGO_URI) => {
 };
 
 // exportamos la función de conexión a la base de datos
-export default connectDB; // exportamos la función
+export default connectDB;

@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 
 // Creación de esquema de contacto
 const mensajeSchema = new mongoose.Schema({
-    fecha: {
-        type: String,
-        required: true
+    fechaYHora: {
+        type: Date,
+        default: Date.now
     },
     nombre: {
         type: String,

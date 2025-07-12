@@ -1,7 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 
-const Busqueda = () => {
+export const Productos = ({filtro}) => {
     const { setBackground } = useContext(BackgroundContext);
 
     useEffect(() => {
@@ -11,9 +11,9 @@ const Busqueda = () => {
 
     return (
         <main>
-            <h1 className="pagina-titulo text-white text-center">Resutados de la búsqueda</h1>
+            <h1 className="pagina-titulo text-white text-center">{filtro}</h1>
         </main>
     );
 };
 
-export default Busqueda;
+export default Productos;

@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 
 // Creación de esquema de contacto
 const productoSchema = new mongoose.Schema({
+    fechaYHoraAlta: {
+        type: Date,
+        default: Date.now
+    },
     tipo: {
         type: String,
         required: true
@@ -14,7 +18,27 @@ const productoSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    stock: {
+    stockU: {
+        type: Number,
+        required: true
+    },
+    stockXS: {
+        type: Number,
+        required: true
+    },
+    stockS: {
+        type: Number,
+        required: true
+    },
+    stockL: {
+        type: Number,
+        required: true
+    },
+    stockXL: {
+        type: Number,
+        required: true
+    },
+    stockXXL: {
         type: Number,
         required: true
     },
@@ -22,8 +46,16 @@ const productoSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    descuento: {
+        type: Number,
+        required: true
+    },
     imagen: {
         type: String,
+        required: true
+    },
+    destacado: {
+        type: Boolean,
         required: true
     }
 });

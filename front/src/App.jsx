@@ -5,15 +5,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BackgroundProvider } from '@/context/backgroundContext';
 import Layout from "@/pages/layout";
 import Principal from "@/pages/principal";
-import Remeras from '@/pages/remeras';
-import Buzos from '@/pages/buzos';
-import Mochilas from '@/pages/mochilas';
-import Varios from '@/pages/varios';
-import VerTodo from '@/pages/verTodo';
+import Productos from "@/pages/productos";
 import Nosotros from '@/pages/nosotros';
 import Contacto from '@/pages/contacto';
 import Login from '@/pages/login';
 import Carrito from '@/pages/carrito';
+import Error from '@/pages/error';
 
 function App() {
 
@@ -23,15 +20,17 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Principal />} />
-            <Route path="/remeras" element={<Remeras />} />
-            <Route path="/buzos" element={<Buzos />} />
-            <Route path="/mochilas" element={<Mochilas />} />
-            <Route path="/varios" element={<Varios />} />
-            <Route path="/verTodo" element={<VerTodo />} />
+            <Route path="/remeras" element={<Productos filtro='Remeras' />} />
+            <Route path="/buzos" element={<Productos filtro='Buzos' />} />
+            <Route path="/mochilas" element={<Productos filtro='Mochilas' />} />
+            <Route path="/varios" element={<Productos filtro='Varios' />} />
+            <Route path="/productos" element={<Productos filtro='Todos los productos' />} />
+            <Route path="/resultados" element={<Productos filtro='busqueda' />} />
             <Route path="/nosotros" element={<Nosotros />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/login" element={<Login />} />
             <Route path="/carrito" element={<Carrito />} />
+            <Route path="/*" element={<Error />} />
           </Route>
         </Routes>
       </BackgroundProvider>

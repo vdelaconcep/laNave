@@ -24,7 +24,7 @@ const dataProductos = [
     },
     {
         texto: "Ver todo",
-        linkTo: "/vertodo"
+        linkTo: "/productos"
     }
 ];
 
