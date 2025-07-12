@@ -6,21 +6,20 @@ const usuarioSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    usuario: {
-        type: String,
-        required: true,
-        unique: true
-    },
     rol: {
         type: String,
-        required: true
+        default: 'cliente'
     },
-    nombre: {
+    uuid: {
         type: String,
         required: true
     },
-    apellido: {
+    nombreYApellido: {
         type: String,
+        required: true
+    },
+    nacimiento: {
+        type: Date,
         required: true
     },
     email: {
@@ -29,13 +28,9 @@ const usuarioSchema = new mongoose.Schema({
         unique: true,
         match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     },
-    nacimiento: {
-        type: Date,
-        required: true
-    },
     telefono: {
         type: String,
-        required: true
+        required: false
     },
     passwordHash: {
         type: String,

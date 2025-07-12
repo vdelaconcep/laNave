@@ -1,0 +1,153 @@
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { BackgroundContext } from '@/context/backgroundContext';
+import axios from 'axios';
+import '@/pages/css/registro.css';
+import BotonPrimario from '@/components/botones/botonPrimario';
+import BotonSecundario from '@/components/botones/botonSecundario';
+import useFormulario from '@/hooks/useFormulario';
+
+const Registro = () => {
+    // Fondo de pantalla de la sección
+    const { setBackground } = useContext(BackgroundContext);
+
+    useEffect(() => {
+        setBackground('bg-registro');
+        return () => setBackground('');
+    }, []);
+
+    
+    // Para redirigir después de registrarse
+    const navigate = useNavigate();
+
+    // Gestión de envío del formulario
+    const enviarDatos = async (datos) => {
+
+        // Validación de la contraseña
+        const regexPassword = /^[a-zA-Z0-9]{8,15}$/;
+
+        if (!regexPassword.test(datos.password)) return alert("La contraseña debe tener entre 8 y 15 caracteres y solo puede contener letras y números.");
+
+        if (datos.password !== datos.passwordConfirm) return alert("Las contraseñas no coinciden");
+
+        // Envío de datos al backend
+        try {
+            const res = await axios.post('http://localhost:3000/api/usuarios/registro', datos);
+            if (res.status !== 200) return alert(`Error al registrar el usuario: ${res.statusText}`);
+            setInputs({});
+            alert('El usuario se registró con éxito');
+            return navigate('/login');
+        } catch (err) {
+            console.log(err);
+            alert(`Error catch al registrar el usuario: ${err.message}`);
+        };
+    };
+
+    const { inputs, gestionIngreso, gestionEnvio, setInputs } = useFormulario(enviarDatos);
+
+    // Para ocultar la contraseña (opcional) mientras es ingresada
+    const [mostrarPassword, setMostrarPassword] = useState(false);
+    const [mostrarPasswordConfirmacion, setMostrarPasswordConfirmacion] = useState(false);
+
+    return (
+        <main>
+            <h1 className="pagina-titulo text-white text-center">Registrate</h1>
+            <section className='aparecer text-white mt-4'>
+                <h5 className='text-center'>
+                    Completá el formulario con tus datos
+                </h5>
+                <form onSubmit={gestionEnvio} className='mt-4 mb-5'>
+                    <div className='registro-div container p-4 pb-5'>
+                        <label htmlFor="nombreYApellido" className="registro-label form-label ps-2 mb-0">Nombre y Apellido:</label>
+                        <input
+                            className="registro-input form-control"
+                            type="text"
+                            name="nombreYApellido"
+                            minLength={7}
+                            maxLength={40}
+                            value={inputs.nombreYApellido}
+                            onChange={gestionIngreso}
+                            required />
+                        
+                        <label htmlFor="nacimiento" className="registro-label form-label ps-2 mb-0 mt-2">Fecha de nacimiento:</label>
+                        <input
+                            className="registro-input form-control"
+                            type="date"
+                            name="nacimiento"
+                            value={inputs.nacimiento}
+                            onChange={gestionIngreso}
+                            required />
+
+                        <label htmlFor="email" className="registro-label form-label ps-2 mb-0 mt-2">E-mail:</label>
+                        <input
+                            className="registro-input form-control"
+                            type="email"
+                            name="email"
+                            maxLength={30}
+                            value={inputs.email}
+                            onChange={gestionIngreso}
+                            required />
+                        
+                        <label htmlFor="telefono" className="registro-label form-label ps-2 mb-0 mt-2">Teléfono (opcional):</label>
+                        <input
+                            className="registro-input form-control"
+                            type="number"
+                            name="telefono"
+                            placeholder="(Solo números)"
+                            min={11111111}
+                            max={999999999999999}
+                            value={inputs.telefono}
+                            onChange={gestionIngreso}
+                            required />
+                        <div className='inputPassword-div'>
+                            <label htmlFor="password" className="registro-label form-label ps-2 mb-0 mt-2">Contraseña:</label>
+                            <input
+                                className="registro-input form-control"
+                                type={mostrarPassword ? "text" : "password"}
+                                name="password"
+                                placeholder="8 a 15 (letras y/o números)"
+                                maxLength={15}
+                                minLength={8}
+                                value={inputs.password}
+                                onChange={gestionIngreso}
+                                required />
+                            <button
+                                type="button"
+                                onClick={() => setMostrarPassword(!mostrarPassword)}
+                                className="btnOcultarPassword btn btn-sm"
+                                tabIndex={-1}>
+                                {mostrarPassword ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
+                            </button>
+                        </div>
+                        <div className='inputPassword-div'>
+                            <label htmlFor="passwordConfirm" className="registro-label form-label ps-2 mb-0 mt-2">Confirmar contraseña:</label>
+                            <input
+                                className="registro-input form-control"
+                                type={mostrarPasswordConfirmacion ? "text" : "password"}
+                                name="passwordConfirm"
+                                placeholder="Reingresá la contraseña"
+                                maxLength={15}
+                                minLength={8}
+                                value={inputs.passwordConfirm}
+                                onChange={gestionIngreso}
+                                required />
+                            <button
+                                type="button"
+                                onClick={() => setMostrarPasswordConfirmacion(!mostrarPasswordConfirmacion)}
+                                className="btnOcultarPassword btn btn-sm"
+                                tabIndex={-1}>
+                                {mostrarPasswordConfirmacion ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
+                            </button>
+                        </div>
+                    </div>
+                    <article className="text-center mt-5">
+                        <BotonPrimario tipo='submit' texto={<><span>Enviar </span><i className="fa-solid fa-check"></i></>} claseAdicional='me-2' />
+                        <BotonSecundario tipo='reset' texto={<><span>Cancelar </span><i className="fa-solid fa-xmark"></i></>} claseAdicional='ms-2' />
+                    </article>
+                </form>
+            </section>
+        </main>
+    );
+};
+
+export default Registro;

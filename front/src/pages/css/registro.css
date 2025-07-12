@@ -1,28 +1,13 @@
-.login-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.login-div {
+.registro-div {
     width: 95%;
     max-width: 700px;
     min-width: 300px;
     border-radius: 12px;
-    overflow: hidden;
     background-color: black;
     box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
 }
 
-.login-fotoAside {
-    aspect-ratio: 442/430;
-}
-
-.login-label {
-    color: #bebebe !important;
-}
-
-.login-input {
+.registro-input {
     height: 32px;
     background-color: #474747 !important;
     border: none !important;
@@ -30,15 +15,27 @@
     box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 2px;
 }
 
-.login-input:focus {
+.registro-input:focus {
     background-color: white !important;
     color: black !important;
 }
 
-.registrate-Link {
-    color: white;
+.registro-label, .registro-input::placeholder {
+    color: #bebebe !important;
 }
 
-.registrate-Link:hover {
-    text-shadow: 1px 1px #FEC224;
+.inputPassword-div {
+    position: relative;
+}
+
+.btnOcultarPassword {
+    font-size: 1.2em;
+    position: absolute;
+    color: black;
+    top: 29px;
+    right: 3px;
+}
+
+.btnOcultarPassword:hover {
+    color: #8EDCC0;
 }

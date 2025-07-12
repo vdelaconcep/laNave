@@ -1,8 +1,9 @@
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import contactoImagen from '@/assets/img/contacto.jpg';
 import BotonPrimario from '@/components/botones/botonPrimario';
 import BotonSecundario from '@/components/botones/botonSecundario';
+import useFormulario from '@/hooks/useFormulario';
 import '@/pages/css/pages.css'
 import '@/pages/css/contacto.css'
 
@@ -14,19 +15,11 @@ const Contacto = () => {
         return () => setBackground('');
     }, []);
 
-    const [inputs, setInputs] = useState({});
-
-    const gestionIngreso = (evento) => {
-        const name = evento.target.name;
-        const value = evento.target.value;
-        setInputs((values) => ({ ...values, [name]: value }));
+    const mostrarDatosEnviados = (datos) => {
+        alert(JSON.stringify(datos));
     };
 
-    const gestionEnvio = (evento) => {
-        evento.preventDefault();
-        alert(JSON.stringify(inputs));
-        setInputs({});
-    };
+    const { inputs, gestionIngreso, gestionEnvio } = useFormulario(mostrarDatosEnviados);
 
     return (
         <main>

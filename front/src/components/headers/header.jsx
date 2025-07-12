@@ -19,7 +19,7 @@ const Header = () => {
                 <div className="d-none d-lg-block ps-4 ps-xl-0 ms-md-auto">
                     <Navegacion pantalla={'pantallaGrande'} />
                 </div>
-                <div className="ps-3 pe-3 d-none d-md-block ms-auto w-25">
+                <div className="ps-3 pe-3 d-none d-md-block ms-auto me-auto w-25">
                     <Busqueda />
                 </div>
                 <div className="pe-2 ms-auto ms-lg-0">

@@ -44,7 +44,7 @@
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
 }
 
-.botonPrimario-btn:hover {
+.botonPrimario-btn:hover, .botonPrimario-btn:focus {
     background-color: rgb(234, 234, 234) !important;
     color: black;
     box-shadow: none;
@@ -57,8 +57,8 @@
     border-color: #8EDCC0 !important;
 }
 
-.botonSecundario-btn:hover {
-    color: white !important;
+.botonSecundario-btn:hover, .botonSecundario-btn:focus {
+    color: rgb(234, 234, 234) !important;
     border-color: white !important;
     background-color: black !important;
     box-shadow: none;

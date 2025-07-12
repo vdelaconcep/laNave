@@ -15,7 +15,7 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"cd back &&npm run dev\" \"cd front npm start\"",
+    "dev": "concurrently \"cd back &&npm run dev\" \"cd front &&npm run dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

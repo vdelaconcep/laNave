@@ -9,6 +9,7 @@ import Productos from "@/pages/productos";
 import Nosotros from '@/pages/nosotros';
 import Contacto from '@/pages/contacto';
 import Login from '@/pages/login';
+import Registro from '@/pages/registro';
 import Carrito from '@/pages/carrito';
 import Error from '@/pages/error';
 
@@ -28,8 +29,9 @@ function App() {
             <Route path="/resultados" element={<Productos filtro='busqueda' />} />
             <Route path="/nosotros" element={<Nosotros />} />
             <Route path="/contacto" element={<Contacto />} />
-            <Route path="/login" element={<Login />} />
             <Route path="/carrito" element={<Carrito />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<Registro />} />
             <Route path="/*" element={<Error />} />
           </Route>
         </Routes>

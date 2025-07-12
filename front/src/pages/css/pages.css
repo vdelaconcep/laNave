@@ -13,7 +13,7 @@
 
 /* Background de las secciones */
 .bg-productos {
-    background: #FEC224;
+    background: #F7C25A;
 }
 
 .bg-carrito {
@@ -28,6 +28,10 @@
     background: linear-gradient(to top, #794fa0, #0C0C68);
 }
 
+.bg-registro {
+    background: linear-gradient(to top, #EF6B97, #F16474);
+}
+
 .bg-nosotros {
     background: linear-gradient(to bottom, #1899D2, #c1cfd4, #1899D2);
 }
@@ -39,6 +43,12 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 576px) {
+    main {
+        padding-top: 10px;
+    }
 }
 
 .layout-main {

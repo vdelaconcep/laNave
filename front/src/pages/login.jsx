@@ -1,8 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { BackgroundContext } from '@/context/backgroundContext';
 import login from '@/assets/img/login.jpg';
 import '@/pages/css/login.css';
 import BotonPrimario from '@/components/botones/botonPrimario';
+import useFormulario from '@/hooks/useFormulario';
 
 const Login = () => {
     const { setBackground } = useContext(BackgroundContext);
@@ -11,53 +13,59 @@ const Login = () => {
         setBackground('bg-login');
         return () => setBackground('');
     }, []);
-const [inputs, setInputs] = useState({});
 
-    const gestionIngreso = (evento) => {
-        const name = evento.target.name;
-        const value = evento.target.value;
-        setInputs((values) => ({ ...values, [name]: value }));
+    const mostrarDatosEnviados = (datos) => {
+        alert(JSON.stringify(datos));
     };
 
-    const gestionEnvio = (evento) => {
-        evento.preventDefault();
-        alert(JSON.stringify(inputs));
-        setInputs({});
-    };
+    const { inputs, gestionIngreso, gestionEnvio } = useFormulario(mostrarDatosEnviados);
 
     return (
         <main>
-            <h1 className="pagina-titulo text-white text-center">Iniciar sesión</h1>
-            <div className='login-div aparecer row mt-4 mb-5'>
-                <div className='col-6 p-0 d-none d-md-block'>
-                    <img className='login-foto' src={login} alt="Viudas e Hijas de Roque Enroll" />
-                </div>
-                
-                <form onSubmit={gestionEnvio} className="text-white col-md-6">
-                    <div className="login-formDiv container d-flex flex-column rounded-3 p-3 pb-5 p-md-2 pb-md-4">
-                        <label htmlFor="email" className="login-label form-label ps-2 mt-md-1 mb-0">E-mail:</label>
-                        <input 
-                            className="login-input form-control bg-secondary-subtle"
-                            type="email"
-                            name="email"
-                            value={inputs.email}
-                            onChange={gestionIngreso}
-                            required/>
+            <h1 className="pagina-titulo text-white text-center">Iniciá sesión</h1>
+            <section className='login-section aparecer mt-4'>
+                <div className='login-div row mb-4'>
+                    <aside className='login-fotoAside col-6 p-0 d-none d-md-block'>
+                        <img className='w-100' src={login} alt="Viudas e Hijas de Roque Enroll" />
+                    </aside>
+                    <div className="col-md-6">
+                        <article className="text-center container mt-4">
+                            <BotonPrimario tipo='button' texto={<><span>Acceder con Google </span><i className="fa-brands fa-google"></i></>} claseAdicional='w-100' />
+                        </article>
 
-                        <label htmlFor="password" className="login-label form-label ps-2 mt-2 mb-0">Contraseña:</label>
-                        <input
-                            className="login-input form-control bg-secondary-subtle"
-                            type="text"
-                            name="password"
-                            value={inputs.password}
-                            onChange={gestionIngreso}
-                            required />
+                        <hr className='text-white' />
+
+                        <form onSubmit={gestionEnvio} className='container'>
+                            <label htmlFor="email" className="login-label form-label ps-2 mt-0 mb-0">
+                                E-mail:
+                            </label>
+                            <input 
+                                className="login-input form-control"
+                                type="email"
+                                name="email"
+                                value={inputs.email}
+                                onChange={gestionIngreso}
+                                autoFocus
+                                required/>
+
+                            <label htmlFor="password" className="login-label form-label ps-2 mt-2 mb-0">Contraseña:</label>
+                            <input
+                                className="login-input form-control"
+                                type="text"
+                                name="password"
+                                value={inputs.password}
+                                onChange={gestionIngreso}
+                                required />
+                            <article className="text-center m-4">
+                                <BotonPrimario tipo='submit' texto={<><span>Acceder </span><i className="fa-solid fa-right-to-bracket"></i></>}/>
+                            </article>
+                        </form>
                     </div>
-                    <div className="text-center mt-5 m-md-1 mb-2">
-                        <BotonPrimario tipo='submit' texto={<><span>Acceder </span><i className="fa-solid fa-right-to-bracket"></i></>}/>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <h6 className='text-center text-white mb-5'>
+                    ¿No tenés cuenta? <Link to='/registro' className='registrate-Link'>Registrate</Link>
+                </h6>
+            </section>
         </main>
     )
 };
