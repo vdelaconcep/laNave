@@ -3,7 +3,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '@/pages/css/pages.css';
 import { Outlet } from "react-router-dom";
 import { useContext } from 'react';
-import Header from '@/components/headers/header';
+import Header from '@/components/header/header';
 import { BackgroundContext } from '../context/backgroundContext';
 import Footer from '@/components/footer/footer';
 

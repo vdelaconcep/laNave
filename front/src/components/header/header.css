@@ -1,0 +1,24 @@
+.barraSuperior {
+    height: 60px;
+}
+
+@media (min-width: 576px) {
+
+    .barraSuperior {
+        background-color: black;
+    }
+}
+
+.header-usuarioDiv {
+    position: relative;
+}
+
+.botonCerrarSesion {
+    position: absolute;
+    width: 120px;
+    display: none;
+}
+
+.botonCerrarSesion.visible {
+    display: block;
+}

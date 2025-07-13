@@ -1,3 +1,4 @@
+/* Botón del header (con notificación) */
 .btnLink-Link {
     color: black;
     font-size: 1.1em;
@@ -37,6 +38,8 @@
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
+
+/* Botón primario */
 .botonPrimario-btn {
     background-color: #8EDCC0;
     color: black;
@@ -50,6 +53,8 @@
     box-shadow: none;
 }
 
+
+/* Botón secundario */
 .botonSecundario-btn {
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
     background-color: black;
@@ -62,4 +67,18 @@
     border-color: white !important;
     background-color: black !important;
     box-shadow: none;
+}
+
+
+/* Mostrar/ocultar contraseña */
+.botonPassword {
+    font-size: 1.2em;
+    position: absolute; /* Definir position relative para div padre*/
+    color: black;
+    top: 29px;
+    right: 3px;
+}
+
+.botonPassword:hover {
+    color: #8EDCC0;
 }

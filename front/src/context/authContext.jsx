@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "@/firebase/config";
 
 // Context que guarda usuario y token en estado
 export const AuthContext = createContext();
@@ -31,17 +33,36 @@ export const AuthProvider = ({ children }) => {
         return navigate('/');
     };
 
+    // Para iniciar sesión con google
+    // (Para entrar como admin si o si se debe ingresar con contraseña)
+    const loginGoogle = async () => {
+        try {
+            const res = await signInWithPopup(auth, googleProvider);
+            const userFirebase = res.user;
+
+            const usuarioGoogle = {
+                nombreYApellido: userFirebase.displayName,
+                email: userFirebase.email,
+                rol: 'cliente'
+            };
+
+            login(userFirebase.uid, usuarioGoogle)
+        } catch (err) {
+            return alert(`Error al iniciar sesión con Google: ${err}`)
+        }
+    };
+
     // Para cerrar sesión
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('usuario');
         setToken(null);
         setUsuario(null);
-        navigate('/login');
+        navigate('/');
     };
 
     return (
-        <AuthContext.Provider value={{ usuario, token, login, logout, sesionIniciada: !!usuario }}>
+        <AuthContext.Provider value={{ usuario, token, login, loginGoogle, logout, sesionIniciada: !!usuario }}>
             {children}
         </AuthContext.Provider>
     );

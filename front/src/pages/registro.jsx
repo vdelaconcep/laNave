@@ -5,6 +5,7 @@ import axios from 'axios';
 import '@/pages/css/registro.css';
 import BotonPrimario from '@/components/botones/botonPrimario';
 import BotonSecundario from '@/components/botones/botonSecundario';
+import BotonPassword from '@/components/botones/botonPassword';
 import useFormulario from '@/hooks/useFormulario';
 
 const Registro = () => {
@@ -44,7 +45,7 @@ const Registro = () => {
 
     const { inputs, gestionIngreso, gestionEnvio, setInputs } = useFormulario(enviarDatos);
 
-    // Para ocultar la contraseña (opcional) mientras es ingresada
+    // Para mostrar/ocultar contraseña
     const [mostrarPassword, setMostrarPassword] = useState(false);
     const [mostrarPasswordConfirmacion, setMostrarPasswordConfirmacion] = useState(false);
 
@@ -109,13 +110,7 @@ const Registro = () => {
                                 value={inputs.password}
                                 onChange={gestionIngreso}
                                 required />
-                            <button
-                                type="button"
-                                onClick={() => setMostrarPassword(!mostrarPassword)}
-                                className="btnOcultarPassword btn btn-sm"
-                                tabIndex={-1}>
-                                {mostrarPassword ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
-                            </button>
+                            <BotonPassword mostrar={mostrarPassword} setMostrar={setMostrarPassword} />
                         </div>
                         <div className='inputPassword-div'>
                             <label htmlFor="passwordConfirm" className="registro-label form-label ps-2 mb-0 mt-2">Confirmar contraseña:</label>
@@ -129,13 +124,7 @@ const Registro = () => {
                                 value={inputs.passwordConfirm}
                                 onChange={gestionIngreso}
                                 required />
-                            <button
-                                type="button"
-                                onClick={() => setMostrarPasswordConfirmacion(!mostrarPasswordConfirmacion)}
-                                className="btnOcultarPassword btn btn-sm"
-                                tabIndex={-1}>
-                                {mostrarPasswordConfirmacion ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
-                            </button>
+                            <BotonPassword mostrar={mostrarPasswordConfirmacion} setMostrar={setMostrarPasswordConfirmacion} />
                         </div>
                     </div>
                     <article className="text-center mt-5">

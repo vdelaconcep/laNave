@@ -27,15 +27,3 @@
 .inputPassword-div {
     position: relative;
 }
-
-.btnOcultarPassword {
-    font-size: 1.2em;
-    position: absolute;
-    color: black;
-    top: 29px;
-    right: 3px;
-}
-
-.btnOcultarPassword:hover {
-    color: #8EDCC0;
-}

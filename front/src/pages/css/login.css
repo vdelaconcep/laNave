@@ -35,6 +35,10 @@
     color: black !important;
 }
 
+.inputPassword-div {
+    position: relative;
+}
+
 .registrate-Link {
     color: white;
 }

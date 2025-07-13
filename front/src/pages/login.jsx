@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { BackgroundContext } from '@/context/backgroundContext';
 import { useAuth } from '@/context/authContext';
@@ -7,20 +7,22 @@ import loginImg from '@/assets/img/login.jpg';
 import '@/pages/css/login.css';
 import BotonPrimario from '@/components/botones/botonPrimario';
 import BotonSecundario from '@/components/botones/botonSecundario';
+import BotonPassword from '@/components/botones/botonPassword';
 import useFormulario from '@/hooks/useFormulario';
 
 const Login = () => {
-    
-    const { setBackground } = useContext(BackgroundContext);
-    const { sesionIniciada, login, logout } = useAuth();
 
     // Fondo de pantalla de la sección
+    const { setBackground } = useContext(BackgroundContext);
+
     useEffect(() => {
         setBackground('bg-login');
         return () => setBackground('');
     }, []);
 
     // Inicio de Sesión
+    const { sesionIniciada, login, logout, loginGoogle } = useAuth();
+
     const iniciarSesion = async (datos) => {
 
         // Si ya hay una sesión iniciada, cerrarla
@@ -32,7 +34,6 @@ const Login = () => {
 
             if (res.status !== 200) return alert(`Error al iniciar sesión: ${res.statusText}`);
 
-            const nombre = res.data.usuario.nombreYApellido.trim().split(" ")[0];
             login(res.data.token, res.data.usuario);
             setInputs({});
         } catch (err) {
@@ -40,7 +41,11 @@ const Login = () => {
         };
     };
 
+    // Gestión de datos del formulario
     const { inputs, gestionIngreso, gestionEnvio, setInputs } = useFormulario(iniciarSesion);
+
+    // Mostrar/ocultar contraseña
+    const [mostrarPassword, setMostrarPassword] = useState(false);
 
     return (
         <main>
@@ -64,15 +69,17 @@ const Login = () => {
                                 onChange={gestionIngreso}
                                 autoFocus
                                 required/>
-
-                            <label htmlFor="password" className="login-label form-label ps-2 mt-2 mb-0">Contraseña:</label>
-                            <input
-                                className="login-input form-control"
-                                type="text"
-                                name="password"
-                                value={inputs.password}
-                                onChange={gestionIngreso}
-                                required />
+                            <div className='inputPassword-div'>
+                                <label htmlFor="password" className="login-label form-label ps-2 mt-2 mb-0">Contraseña:</label>
+                                <input
+                                    className="login-input form-control"
+                                    type={mostrarPassword ? "text" : "password"}
+                                    name="password"
+                                    value={inputs.password}
+                                    onChange={gestionIngreso}
+                                    required />
+                                <BotonPassword mostrar={mostrarPassword} setMostrar={setMostrarPassword} />
+                            </div>
                             <article className="text-center m-4">
                                 <BotonPrimario tipo='submit' texto={<><span>Acceder </span><i className="fa-solid fa-right-to-bracket"></i></>}/>
                             </article>
@@ -81,7 +88,11 @@ const Login = () => {
                         <hr className='text-white' />
 
                         <article className="text-center container mt-4 mb-4">
-                            <BotonSecundario tipo='button' texto={<><span>Acceder con Google </span><i className="fa-brands fa-google"></i></>} claseAdicional='w-100' />
+                            <BotonSecundario
+                                tipo='button'
+                                texto={<><span>Acceder con Google </span><i className="fa-brands fa-google"></i></>}
+                                claseAdicional='w-100'
+                                accion={loginGoogle} />
                         </article>
                     </div>
                 </div>
