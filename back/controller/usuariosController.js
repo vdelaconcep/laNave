@@ -1,6 +1,46 @@
 import Usuario from '../models/usuarioMongo.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
+
+// Iniciar sesión
+const iniciarSesion = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Identificar usuario
+        const usuario = await Usuario.findOne({ email });
+        if (!usuario) return res.status(400).json({ error: 'E-mail o contraseña incorrectos' });
+
+        // Chequear contraseña
+        const passwordOk = await bcrypt.compare(password, usuario.passwordHash);
+        if (!passwordOk) return res.status(400).json({ error: 'E-mail o contraseña incorrectos' });
+
+        // Guardar último inicio de sesión
+        usuario.ultimaSesion = new Date().toISOString();
+        await usuario.save();
+
+        // Crear webtoken
+        const token = jwt.sign(
+            { id: usuario.uuid, email: usuario.email, rol: usuario.rol },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        );
+
+        return res.status(200).json({
+            mensaje: 'Inicio de sesión exitoso',
+            token,
+            usuario: {
+                nombreYApellido: usuario.nombreYApellido,
+                email: usuario.email,
+                rol: usuario.rol
+            }
+        });
+
+    } catch (err) {
+        return res.status(500).json({ error: `Error al iniciar sesión: ${err.message}` });
+    };
+};
 
 // Registrar usuario
 const registrarUsuario = async (req, res) => {
@@ -25,10 +65,11 @@ const registrarUsuario = async (req, res) => {
         const usuarioGuardado = await usuarioAGuardar.save();
         return res.status(200).send(usuarioGuardado);
     } catch (err) {
-        res.status(500).json({ error: `Error al registrar el usuario: ${err.message}` });
-        console.log(err);
-        return;
+        return res.status(500).json({ error: `Error al registrar el usuario: ${err.message}` });
     };
 };
 
-export default registrarUsuario;
+export {
+    registrarUsuario,
+    iniciarSesion
+};

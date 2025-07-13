@@ -2,11 +2,17 @@ import Navegacion from '@/components/navegacion/navegacion';
 import Busqueda from '@/components/busqueda/busqueda';
 import BotonLink from '@/components/botones/botonLink';
 import { Link } from "react-router-dom";
+import { useAuth } from '@/context/authContext';
 import logo from '@/assets/img/logo.jpg';
 import banner from '@/assets/img/banner2.png';
 import '@/components/headers/headers.css';
 
 const Header = () => {
+    const { sesionIniciada, usuario } = useAuth();
+
+    const nombreUsuario = usuario?.nombreYApellido?.trim().split(" ")[0];
+    const textoBtnUsuario = sesionIniciada && nombreUsuario ? nombreUsuario : 'Ingresá'
+
     return (
         <header>
             <section className="barraSuperior hstack">
@@ -26,7 +32,7 @@ const Header = () => {
                     <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={3} />
                 </div>
                 <div className="pe-2">
-                    <BotonLink vinculo={"/login"} texto={<span>Ingresá <i className="fa-solid fa-user-large"></i></span>} numero={null} />
+                    <BotonLink vinculo={"/login"} texto={<span>{textoBtnUsuario} <i className="fa-solid fa-user-large"></i></span>} numero={null} />
                 </div>
             </section>
             <section className="d-sm-none">

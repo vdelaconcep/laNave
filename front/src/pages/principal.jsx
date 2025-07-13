@@ -19,10 +19,10 @@ const Principal = () => {
                     alt="Banner La Nave Rock"
                     className='w-100'
                     style={{aspectRatio: '1988/454'}}/>
-                <p className="text-end mt-0 pt-0 pe-3"><b>REMERAS - BUZOS - MOCHILAS</b></p>
+                <p className="text-end pe-3"><b>REMERAS - BUZOS - MOCHILAS</b></p>
             </section>
             
-            <section className="tarjetas aparecer d-flex flex-wrap justify-content-center pt-0 pt-sm-5 pb-5">
+            <section className="aparecer d-flex flex-wrap justify-content-center pt-0 pt-sm-2 pb-5">
                 <Tarjeta />
                 <Tarjeta />
                 <Tarjeta />

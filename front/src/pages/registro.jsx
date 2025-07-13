@@ -24,22 +24,21 @@ const Registro = () => {
     const enviarDatos = async (datos) => {
 
         // Validación de la contraseña
-        const regexPassword = /^[a-zA-Z0-9]{8,15}$/;
-
-        if (!regexPassword.test(datos.password)) return alert("La contraseña debe tener entre 8 y 15 caracteres y solo puede contener letras y números.");
-
         if (datos.password !== datos.passwordConfirm) return alert("Las contraseñas no coinciden");
+
+        // (El resto de validaciones necesarias se realizan en el backend)
 
         // Envío de datos al backend
         try {
             const res = await axios.post('http://localhost:3000/api/usuarios/registro', datos);
+
             if (res.status !== 200) return alert(`Error al registrar el usuario: ${res.statusText}`);
+
             setInputs({});
             alert('El usuario se registró con éxito');
             return navigate('/login');
         } catch (err) {
-            console.log(err);
-            alert(`Error catch al registrar el usuario: ${err.message}`);
+            return alert(`Error al registrar el usuario: ${err.response.data.error}`);
         };
     };
 
@@ -97,8 +96,7 @@ const Registro = () => {
                             min={11111111}
                             max={999999999999999}
                             value={inputs.telefono}
-                            onChange={gestionIngreso}
-                            required />
+                            onChange={gestionIngreso}/>
                         <div className='inputPassword-div'>
                             <label htmlFor="password" className="registro-label form-label ps-2 mb-0 mt-2">Contraseña:</label>
                             <input

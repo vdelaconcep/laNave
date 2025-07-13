@@ -1,24 +1,46 @@
 import { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { BackgroundContext } from '@/context/backgroundContext';
-import login from '@/assets/img/login.jpg';
+import { useAuth } from '@/context/authContext';
+import axios from 'axios';
+import loginImg from '@/assets/img/login.jpg';
 import '@/pages/css/login.css';
 import BotonPrimario from '@/components/botones/botonPrimario';
+import BotonSecundario from '@/components/botones/botonSecundario';
 import useFormulario from '@/hooks/useFormulario';
 
 const Login = () => {
+    
     const { setBackground } = useContext(BackgroundContext);
+    const { sesionIniciada, login, logout } = useAuth();
 
+    // Fondo de pantalla de la sección
     useEffect(() => {
         setBackground('bg-login');
         return () => setBackground('');
     }, []);
 
-    const mostrarDatosEnviados = (datos) => {
-        alert(JSON.stringify(datos));
+    // Inicio de Sesión
+    const iniciarSesion = async (datos) => {
+
+        // Si ya hay una sesión iniciada, cerrarla
+        if (sesionIniciada) logout();
+
+        // Envío de datos al backend
+        try {
+            const res = await axios.post('http://localhost:3000/api/usuarios/login', datos);
+
+            if (res.status !== 200) return alert(`Error al iniciar sesión: ${res.statusText}`);
+
+            const nombre = res.data.usuario.nombreYApellido.trim().split(" ")[0];
+            login(res.data.token, res.data.usuario);
+            setInputs({});
+        } catch (err) {
+            return alert(`Error al iniciar sesión: ${err.response.data.error}`);
+        };
     };
 
-    const { inputs, gestionIngreso, gestionEnvio } = useFormulario(mostrarDatosEnviados);
+    const { inputs, gestionIngreso, gestionEnvio, setInputs } = useFormulario(iniciarSesion);
 
     return (
         <main>
@@ -26,16 +48,11 @@ const Login = () => {
             <section className='login-section aparecer mt-4'>
                 <div className='login-div row mb-4'>
                     <aside className='login-fotoAside col-6 p-0 d-none d-md-block'>
-                        <img className='w-100' src={login} alt="Viudas e Hijas de Roque Enroll" />
+                        <img className='w-100' src={loginImg} alt="Viudas e Hijas de Roque Enroll" />
                     </aside>
                     <div className="col-md-6">
-                        <article className="text-center container mt-4">
-                            <BotonPrimario tipo='button' texto={<><span>Acceder con Google </span><i className="fa-brands fa-google"></i></>} claseAdicional='w-100' />
-                        </article>
 
-                        <hr className='text-white' />
-
-                        <form onSubmit={gestionEnvio} className='container'>
+                        <form onSubmit={gestionEnvio} className='container mt-3'>
                             <label htmlFor="email" className="login-label form-label ps-2 mt-0 mb-0">
                                 E-mail:
                             </label>
@@ -60,6 +77,12 @@ const Login = () => {
                                 <BotonPrimario tipo='submit' texto={<><span>Acceder </span><i className="fa-solid fa-right-to-bracket"></i></>}/>
                             </article>
                         </form>
+
+                        <hr className='text-white' />
+
+                        <article className="text-center container mt-4 mb-4">
+                            <BotonSecundario tipo='button' texto={<><span>Acceder con Google </span><i className="fa-brands fa-google"></i></>} claseAdicional='w-100' />
+                        </article>
                     </div>
                 </div>
                 <h6 className='text-center text-white mb-5'>

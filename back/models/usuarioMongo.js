@@ -6,6 +6,10 @@ const usuarioSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    ultimaSesion: {
+        type: Date,
+        default: Date.now
+    },
     rol: {
         type: String,
         default: 'cliente'
