@@ -27,6 +27,7 @@ const iniciarSesion = async (req, res) => {
             { expiresIn: '1d' }
         );
 
+        // Responder con datos del usuario
         return res.status(200).json({
             mensaje: 'Inicio de sesión exitoso',
             token,

@@ -31,7 +31,7 @@ const Registro = () => {
 
         // Envío de datos al backend
         try {
-            const res = await axios.post('http://localhost:3000/api/usuarios/registro', datos);
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/usuarios/registro`, datos);
 
             if (res.status !== 200) return alert(`Error al registrar el usuario: ${res.statusText}`);
 

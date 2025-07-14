@@ -4,6 +4,7 @@ const BotonPassword = ({ mostrar, setMostrar }) => {
     return (
         <button
             type="button"
+            title="Ocultar contraseña"
             onClick={() => setMostrar(!mostrar)}
             className="botonPassword btn btn-sm"
             tabIndex={-1}>

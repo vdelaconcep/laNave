@@ -30,7 +30,7 @@ const Login = () => {
 
         // Envío de datos al backend
         try {
-            const res = await axios.post('http://localhost:3000/api/usuarios/login', datos);
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/usuarios/login`, datos);
 
             if (res.status !== 200) return alert(`Error al iniciar sesión: ${res.statusText}`);
 

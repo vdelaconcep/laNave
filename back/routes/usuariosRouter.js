@@ -5,6 +5,7 @@ import {
 } from '../controller/usuariosController.js';
 
 import { reglasValidacionRegistro } from '../helpers/registroValidatorHelper.js';
+import { reglasValidacionLogin } from '../helpers/loginValidatorHelper.js';
 
 import { validar } from '../middlewares/validator.js'
 
@@ -12,7 +13,7 @@ import { validar } from '../middlewares/validator.js'
 const router = express.Router();
 
 // Iniciar sesión
-router.post('/login', iniciarSesion);
+router.post('/login', reglasValidacionLogin, validar, iniciarSesion);
 
 // Registrar nuevo usuario
 router.post('/registro', reglasValidacionRegistro, validar, registrarUsuario);

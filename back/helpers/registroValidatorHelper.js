@@ -15,6 +15,8 @@ export const reglasValidacionRegistro = [
         .escape()
         .notEmpty().withMessage("Debe ingresarse una dirección de e-mail")
         .bail()
+        .isLength({ max: 30 }).withMessage("El e-mail no puede tener más de 30 caracteres")
+        .bail()
         .isEmail().withMessage("Debe ingresarse una dirección de e-mail válida")
         .bail()
         .custom(async (value) => {
@@ -26,6 +28,7 @@ export const reglasValidacionRegistro = [
         .optional({ checkFalsy: true })
         .isNumeric().withMessage("Para indicar el teléfono hay que ingresar sólo números"),
     check("password")
+        .escape()
         .notEmpty().withMessage("Se debe ingresar la contraseña")
         .bail()
         .isAlphanumeric().withMessage("La contraseña debe ser alfanumérica (sólo letras y números)")
