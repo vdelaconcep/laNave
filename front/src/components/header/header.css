@@ -15,6 +15,7 @@
 
 .botonCerrarSesion {
     position: absolute;
+    top: 50px;
     width: 120px;
     display: none;
 }

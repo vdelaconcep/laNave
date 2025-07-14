@@ -1,0 +1,19 @@
+.alta-div {
+    background-color: #000000;
+    max-width: 600px;
+}
+
+.alta-input {
+    height: 32px;
+    border-radius: 4px !important;
+    border: none !important;
+}
+
+.alta-stockConTallesDiv, .alta-precioDiv {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.alta-stockConTallesDiv {
+    background-color: #484848;
+}

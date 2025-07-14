@@ -36,6 +36,10 @@
     background: linear-gradient(to bottom, #1899D2, #c1cfd4, #1899D2);
 }
 
+.bg-admin {
+    background-color: #006A5C;
+}
+
 main {
     padding-top: 30px;
     min-height: calc(100vh - 60px - 250px);

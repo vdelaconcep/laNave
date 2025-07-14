@@ -18,28 +18,9 @@ const productoSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    stockU: {
-        type: Number,
-        required: true
-    },
-    stockXS: {
-        type: Number,
-        required: true
-    },
-    stockS: {
-        type: Number,
-        required: true
-    },
-    stockL: {
-        type: Number,
-        required: true
-    },
-    stockXL: {
-        type: Number,
-        required: true
-    },
-    stockXXL: {
-        type: Number,
+    stock: {
+        type: Map,
+        of: Number,
         required: true
     },
     precio: {
