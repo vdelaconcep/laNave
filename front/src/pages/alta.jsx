@@ -37,7 +37,7 @@ const Alta = () => {
             <section className='text-white mt-4'>
                 <form onSubmit={gestionEnvio} className='mt-4 mb-5'>
                     <div className='alta-div pt-4 pb-5'>
-                        <article className='alta-article mb-2'>
+                        <article className='alta-article mb-2 ps-4 pe-4'>
                         <label htmlFor="banda" className="alta-label form-label ps-2 mb-0 mt-2">Artista / banda:</label>
                         <input
                             className="alta-input form-control"
@@ -49,7 +49,7 @@ const Alta = () => {
                             onChange={gestionIngreso}
                             required />
                         </article>
-                        <article className='alta-article mb-3'>
+                        <article className='alta-article mb-3 ps-4 pe-4'>
                             <label htmlFor="tipo" className="alta-label form-label ps-2 mb-0">Tipo de producto:</label>
                             <select
                                 className='alta-input form-control'
@@ -67,34 +67,37 @@ const Alta = () => {
                                 ))}
                             </select>
                         </article>
-                        <article className='alta-article mb-3'>
-                            <label htmlFor="stockU" className="alta-label me-2">Stock:</label>
-                            <input
-                                className="alta-input me-4"
-                                type="number"
-                                name="stockU"
-                                min={0}
-                                max={50000}
-                                value={inputs.stockU}
-                                onChange={gestionIngreso}
-                                disabled={inputs.porTalle} />
-                            
-                            <input
-                                className='me-2'
-                                type="checkbox"
-                                name='porTalle'
-                                id='porTalle'
-                                checked={inputs.porTalle || false}
-                                onChange={(e) => setInputs((values) => ({ ...values, porTalle: e.target.checked }))} />
-                            <label htmlFor="porTalle">Stock por talle</label>    
+                        <article className='alta-article stock mb-3 ps-4 pe-4'>
+                            <div>
+                                <label htmlFor="stockU" className="alta-label me-2">Stock:</label>
+                                <input
+                                    className="alta-input me-4"
+                                    type="number"
+                                    name="stockU"
+                                    min={0}
+                                    max={50000}
+                                    value={inputs.stockU}
+                                    onChange={gestionIngreso}
+                                    disabled={inputs.porTalle} />
+                            </div>
+                            <div className='d-flex align-items-center'>
+                                <input
+                                    className='me-2'
+                                    type="checkbox"
+                                    name='porTalle'
+                                    id='porTalle'
+                                    checked={inputs.porTalle || false}
+                                    onChange={(e) => setInputs((values) => ({ ...values, porTalle: e.target.checked }))} />
+                                <label htmlFor="porTalle">Stock por talle</label>
+                            </div>    
                         </article>
                         {inputs.porTalle && 
-                            <div className='alta-stockConTallesDiv'>
+                            <div className='alta-stockConTallesDiv p-2 pe-5 ps-0 mb-3'>
                                 {talles.map((talle) => (
-                                    <article className='alta-article mb-3' key={talle}>
-                                        <label htmlFor={`stock${talle}`} className="alta-label form-label me-2">{talle}</label>
+                                    <article className='alta-article mt-2 mb-2' key={talle}>
+                                        <label htmlFor={`stock${talle}`} className="alta-label form-label me-2">{talle}:</label>
                                         <input
-                                            className="alta-input me-4"
+                                            className="alta-input"
                                             type="number"
                                             name={`stock${talle}`}
                                             min={0}
@@ -148,7 +151,7 @@ const Alta = () => {
                             </p>
                         }
                         
-                        <article className='alta-article mb-2'>
+                        <article className='alta-article mb-2 ps-4 pe-4'>
                             <label htmlFor="imagen" className="alta-label form-label ps-2 mb-0 mt-2">Imagen:</label>
                             <input
                                 className="alta-input form-control"
@@ -159,7 +162,7 @@ const Alta = () => {
                                 <p>(Solo archivos jpg. La proporción de la imagen debe ser cercana a 1:1)</p>
                         </article>
 
-                        <article className='alta-article'>
+                        <article className='alta-article ps-4 pe-4'>
                             <input type="checkbox" name='destacado' id='destacado' />
                             <label htmlFor="destacado" className="alta-label">Marcar como destacado</label>
                             <p>(Los productos destacados se muestran en la página principal)</p>

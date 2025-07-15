@@ -1,6 +1,7 @@
 .alta-div {
     background-color: #000000;
     max-width: 600px;
+    border-radius: 12px;
 }
 
 .alta-input {
@@ -9,11 +10,28 @@
     border: none !important;
 }
 
-.alta-stockConTallesDiv, .alta-precioDiv {
+.alta-precioDiv {
     display: flex;
     flex-wrap: wrap;
 }
 
+.alta-article.stock {
+    display: flex;
+    justify-content:space-around;
+}
+
+@keyframes desplegar {
+    from {transform: scaleY(0)}
+    to {transform: scaleY(1)}
+}
+
 .alta-stockConTallesDiv {
+    transform-origin: top;
+    animation: desplegar 300ms ease-in-out forwards;
     background-color: #484848;
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33% ;
+    grid-template-rows: 50% 50%;
+    justify-items: end;
+    align-content: center;
 }
