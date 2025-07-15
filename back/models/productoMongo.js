@@ -6,6 +6,10 @@ const productoSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    uuid: {
+        type: String,
+        required: true
+    },
     tipo: {
         type: String,
         required: true
@@ -33,7 +37,7 @@ const productoSchema = new mongoose.Schema({
     },
     imagen: {
         type: String,
-        required: true
+        required: false
     },
     destacado: {
         type: Boolean,

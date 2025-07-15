@@ -21,7 +21,42 @@ const Alta = () => {
 
     // Gestión de datos del formulario
     const enviarDatos = (datos) => {
-        console.log(datos);
+        console.log(JSON.stringify(datos));
+
+        // Verificación de stock (en talle único o en al menos un talle)
+        const stockAEnviar = {}
+
+        if (!datos.porTalle) {
+            if (!datos.U) {
+                return alert("Se debe indicar el stock");
+            } else stockAEnviar.U = datos.U;
+        } else {
+            if (!talles.some(talle => datos[talle])) {
+                return alert("Se debe indicar stock en al menos un talle");
+            } else {
+                talles.map((talle) => {
+                    if (datos[talle]) stockAEnviar[talle] = datos[talle];
+                });
+            };
+        };
+        
+        // Verificación de descuento (si se indica)
+        if (datos.siDescuento) {
+            if (!datos.descuento) return alert("Se debe indicar descuento");
+        } else datos.descuento = 0;
+        
+        // Armado de objeto de datos a enviar al backend
+        const datosAEnviar = {
+            banda: datos.banda,
+            tipo: datos.tipo,
+            stock: stockAEnviar,
+            precio: datos.precio,
+            descuento: datos.descuento,
+            destacado: datos.destacado === true
+        }
+
+        if (datos.imagen) datosAEnviar.imagen = datos.imagen;
+        alert(JSON.stringify(datosAEnviar));
     }
 
     const { inputs, gestionIngreso, gestionEnvio, setInputs } = useFormulario(enviarDatos);
@@ -69,11 +104,12 @@ const Alta = () => {
                         </article>
                         <article className='alta-article stock mb-3 ps-4 pe-4'>
                             <div className='d-flex align-items-center justify-content-between'>
-                                <label htmlFor="stockU" className="alta-label p-2">Stock:</label>
+                                <label htmlFor="U" className="alta-label p-2">Stock:</label>
                                 <input
                                     className="alta-input text-center w-75"
                                     type="number"
-                                    name="stockU"
+                                    name="U"
+                                    placeholder='(Talle único)'
                                     min={0}
                                     max={50000}
                                     value={inputs.stockU}
@@ -95,14 +131,14 @@ const Alta = () => {
                             <article className='alta-article stockConTalles p-2 ps-0 pe-0 pe-sm-4 mb-4'>
                                 {talles.map((talle) => (
                                     <div className='mt-2 mb-2' key={talle}>
-                                        <label htmlFor={`stock${talle}`} className="alta-label form-label me-2 d-block d-sm-inline">{talle}:</label>
+                                        <label htmlFor={talle} className="alta-label form-label me-2 d-block d-sm-inline">{talle}:</label>
                                         <input
                                             className="alta-input talle text-center me-0 me-sm-4 d-block d-sm-inline"
                                             type="number"
-                                            name={`stock${talle}`}
+                                            name={talle}
                                             min={0}
                                             max={50000}
-                                            value={inputs[`stock${talle}`]}
+                                            value={inputs[talle]}
                                             onChange={gestionIngreso} />
                                     </div>
                                 ))}
@@ -174,7 +210,7 @@ const Alta = () => {
                                 type="checkbox"
                                 name='destacado'
                                 id='destacado'
-                                onChange={gestionIngreso}/>
+                                onChange={(e) => setInputs((values) => ({ ...values, destacado: e.target.checked }))}/>
                             <label htmlFor="destacado" className="alta-label">Marcar como destacado</label>
                             <p className='alta-textoP'>(Los productos destacados se muestran en la página principal)</p>
                         </article>

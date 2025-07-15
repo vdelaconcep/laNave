@@ -8,6 +8,11 @@
     height: 32px;
     border-radius: 4px !important;
     border: none !important;
+    background-color: rgb(231, 229, 229);
+}
+
+.alta-input:disabled {
+    background-color: #474747;
 }
 
 .alta-article.stock, .alta-article.precio {
