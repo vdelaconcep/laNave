@@ -10,14 +10,15 @@
     border: none !important;
 }
 
-.alta-precioDiv {
-    display: flex;
-    flex-wrap: wrap;
+.alta-article.stock, .alta-article.precio {
+    display: grid;
+    grid-template-columns: 65% 35%;
 }
 
-.alta-article.stock {
-    display: flex;
-    justify-content:space-around;
+@media (max-width: 576px) {
+    .alta-article.stock, .alta-article.precio {
+        grid-template-columns: 55% 45%;
+    }
 }
 
 @keyframes desplegar {
@@ -25,13 +26,33 @@
     to {transform: scaleY(1)}
 }
 
-.alta-stockConTallesDiv {
+.alta-article.stockConTalles, .alta-article.descuento {
     transform-origin: top;
     animation: desplegar 300ms ease-in-out forwards;
-    background-color: #484848;
+    color: black;
+    background-color: #c4dbd3;
     display: grid;
+}
+
+.alta-article.stockConTalles {
     grid-template-columns: 33.33% 33.33% 33.33% ;
     grid-template-rows: 50% 50%;
     justify-items: end;
     align-content: center;
+}
+
+@media (max-width: 576px) {
+    .alta-article.stockConTalles {
+        justify-items: center;
+    }
+}
+
+.alta-input.talle, .alta-input.descuento {
+    width: 60px;
+    border: 1px solid black !important;
+}
+
+.alta-textoP {
+    font-size: 0.8em;
+    color: #8EDCC0;
 }

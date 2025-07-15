@@ -34,22 +34,22 @@ const Alta = () => {
     return (
         <main>
             <h1 className="pagina-titulo text-white text-center">Alta de producto</h1>
-            <section className='text-white mt-4'>
+            <section className='text-white mt-2'>
                 <form onSubmit={gestionEnvio} className='mt-4 mb-5'>
-                    <div className='alta-div pt-4 pb-5'>
+                    <div className='alta-div pt-4 pb-4 m-3'>
                         <article className='alta-article mb-2 ps-4 pe-4'>
-                        <label htmlFor="banda" className="alta-label form-label ps-2 mb-0 mt-2">Artista / banda:</label>
-                        <input
-                            className="alta-input form-control"
-                            type="text"
-                            name="banda"
-                            minLength={3}
-                            maxLength={50}
-                            value={inputs.banda}
-                            onChange={gestionIngreso}
-                            required />
+                            <label htmlFor="banda" className="alta-label form-label ps-2 mb-0 mt-2">Artista / banda:</label>
+                            <input
+                                className="alta-input form-control"
+                                type="text"
+                                name="banda"
+                                minLength={3}
+                                maxLength={50}
+                                value={inputs.banda}
+                                onChange={gestionIngreso}
+                                required />
                         </article>
-                        <article className='alta-article mb-3 ps-4 pe-4'>
+                        <article className='alta-article mb-4 ps-4 pe-4'>
                             <label htmlFor="tipo" className="alta-label form-label ps-2 mb-0">Tipo de producto:</label>
                             <select
                                 className='alta-input form-control'
@@ -68,10 +68,10 @@ const Alta = () => {
                             </select>
                         </article>
                         <article className='alta-article stock mb-3 ps-4 pe-4'>
-                            <div>
-                                <label htmlFor="stockU" className="alta-label me-2">Stock:</label>
+                            <div className='d-flex align-items-center justify-content-between'>
+                                <label htmlFor="stockU" className="alta-label p-2">Stock:</label>
                                 <input
-                                    className="alta-input me-4"
+                                    className="alta-input text-center w-75"
                                     type="number"
                                     name="stockU"
                                     min={0}
@@ -82,7 +82,7 @@ const Alta = () => {
                             </div>
                             <div className='d-flex align-items-center'>
                                 <input
-                                    className='me-2'
+                                    className='me-2 ms-3'
                                     type="checkbox"
                                     name='porTalle'
                                     id='porTalle'
@@ -92,65 +92,71 @@ const Alta = () => {
                             </div>    
                         </article>
                         {inputs.porTalle && 
-                            <div className='alta-stockConTallesDiv p-2 pe-5 ps-0 mb-3'>
+                            <article className='alta-article stockConTalles p-2 ps-0 pe-0 pe-sm-4 mb-4'>
                                 {talles.map((talle) => (
-                                    <article className='alta-article mt-2 mb-2' key={talle}>
-                                        <label htmlFor={`stock${talle}`} className="alta-label form-label me-2">{talle}:</label>
+                                    <div className='mt-2 mb-2' key={talle}>
+                                        <label htmlFor={`stock${talle}`} className="alta-label form-label me-2 d-block d-sm-inline">{talle}:</label>
                                         <input
-                                            className="alta-input"
+                                            className="alta-input talle text-center me-0 me-sm-4 d-block d-sm-inline"
                                             type="number"
                                             name={`stock${talle}`}
                                             min={0}
                                             max={50000}
                                             value={inputs[`stock${talle}`]}
                                             onChange={gestionIngreso} />
-                                    </article>
+                                    </div>
                                 ))}
-                            </div>
+                            </article>
                         }
 
-                        <div className='alta-precioDiv'>
-                            <article className='alta-article mb-3'>
-                                <label htmlFor="precio" className="alta-label form-label me-2">Precio: ARS</label>
+                        <article className='alta-article precio mb-3 ps-4 pe-4'>
+                            <div className='d-flex align-items-center justify-content-between'>
+                                <label htmlFor="precio" className="alta-label p-2">Precio:</label>
                                 <input
-                                    className="alta-input me-4"
+                                    className="alta-input text-center w-75"
                                     type="number"
                                     name="precio"
+                                    placeholder='(ARS)'
                                     min={1}
                                     max={100000000}
                                     value={inputs.precio}
                                     onChange={gestionIngreso}
                                     required />
-                            </article>
-                            <article className='alta-article mb-3'>    
+                            </div>
+                            <div className='d-flex align-items-center'>    
                                 <input
-                                    className='me-2'
+                                    className='me-2 ms-3'
                                     type="checkbox"
                                     name='siDescuento'
                                     id='siDescuento'
                                     onChange={(e) => setInputs((values) => ({ ...values, siDescuento: e.target.checked }))}/>
-                                <label htmlFor="siDescuento">Aplicar descuento:
+                                <label htmlFor="siDescuento">Aplicar descuento
                                 </label>
-                                <label htmlFor="descuento" className="alta-label form-label">
-                                <input
-                                        className="alta-input"
-                                        type="number"
-                                        name="descuento"
-                                        min={1}
-                                        max={100}
-                                        value={inputs.descuento}
-                                        onChange={gestionIngreso}
-                                        disabled={!inputs.siDescuento} /> %
-                                </label>
+                            </div>
+                        </article>
+                        {inputs.siDescuento &&
+                            <article className='alta-article descuento d-flex flex-column flex-sm-row align-items-center  justify-content-start justify-sm-content-between p-2 ps-4 pe-4'>
+                                <div>
+                                    <label htmlFor="descuento" className='p-2'>Descuento:
+                                    </label>
+                                        <input
+                                            className="alta-input descuento text-center"
+                                            type="number"
+                                            name="descuento"
+                                            min={1}
+                                            max={100}
+                                            value={inputs.descuento}
+                                            onChange={gestionIngreso}
+                                        disabled={!inputs.siDescuento} />
+                                    <span className='ms-1'>%</span>
+                                </div>
+                                {inputs.descuento && inputs.precio &&
+                                    <p className='d-inline ms-2 ms-sm-4 me-2 mb-0'>
+                                        (Precio final: <b>ARS {((1 - (inputs.descuento / 100)) * inputs.precio).toFixed(0)})</b>
+                                    </p>
+                                    }
                             </article>
-                        </div>
-
-                        {inputs.descuento && inputs.precio &&
-                            <p>
-                                (Precio final: <b>ARS {((1 - (inputs.descuento / 100)) * inputs.precio).toFixed(0)})</b>
-                            </p>
                         }
-                        
                         <article className='alta-article mb-2 ps-4 pe-4'>
                             <label htmlFor="imagen" className="alta-label form-label ps-2 mb-0 mt-2">Imagen:</label>
                             <input
@@ -159,13 +165,18 @@ const Alta = () => {
                                 name="imagen"
                                 value={inputs.imagen}
                                 onChange={gestionIngreso} />
-                                <p>(Solo archivos jpg. La proporción de la imagen debe ser cercana a 1:1)</p>
+                            <p className='alta-textoP mt-1'>(Solo archivos jpg. La proporción de la imagen debe ser cercana a 1:1)</p>
                         </article>
 
                         <article className='alta-article ps-4 pe-4'>
-                            <input type="checkbox" name='destacado' id='destacado' />
+                            <input
+                                className='me-2'
+                                type="checkbox"
+                                name='destacado'
+                                id='destacado'
+                                onChange={gestionIngreso}/>
                             <label htmlFor="destacado" className="alta-label">Marcar como destacado</label>
-                            <p>(Los productos destacados se muestran en la página principal)</p>
+                            <p className='alta-textoP'>(Los productos destacados se muestran en la página principal)</p>
                         </article>
                     </div>
                     <article className="text-center mt-5">

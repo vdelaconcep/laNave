@@ -5,7 +5,7 @@ const BotonSecundario = ({ tipo, texto, claseAdicional, accion }) => {
         <button
             className={`botonSecundario-btn btn btn-outline-light ${claseAdicional}`}
             type={tipo}
-            onClick={accion ? accion : ''}>
+            onClick={accion ? accion : null}>
             {texto}
         </button>
     );
