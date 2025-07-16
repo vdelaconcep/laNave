@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useRef, useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import axios from 'axios';
 import '@/pages/css/alta.css';
@@ -20,11 +20,26 @@ const Alta = () => {
     const talles = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
     // Gestión de datos del formulario
-    const enviarDatos = (datos) => {
-        console.log(JSON.stringify(datos));
+
+    // Valores iniciales
+    const estadoInicial = {
+        banda: '',
+        tipo: '',
+        U: '',
+        precio: '',
+        descuento: '',
+        destacado: false,
+        porTalle: false,
+        siDescuento: false,
+        imagen: null,
+        ...talles.reduce((acc, talle) => ({ ...acc, [talle]: '' }), {})
+    };
+    const inputFileRef = useRef();
+
+    const enviarDatos = async (datos) => {
 
         // Verificación de stock (en talle único o en al menos un talle)
-        const stockAEnviar = {}
+        const stockAEnviar = {};
 
         if (!datos.porTalle) {
             if (!datos.U) {
@@ -45,21 +60,46 @@ const Alta = () => {
             if (!datos.descuento) return alert("Se debe indicar descuento");
         } else datos.descuento = 0;
         
-        // Armado de objeto de datos a enviar al backend
-        const datosAEnviar = {
-            banda: datos.banda,
-            tipo: datos.tipo,
-            stock: stockAEnviar,
-            precio: datos.precio,
-            descuento: datos.descuento,
-            destacado: datos.destacado === true
-        }
+        // Armado de datos a enviar al backend
+        const formData = new FormData();
 
-        if (datos.imagen) datosAEnviar.imagen = datos.imagen;
-        alert(JSON.stringify(datosAEnviar));
-    }
+        formData.append('banda', datos.banda);
+        formData.append('tipo', datos.tipo);
+        formData.append('stock', JSON.stringify(stockAEnviar));
+        formData.append('precio', datos.precio);
+        formData.append('descuento', datos.descuento);
+        formData.append('destacado', datos.destacado === true);
+
+        datos.imagen && formData.append('image', datos.imagen);
+        
+        try {
+            // Envío de datos (con token para tener permisos de administrador)
+            const token = localStorage.getItem('token');
+
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/productos/alta`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (res.status !== 200) return alert(`Error al ingresar el producto: ${res.statusText}`);
+
+            // Limpiar formulario
+            setInputs(estadoInicial);
+            inputFileRef.current.value = '';
+
+            return alert('El producto se ha ingresado con éxito');
+        } catch (err) {
+            return alert(`Error catch al ingresar el producto: ${err.response.data.error}`);
+        };
+    };
 
     const { inputs, gestionIngreso, gestionEnvio, setInputs } = useFormulario(enviarDatos);
+
+    useEffect(() => {
+        setInputs(estadoInicial);
+    }, []);
 
     // Para indicar que el stock es por talle al seleccionar remera o buzo
     useEffect(() => {
@@ -112,7 +152,7 @@ const Alta = () => {
                                     placeholder='(Talle único)'
                                     min={0}
                                     max={50000}
-                                    value={inputs.stockU}
+                                    value={inputs.U}
                                     onChange={gestionIngreso}
                                     disabled={inputs.porTalle} />
                             </div>
@@ -165,6 +205,7 @@ const Alta = () => {
                                     type="checkbox"
                                     name='siDescuento'
                                     id='siDescuento'
+                                    checked={inputs.siDescuento || false}
                                     onChange={(e) => setInputs((values) => ({ ...values, siDescuento: e.target.checked }))}/>
                                 <label htmlFor="siDescuento">Aplicar descuento
                                 </label>
@@ -196,11 +237,15 @@ const Alta = () => {
                         <article className='alta-article mb-2 ps-4 pe-4'>
                             <label htmlFor="imagen" className="alta-label form-label ps-2 mb-0 mt-2">Imagen:</label>
                             <input
+                                ref={inputFileRef}
                                 className="alta-input form-control"
                                 type="file"
                                 name="imagen"
-                                value={inputs.imagen}
-                                onChange={gestionIngreso} />
+                                accept="image/jpeg"
+                                onChange={(e) => {
+                                    const archivo = e.target.files[0];
+                                    setInputs((values) => ({ ...values, imagen: archivo }));
+                                }} />
                             <p className='alta-textoP mt-1'>(Solo archivos jpg. La proporción de la imagen debe ser cercana a 1:1)</p>
                         </article>
 
@@ -210,6 +255,7 @@ const Alta = () => {
                                 type="checkbox"
                                 name='destacado'
                                 id='destacado'
+                                checked={inputs.destacado || false}
                                 onChange={(e) => setInputs((values) => ({ ...values, destacado: e.target.checked }))}/>
                             <label htmlFor="destacado" className="alta-label">Marcar como destacado</label>
                             <p className='alta-textoP'>(Los productos destacados se muestran en la página principal)</p>

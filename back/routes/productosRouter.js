@@ -7,6 +7,9 @@ import {
 
 import { validar } from '../middlewares/validator.js' */
 
+// Middleware para acceso de administrador
+/* import { rutaAdmin } from '../middlewares/rutaAdmin.js'; */
+
 // Configuración del enrutador
 const router = express.Router();
 
@@ -15,6 +18,6 @@ import multer from 'multer'
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Registrar nuevo producto (alta)
-router.post('/alta', upload.single('imagen'), /* , reglasValidacionProducto, validar, */ altaProducto);
+router.post('/alta', upload.single('image'), /* , reglasValidacionProducto, validar, */ altaProducto);
 
 export default router;

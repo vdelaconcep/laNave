@@ -1,5 +1,4 @@
 import Producto from '../models/productoMongo.js';
-import axios from 'axios';
 import sharp from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -17,7 +16,6 @@ cloudinary.config({
 
 // Ingresar nuevo producto en la base de datos
 const altaProducto = async (req, res) => {
-    console.log(req.body);
 
     // Si se envió una imagen del producto:
     let imagen = req.file || "";
@@ -25,7 +23,6 @@ const altaProducto = async (req, res) => {
     if (req.file) {
 
         // Verificar proporción de imagen
-
         const metadata = await sharp(req.file.buffer).metadata();
         const ratio = metadata.width / metadata.height;
         const diferenciaRelativa = Math.abs(ratio - 1);
@@ -77,7 +74,10 @@ const altaProducto = async (req, res) => {
     const uuid = uuidv4();
 
     // Parsear valores recibidos como string
-    const destacado = req.body.destacado === 'true';
+    let destacado;
+    if (typeof req.body.destacado === 'string') {
+        req.body.destacado === 'true' ? destacado = true : destacado = false
+    } else destacado = req.body.destacado
     const stock = typeof req.body.stock === 'string' ? JSON.parse(req.body.stock) : req.body.stock;
     const precio = Number(req.body.precio);
     const descuento = Number(req.body.descuento);
