@@ -16,6 +16,7 @@ cloudinary.config({
 
 // Ingresar nuevo producto en la base de datos
 const altaProducto = async (req, res) => {
+    console.log(req.body);
 
     // Si se envió una imagen del producto:
     let imagen = req.file || "";

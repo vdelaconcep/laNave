@@ -3,12 +3,12 @@ import {
     altaProducto
 } from '../controller/productosController.js';
 
-/* import { reglasValidacionAlta } from '../helpers/productoValidatorHelper.js';
+import { reglasValidacionAlta } from '../helpers/altaValidatorHelper.js';
 
-import { validar } from '../middlewares/validator.js' */
+import { validar } from '../middlewares/validator.js'
 
 // Middleware para acceso de administrador
-/* import { rutaAdmin } from '../middlewares/rutaAdmin.js'; */
+import { rutaAdmin } from '../middlewares/rutaAdmin.js';
 
 // Configuración del enrutador
 const router = express.Router();
@@ -18,6 +18,6 @@ import multer from 'multer'
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Registrar nuevo producto (alta)
-router.post('/alta', upload.single('image'), /* , reglasValidacionProducto, validar, */ altaProducto);
+router.post('/alta', upload.single('image') , reglasValidacionAlta, validar, rutaAdmin, altaProducto);
 
 export default router;

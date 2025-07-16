@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import axios from 'axios';
 import '@/pages/css/alta.css';
@@ -34,7 +34,10 @@ const Alta = () => {
         imagen: null,
         ...talles.reduce((acc, talle) => ({ ...acc, [talle]: '' }), {})
     };
+
     const inputFileRef = useRef();
+
+    const [cargando, setCargando] = useState(false);
 
     const enviarDatos = async (datos) => {
 
@@ -66,6 +69,7 @@ const Alta = () => {
         formData.append('banda', datos.banda);
         formData.append('tipo', datos.tipo);
         formData.append('stock', JSON.stringify(stockAEnviar));
+
         formData.append('precio', datos.precio);
         formData.append('descuento', datos.descuento);
         formData.append('destacado', datos.destacado === true);
@@ -74,14 +78,17 @@ const Alta = () => {
         
         try {
             // Envío de datos (con token para tener permisos de administrador)
+            setCargando(true);
+
             const token = localStorage.getItem('token');
 
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/productos/alta`, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            const headers = { 'Content-Type': 'multipart/form-data' };
+
+            if (token) {
+                headers.Authorization = `Bearer ${token}`;
+            }
+
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/productos/alta`, formData, {headers});
 
             if (res.status !== 200) return alert(`Error al ingresar el producto: ${res.statusText}`);
 
@@ -91,7 +98,9 @@ const Alta = () => {
 
             return alert('El producto se ha ingresado con éxito');
         } catch (err) {
-            return alert(`Error catch al ingresar el producto: ${err.response.data.error}`);
+            return alert(`Error al ingresar el producto: ${err.response.data.error}`);
+        } finally {
+            setCargando(false);
         };
     };
 
@@ -262,7 +271,9 @@ const Alta = () => {
                         </article>
                     </div>
                     <article className="text-center mt-5">
-                        <BotonPrimario tipo='submit' texto={<><span>Agregar </span><i className="fa-solid fa-plus"></i></>} claseAdicional='me-2' />
+                        <BotonPrimario
+                            tipo='submit'
+                            texto={cargando ? <><span>Agregando... </span><i className="fa-solid fa-spinner fa-spin"></i></> : <><span>Agregar </span><i className="fa-solid fa-plus"></i></>} claseAdicional='me-2' />
                         <BotonSecundario tipo='reset' texto={<><span>Cancelar </span><i className="fa-solid fa-xmark"></i></>} claseAdicional='ms-2' />
                     </article>
                 </form>
