@@ -13,7 +13,7 @@ const reglasValidacionAlta = [
         .escape()
         .notEmpty().withMessage("Debe indicar el tipo de producto")
         .bail()
-        .isIn(["remera", "buzo", "mochila", "Remera", "Buzo", "Mochila"]).withMessage("El tipo de producto debe ser 'remera', 'buzo' o 'mochila'"),
+        .isIn(["remera", "buzo", "mochila", "varios"]).withMessage("El tipo de producto debe ser 'remera', 'buzo', 'mochila' o 'varios'"),
 
     check("stock")
         .notEmpty().withMessage("Debe ingresar el stock disponible")
@@ -33,8 +33,13 @@ const reglasValidacionAlta = [
             }
 
             for (const clave of clavesStock) {
-                const cantidad = parseado[clave];
-                if (typeof cantidad !== 'number' || cantidad < 0 || !Number.isInteger(cantidad)) {
+                let cantidad = parseado[clave];
+                
+                cantidad = Number(cantidad);
+                
+                if(isNaN(cantidad)) throw new Error(`El stock para "${clave}" debe ser un número entero`);
+                
+                if (cantidad < 0 || !Number.isInteger(cantidad)) {
                     throw new Error(`El stock para "${clave}" debe ser un número entero mayor o igual a cero`);
                 }
             }

@@ -16,8 +16,9 @@ const Alta = () => {
     }, []);
 
     // Definición de tipos de producto y talles
-    const tiposProducto = ['remera', 'buzo', 'mochila', 'otro']
+    const tiposProducto = ['remera', 'buzo', 'mochila', 'varios']
     const talles = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
 
     // Gestión de datos del formulario
 
@@ -47,20 +48,20 @@ const Alta = () => {
         if (!datos.porTalle) {
             if (!datos.U) {
                 return alert("Se debe indicar el stock");
-            } else stockAEnviar.U = datos.U;
+            } else stockAEnviar.U = Number(datos.U);
         } else {
             if (!talles.some(talle => datos[talle])) {
                 return alert("Se debe indicar stock en al menos un talle");
             } else {
-                talles.map((talle) => {
-                    if (datos[talle]) stockAEnviar[talle] = datos[talle];
+                talles.forEach(talle => {
+                    if (datos[talle]) stockAEnviar[talle] = Number(datos[talle]);
                 });
             };
         };
         
         // Verificación de descuento (si se indica)
         if (datos.siDescuento) {
-            if (!datos.descuento) return alert("Se debe indicar descuento");
+            if (!datos.descuento) return alert("Se debe indicar descuento")
         } else datos.descuento = 0;
         
         // Armado de datos a enviar al backend
@@ -70,8 +71,8 @@ const Alta = () => {
         formData.append('tipo', datos.tipo);
         formData.append('stock', JSON.stringify(stockAEnviar));
 
-        formData.append('precio', datos.precio);
-        formData.append('descuento', datos.descuento);
+        formData.append('precio', Number(datos.precio));
+        formData.append('descuento', Number(datos.descuento));
         formData.append('destacado', datos.destacado === true);
 
         datos.imagen && formData.append('image', datos.imagen);

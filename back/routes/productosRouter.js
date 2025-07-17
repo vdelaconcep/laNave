@@ -1,6 +1,7 @@
 import express from 'express';
 import {
-    altaProducto
+    altaProducto,
+    obtenerProductos
 } from '../controller/productosController.js';
 
 import { reglasValidacionAlta } from '../helpers/altaValidatorHelper.js';
@@ -18,6 +19,9 @@ import multer from 'multer'
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Registrar nuevo producto (alta)
-router.post('/alta', upload.single('image') , reglasValidacionAlta, validar, rutaAdmin, altaProducto);
+router.post('/alta', upload.single('image'), reglasValidacionAlta, validar, rutaAdmin, altaProducto);
+
+// Obtener productos
+router.get('/', obtenerProductos);
 
 export default router;

@@ -79,7 +79,13 @@ const altaProducto = async (req, res) => {
     if (typeof req.body.destacado === 'string') {
         req.body.destacado === 'true' ? destacado = true : destacado = false
     } else destacado = req.body.destacado
+
     const stock = typeof req.body.stock === 'string' ? JSON.parse(req.body.stock) : req.body.stock;
+    const stockNumerico = {};
+    for (const [talle, cantidad] of Object.entries(stock)) {
+        stockNumerico[talle] = Number(cantidad);
+    };
+
     const precio = Number(req.body.precio);
     const descuento = Number(req.body.descuento);
 
@@ -89,7 +95,7 @@ const altaProducto = async (req, res) => {
         tipo: tipo,
         banda: banda,
         modelo: modelo,
-        stock: stock,
+        stock: stockNumerico,
         precio: precio,
         imagen: imagen,
         descuento: descuento,
@@ -105,4 +111,32 @@ const altaProducto = async (req, res) => {
     }
 };
 
-export { altaProducto };
+// Obtener productos de la base de datos
+const obtenerProductos = async (req, res) => {
+
+    let productos;
+    try {
+        if (req.query.destacados) productos = await Producto.find({ destacado: true });
+
+        if (req.query.tipo) {
+            if (req.query.tipo === 'todos') {
+                productos = await Producto.find();
+            } else {
+                const indumentaria = ['remeras', 'buzos', 'mochilas'];
+                const filtro = indumentaria.includes(req.query.tipo) ? `${req.query.tipo.slice(0, -1)}` : req.query.tipo;
+                productos = await Producto.find({ tipo: filtro });
+            }
+        };
+
+        if (productos) {
+            return res.status(200).json(productos);
+        } else return res.status(404).json({error: 'Productos no encontrados'})
+    } catch (err) {
+        res.status(500).json({ error: `Error al obtener productos de la base de datos: ${err.message}` });
+    };
+};
+
+export {
+    altaProducto,
+    obtenerProductos
+};

@@ -1,5 +1,6 @@
-import { useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
+import axios from 'axios';
 import banner from '@/assets/img/banner2.png';
 import Tarjeta from '@/components/tarjetas/tarjeta'
 
@@ -11,6 +12,24 @@ const Principal = () => {
         return () => setBackground('');
     }, []);
     
+    const obtenerDestacados = async () => {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/productos?destacados=true`);
+
+            if (res.status !== 200) return alert(`Error al obtener productos: ${res.statusText}`);
+            return setDatos(res.data);
+        } catch (err) {
+            alert(`Error al obtener productos: ${err.response.data.error || err.message}`);
+            return setDatos([]);
+        };
+    };
+
+    const [datos, setDatos] = useState([]);
+
+    useEffect(() => {
+        obtenerDestacados();
+    }, []);
+
     return (
         <main>
             <section className='banner d-none d-sm-block'>
@@ -23,21 +42,10 @@ const Principal = () => {
             </section>
             
             <section className="aparecer d-flex flex-wrap justify-content-center pt-0 pt-sm-2 pb-5">
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
-                <Tarjeta />
+                {datos.map((producto) => (
+                    <Tarjeta key={producto.uuid} {...producto} />
+                ))}
+                
             </section>
         </main>
     );

@@ -24,11 +24,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Principal />} />
-              <Route path="/remeras" element={<Productos filtro='Remeras' />} />
-              <Route path="/buzos" element={<Productos filtro='Buzos' />} />
-              <Route path="/mochilas" element={<Productos filtro='Mochilas' />} />
-              <Route path="/varios" element={<Productos filtro='Varios' />} />
-              <Route path="/productos" element={<Productos filtro='Todos los productos' />} />
+              <Route path="/remeras" element={<Productos filtrarPor='tipo' filtro='remeras' />} />
+              <Route path="/buzos" element={<Productos filtrarPor='tipo' filtro='buzos' />} />
+              <Route path="/mochilas" element={<Productos filtrarPor='tipo' filtro='mochilas' />} />
+              <Route path="/varios" element={<Productos filtrarPor='tipo' filtro='varios' />} />
+              <Route path="/productos" element={<Productos filtrarPor='tipo' filtro='todo' />} />
               <Route path="/resultados" element={<Productos filtro='busqueda' />} />
               <Route path="/nosotros" element={<Nosotros />} />
               <Route path="/contacto" element={<Contacto />} />

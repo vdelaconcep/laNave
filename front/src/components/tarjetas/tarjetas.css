@@ -16,10 +16,13 @@
 .tarjeta-foto {
     aspect-ratio: 1/1;
     width: 100%;
+}
+
+.tarjeta-foto.aumentar {
     cursor: pointer;
 }
 
-.tarjeta-foto:hover {
+.tarjeta-foto.aumentar:hover {
     transform: scale(1.05);
     transition: 200ms;
 }
