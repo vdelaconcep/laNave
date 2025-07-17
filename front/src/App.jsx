@@ -28,8 +28,9 @@ function App() {
               <Route path="/buzos" element={<Productos filtrarPor='tipo' filtro='buzos' />} />
               <Route path="/mochilas" element={<Productos filtrarPor='tipo' filtro='mochilas' />} />
               <Route path="/varios" element={<Productos filtrarPor='tipo' filtro='varios' />} />
-              <Route path="/productos" element={<Productos filtrarPor='tipo' filtro='todo' />} />
-              <Route path="/resultados" element={<Productos filtro='busqueda' />} />
+              <Route path="/ofertas" element={<Productos filtrarPor='descuento' filtro='ofertas' />} />
+              <Route path="/productos" element={<Productos filtrarPor='tipo' filtro='todos los productos' />} />
+              <Route path="/resultados" element={<Productos filtrarPor='banda' filtro='busqueda' />} />
               <Route path="/nosotros" element={<Nosotros />} />
               <Route path="/contacto" element={<Contacto />} />
               <Route path="/login" element={<Login />} />

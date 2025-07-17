@@ -13,7 +13,7 @@ const reglasValidacionAlta = [
         .escape()
         .notEmpty().withMessage("Debe indicar el tipo de producto")
         .bail()
-        .isIn(["remera", "buzo", "mochila", "varios"]).withMessage("El tipo de producto debe ser 'remera', 'buzo', 'mochila' o 'varios'"),
+        .isLength({max: 20}).withMessage("El tipo de producto no debe tener más de 20 caracteres"),
 
     check("stock")
         .notEmpty().withMessage("Debe ingresar el stock disponible")

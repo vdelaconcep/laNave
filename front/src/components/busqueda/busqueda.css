@@ -39,11 +39,3 @@
     background-color: white;
     color: black;
 }
-
-.busqueda-input:focus::placeholder {
-    color: #474747;
-}
-
-.busqueda-btn.activo {
-    color: black;
-}

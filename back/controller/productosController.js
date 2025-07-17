@@ -59,14 +59,14 @@ const altaProducto = async (req, res) => {
     let modelo;
 
     try {
-        const productos = await Producto.find();
-        let resultado = productos.filter(elemento => {
-            const buscaPorBanda = elemento.banda.trim().toLowerCase();
-            const buscaPorTipo = elemento.tipo.trim().toLowerCase();
-            return buscaPorBanda.includes(banda.trim().toLowerCase()) &&
-                buscaPorTipo.includes(tipo.trim().toLowerCase());
-        });
-        modelo = resultado.length + 1;
+        const productos = await Producto.find({ tipo: tipo, banda: banda });
+        let ultimoModelo
+        if (productos.length > 0) {
+            const modelos = productos.map(producto => producto.modelo || 0);
+            ultimoModelo = Math.max(...modelos);
+        } else ultimoModelo = 0;
+        modelo = ultimoModelo + 1;
+        
     } catch (err) {
         return res.status(500).json({ error: `Error al recuperar productos de la base de datos: ${err.message}` });
     }
@@ -115,21 +115,34 @@ const altaProducto = async (req, res) => {
 const obtenerProductos = async (req, res) => {
 
     let productos;
+    const predefinidos = ['remeras', 'buzos', 'mochilas'];
     try {
         if (req.query.destacados) productos = await Producto.find({ destacado: true });
 
+        // Obtener productos por tipo
         if (req.query.tipo) {
             if (req.query.tipo === 'todos') {
                 productos = await Producto.find();
             } else {
-                const indumentaria = ['remeras', 'buzos', 'mochilas'];
-                const filtro = indumentaria.includes(req.query.tipo) ? `${req.query.tipo.slice(0, -1)}` : req.query.tipo;
-                productos = await Producto.find({ tipo: filtro });
+                if (predefinidos.includes(req.query.tipo)) {
+                    const filtro = req.query.tipo.slice(0, -1);
+                    productos = await Producto.find({ tipo: filtro });
+                } else productos = await Producto.find({ tipo: {$nin: ['remera', 'buzo', 'mochila']} });
             }
         };
 
+        // Para búsqueda por banda
+        if (req.query.banda) {
+            const regex = new RegExp(req.query.banda.trim().replace(/\s+/g, '.*'), 'i');
+            productos = await Producto.find({ banda: regex });
+        };
+
+        // Para obtener ofertas (productos con descuento)
+        if (req.query.descuento) productos = await Producto.find({ descuento: {$gt: 0} });
+
         if (productos) {
-            return res.status(200).json(productos);
+            const productosOrdenados = productos.sort((a, b) => new Date(b.fechaYHoraAlta) - new Date(a.fechaYHoraAlta));
+            return res.status(200).json(productosOrdenados);
         } else return res.status(404).json({error: 'Productos no encontrados'})
     } catch (err) {
         res.status(500).json({ error: `Error al obtener productos de la base de datos: ${err.message}` });

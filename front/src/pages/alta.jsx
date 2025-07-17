@@ -26,6 +26,7 @@ const Alta = () => {
     const estadoInicial = {
         banda: '',
         tipo: '',
+        tipoVarios: '',
         U: '',
         precio: '',
         descuento: '',
@@ -41,6 +42,14 @@ const Alta = () => {
     const [cargando, setCargando] = useState(false);
 
     const enviarDatos = async (datos) => {
+
+        // Si tipo = 'varios'
+        let tipoAEnviar
+        if (datos.tipo === 'varios') {
+            if (!datos.tipoVarios) {
+                return alert('Se debe indicar descripción del producto');
+            } else tipoAEnviar = datos.tipoVarios;
+        } else tipoAEnviar = datos.tipo
 
         // Verificación de stock (en talle único o en al menos un talle)
         const stockAEnviar = {};
@@ -68,7 +77,7 @@ const Alta = () => {
         const formData = new FormData();
 
         formData.append('banda', datos.banda);
-        formData.append('tipo', datos.tipo);
+        formData.append('tipo', tipoAEnviar);
         formData.append('stock', JSON.stringify(stockAEnviar));
 
         formData.append('precio', Number(datos.precio));
@@ -151,6 +160,17 @@ const Alta = () => {
                                     </option>
                                 ))}
                             </select>
+                        </article>
+                        <article className='alta-article mb-4 ps-4 pe-4'>
+                            <label htmlFor="tipoVarios" className="alta-label form-label ps-2 mb-0">Detalle:</label>
+                            <input
+                                className='alta-input form-control'
+                                name="tipoVarios"
+                                placeholder='ej: pañuelo, cadena...'
+                                value={inputs.tipoVarios}
+                                onChange={gestionIngreso}
+                                disabled={inputs.tipo !== 'varios'}
+                                required />
                         </article>
                         <article className='alta-article stock mb-3 ps-4 pe-4'>
                             <div className='d-flex align-items-center justify-content-between'>

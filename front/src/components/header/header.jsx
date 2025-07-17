@@ -72,7 +72,7 @@ const Header = () => {
             </section>
             <section className="d-sm-none">
                 <Link to="/" className='links'><img className="w-100" src={banner} alt="banner" /></Link>
-                <p className="text-end pe-3"><b>REMERAS - BUZOS - MOCHILAS</b></p>
+                <p className="text-end pe-3"><b>REMERAS - BUZOS - MOCHILAS - Y MÁS</b></p>
             </section>
         </header>
     )

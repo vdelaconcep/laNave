@@ -23,6 +23,10 @@ const dataProductos = [
         linkTo: "/varios"
     },
     {
+        texto: "Ofertas",
+        linkTo: "/ofertas"
+    },
+    {
         texto: "Ver todo",
         linkTo: "/productos"
     }
