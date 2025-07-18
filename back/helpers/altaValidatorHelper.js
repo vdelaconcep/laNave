@@ -53,8 +53,7 @@ const reglasValidacionAlta = [
         .isInt({ min: 1 }).withMessage("El precio ingresado debe ser mayor que 0"),
     
     check("descuento")
-        .notEmpty().withMessage("Debe ingresar un descuento (o '0')")
-        .bail()
+        .optional({ checkFalsy: true })
         .isInt({ min: 0, max: 100 }).withMessage("El descuento debe ser un porcentaje entre 0 y 100"),
 
     check("imagen")

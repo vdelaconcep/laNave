@@ -14,10 +14,12 @@ export const Productos = ({filtrarPor, filtro}) => {
     }, []);
 
     const [datos, setDatos] = useState([]);
+    const [cargando, setCargando] = useState(false);
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
     const obtenerProductos = async () => {
+        setCargando(true);
         
         let filtroAplicado;
         if (filtrarPor === 'banda' && filtro === 'busqueda') {
@@ -35,7 +37,9 @@ export const Productos = ({filtrarPor, filtro}) => {
         } catch (err) {
             alert(`Error al obtener productos: ${err.response.data.error || err.message}`);
             return setDatos([]);
-        };
+        } finally {
+            setCargando(false);
+        }
     };
 
     const [aparecer, setAparecer] = useState(false);
@@ -53,7 +57,12 @@ export const Productos = ({filtrarPor, filtro}) => {
     return (
         <main>
             <h1 className="pagina-titulo text-white text-center">{filtroMayuscula}</h1>
-            {datos.length === 0 &&
+
+            {cargando &&
+                <h2 className='text-white'><i className="fa-solid fa-spinner fa-spin"></i></h2>
+            }
+
+            {!cargando && datos.length === 0 &&
                 <>
                 <p>No se encontraron ítems</p>
                 <BotonSecundario

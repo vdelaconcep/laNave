@@ -82,7 +82,7 @@ const altaProducto = async (req, res) => {
     };
 
     const precio = Number(req.body.precio);
-    const descuento = Number(req.body.descuento);
+    const descuento = req.body.descuento ? Number(req.body.descuento) : 0;
 
     // Guardar en la base de datos (nueva entrada)
     const productoNuevo = {

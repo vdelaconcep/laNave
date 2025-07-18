@@ -128,7 +128,7 @@ const Alta = () => {
             <h1 className="pagina-titulo text-white text-center">Alta de producto</h1>
             <section className='text-white mt-2'>
                 <form onSubmit={gestionEnvio} className='mt-4 mb-5'>
-                    <div className='alta-div pt-4 pb-4 m-3'>
+                    <div className='alta-div pt-3 pb-3 m-3'>
                         <article className='alta-article mb-2 ps-4 pe-4'>
                             <label htmlFor="banda" className="alta-label form-label ps-2 mb-0 mt-2">Artista / banda:</label>
                             <input
@@ -141,7 +141,7 @@ const Alta = () => {
                                 onChange={gestionIngreso}
                                 required />
                         </article>
-                        <article className='alta-article mb-4 ps-4 pe-4'>
+                        <article className='alta-article mb-2 ps-4 pe-4'>
                             <label htmlFor="tipo" className="alta-label form-label ps-2 mb-0">Tipo de producto:</label>
                             <select
                                 className='alta-input form-control'
@@ -213,7 +213,7 @@ const Alta = () => {
                             </article>
                         }
 
-                        <article className='alta-article precio mb-3 ps-4 pe-4'>
+                        <article className='alta-article precio mb-2 ps-4 pe-4'>
                             <div className='d-flex align-items-center justify-content-between'>
                                 <label htmlFor="precio" className="alta-label p-2">Precio:</label>
                                 <input

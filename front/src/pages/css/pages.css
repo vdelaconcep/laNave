@@ -37,7 +37,7 @@
 }
 
 .bg-admin {
-    background-color: #006A5C;
+    background: radial-gradient(#2aa393, #006A5C)
 }
 
 main {
