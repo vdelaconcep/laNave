@@ -75,11 +75,6 @@ const altaProducto = async (req, res) => {
     const uuid = uuidv4();
 
     // Parsear valores recibidos como string
-    let destacado;
-    if (typeof req.body.destacado === 'string') {
-        req.body.destacado === 'true' ? destacado = true : destacado = false
-    } else destacado = req.body.destacado
-
     const stock = typeof req.body.stock === 'string' ? JSON.parse(req.body.stock) : req.body.stock;
     const stockNumerico = {};
     for (const [talle, cantidad] of Object.entries(stock)) {
@@ -98,8 +93,7 @@ const altaProducto = async (req, res) => {
         stock: stockNumerico,
         precio: precio,
         imagen: imagen,
-        descuento: descuento,
-        destacado: destacado
+        descuento: descuento
     };
 
     try {
@@ -117,7 +111,13 @@ const obtenerProductos = async (req, res) => {
     let productos;
     const predefinidos = ['remeras', 'buzos', 'mochilas'];
     try {
-        if (req.query.destacados) productos = await Producto.find({ destacado: true });
+
+        // Productos recientes
+        if (req.query.recientes) {
+            productos = await Producto.find()
+                .sort({ fechaYHoraAlta: -1 })
+                .limit(11);
+        }
 
         // Obtener productos por tipo
         if (req.query.tipo) {

@@ -12,33 +12,47 @@ const Tarjeta = (props) => {
 
     return (
         hayStock && (
-            <article className='tarjeta-article text-white m-3'>
+            <article className='tarjeta-article text-white m-3 d-flex flex-column justify-content-between'>
                 <div className='tarjeta-div-foto'>
                     <img
                         src={props.imagen ? props.imagen : imagenNoDisponible}
                         alt={titulo}
                         className={`tarjeta-foto ${props.imagen && 'aumentar'}`} />
-                </div>
-                <h5 className='tarjeta-titulo hstack align-items-center p-2 m-0'>{titulo}</h5>
-                <div className='hstack justify-content-around align-items-center p-2'>
-                    <p className='tarjeta-precio text-info m-0 fs-4 fw-bold'>ARS {props.precio}</p>
-                    {!talleUnico &&
-                        <article>
-                            <label htmlFor={`talle${props.uuid}`} className='me-1'>Talle: </label>
-                            <select className='tarjeta-selectTalle' name="talle" id={`talle${props.uuid}`}>
-                                {talles
-                                    .filter((talle) => props.stock[talle] !== 0)
-                                    .map((talle) => (
-                                    <option value={talle} key={talle}>{talle}</option>
-                                ))}
-                            </select>
-                        </article>
+                    {props.descuento > 0 &&
+                        <div className='tarjeta-divDescuento'>
+                            {props.descuento}%
+                        </div>
                     }
                 </div>
-                <div className='hstack justify-content-center'>
-                    <button className='tarjeta-boton btn w-100 d-flex align-items-center justify-content-center'>
-                        <i className="fa-solid fa-plus me-2"></i> Agregar al carrito
-                    </button>
+                <h5 className='tarjeta-titulo hstack align-items-center p-2 m-0'>{titulo}</h5>
+                <div className='tarjeta-parteInferiorDiv'>
+                    <div className='tarjeta-precioDiv hstack justify-content-around align-items-center'>
+                        {props.descuento === 0 ?
+                            <p className='tarjeta-precio text-info m-0 fs-4 fw-bold'>ARS {props.precio}</p> :
+                            <div>
+                                <p className='tarjeta-precio final text-danger m-0 p-0 fs-4 fw-bold'>ARS {(props.precio *(1- (0.01*props.descuento))).toFixed(0)}</p>
+                                <p className='tarjeta-precio anterior text-white m-0 p-0'>ARS {props.precio}</p>
+                            </div>
+                        }
+                        
+                        {!talleUnico &&
+                            <article>
+                                <label htmlFor={`talle${props.uuid}`} className='me-1'>Talle: </label>
+                                <select className='tarjeta-selectTalle' name="talle" id={`talle${props.uuid}`}>
+                                    {talles
+                                        .filter((talle) => props.stock[talle] !== 0)
+                                        .map((talle) => (
+                                        <option value={talle} key={talle}>{talle}</option>
+                                    ))}
+                                </select>
+                            </article>
+                        }
+                    </div>
+                    <div className='hstack justify-content-center'>
+                        <button className='tarjeta-boton btn w-100 d-flex align-items-center justify-content-center'>
+                            <i className="fa-solid fa-plus me-2"></i> Agregar al carrito
+                        </button>
+                    </div>
                 </div>
             </article>
         )

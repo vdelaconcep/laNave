@@ -12,9 +12,9 @@ const Principal = () => {
         return () => setBackground('');
     }, []);
     
-    const obtenerDestacados = async () => {
+    const obtenerRecientes = async () => {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/productos?destacados=true`);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/productos?recientes=true`);
 
             if (res.status !== 200) return alert(`Error al obtener productos: ${res.statusText}`);
             return setDatos(res.data);
@@ -27,7 +27,7 @@ const Principal = () => {
     const [datos, setDatos] = useState([]);
 
     useEffect(() => {
-        obtenerDestacados();
+        obtenerRecientes();
     }, []);
 
     return (

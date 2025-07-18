@@ -30,7 +30,6 @@ const Alta = () => {
         U: '',
         precio: '',
         descuento: '',
-        destacado: false,
         porTalle: false,
         siDescuento: false,
         imagen: null,
@@ -82,7 +81,6 @@ const Alta = () => {
 
         formData.append('precio', Number(datos.precio));
         formData.append('descuento', Number(datos.descuento));
-        formData.append('destacado', datos.destacado === true);
 
         datos.imagen && formData.append('image', datos.imagen);
         
@@ -279,17 +277,6 @@ const Alta = () => {
                             <p className='alta-textoP mt-1'>(Solo archivos jpg. La proporción de la imagen debe ser cercana a 1:1)</p>
                         </article>
 
-                        <article className='alta-article ps-4 pe-4'>
-                            <input
-                                className='me-2'
-                                type="checkbox"
-                                name='destacado'
-                                id='destacado'
-                                checked={inputs.destacado || false}
-                                onChange={(e) => setInputs((values) => ({ ...values, destacado: e.target.checked }))}/>
-                            <label htmlFor="destacado" className="alta-label">Marcar como destacado</label>
-                            <p className='alta-textoP'>(Los productos destacados se muestran en la página principal)</p>
-                        </article>
                     </div>
                     <article className="text-center mt-5">
                         <BotonPrimario

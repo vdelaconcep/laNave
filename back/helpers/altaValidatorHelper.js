@@ -73,16 +73,6 @@ const reglasValidacionAlta = [
             };
 
             return true;
-        }),
-    
-    check("destacado")
-        .notEmpty().withMessage("Debe indicar si es un producto destacado")
-        .bail()
-        .custom(value => {
-            if (value !== "true" && value !== "false" && value !== true && value !== false) {
-                throw new Error("'Destacado' debe ser true o false");
-            }
-            return true;
         })
 ];
 

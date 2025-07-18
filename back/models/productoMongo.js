@@ -38,10 +38,6 @@ const productoSchema = new mongoose.Schema({
     imagen: {
         type: String,
         required: false
-    },
-    destacado: {
-        type: Boolean,
-        required: true
     }
 });
 

@@ -11,6 +11,7 @@
 .tarjeta-div-foto {
     overflow: hidden;
     border-radius: 4px;
+    position: relative;
 }
 
 .tarjeta-foto {
@@ -27,11 +28,21 @@
     transition: 200ms;
 }
 
-.tarjeta-titulo {
-    /* background-color:#bebebe; */
+.tarjeta-divDescuento {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 5px;
+    background-color: #E73D30;
+    border-radius: 4px;
+    border: 2px solid white;
     color: white;
-    border-bottom: 1.5px dotted #bebebe;
-    /* border-radius: 4px; */
+    font-weight: bold;
+    z-index: 999;
+}
+
+.tarjeta-titulo {
+    color: white;
     word-wrap: break-word;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -40,8 +51,22 @@
     overflow: hidden;
 }
 
+.tarjeta-parteInferiorDiv {
+    border-top: 1.5px dotted #bebebe;
+}
+
+.tarjeta-precioDiv {
+    height: 65px;
+}
+
 .tarjeta-precio {
-    text-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    text-shadow: rgba(255, 255, 255, 0.4) 1.5px 1.5px 2.6px;
+}
+
+.tarjeta-precio.anterior {
+    text-shadow: none;
+    text-decoration:line-through;
+    font-size: 0.9em !important;
 }
 
 .tarjeta-selectTalle {
