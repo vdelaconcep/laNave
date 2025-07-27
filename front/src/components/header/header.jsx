@@ -41,12 +41,14 @@ const Header = () => {
                 <div className="ps-3 d-none d-sm-block">
                     <Link to="/" className='links' title="Página principal"><img src={logo} alt="logo" style={{ height: "50px" }} /></Link>
                 </div>
-                <div className="d-none d-lg-block ps-4 ps-xl-0 ms-md-auto">
+                <div className="d-none d-lg-block ps-4 ps-xl-0 ms-md-auto me-md-auto">
                     <Navegacion pantalla={'pantallaGrande'} />
                 </div>
-                <div className="ps-3 pe-3 d-none d-md-block ms-auto me-auto w-25">
-                    <Busqueda />
-                </div>
+                {!(usuario && usuario.rol && usuario.rol === 'administrador') && 
+                    <div className="ps-3 pe-3 d-none d-md-block ms-auto me-auto w-25">
+                        <Busqueda />
+                    </div>
+                }
                 <div
                     className="header-usuarioDiv pe-2 ms-auto ms-lg-0"
                     ref={refUsuarioDiv}>
@@ -67,7 +69,9 @@ const Header = () => {
                     </article>
                 </div>
                 <div className="pe-3">
-                    <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={3} />
+                    {(usuario && usuario.rol && usuario.rol === 'administrador') ?
+                        <BotonLink vinculo={"/mensajes"} texto={<><span className='d-none d-sm-inline'>Mensajes </span><span><i className="fa-solid fa-envelope"></i></span></>} numero={3} /> :
+                        <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={3} />}
                 </div>
             </section>
             <section className="d-sm-none">

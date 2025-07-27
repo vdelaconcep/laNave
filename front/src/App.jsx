@@ -13,6 +13,11 @@ import Login from '@/pages/login';
 import Registro from '@/pages/registro';
 import Carrito from '@/pages/carrito';
 import Alta from '@/pages/alta';
+import ProductosAdmin from '@/pages/productosAdmin';
+import Ventas from '@/pages/ventas';
+import Descuentos from '@/pages/descuentos';
+import Usuarios from '@/pages/usuarios';
+import Mensajes from '@/pages/mensajes';
 import Error from '@/pages/error';
 
 function App() {
@@ -37,6 +42,11 @@ function App() {
               <Route path="/registro" element={<Registro />} />
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/alta" element={<Alta />} />
+              <Route path="/productosAdmin" element={<ProductosAdmin />} />
+              <Route path="/ventas" element={<Ventas />} />
+              <Route path="/usuarios" element={<Usuarios />} />
+              <Route path="/mensajes" element={<Mensajes />} />
+              <Route path="/descuentos" element={<Descuentos />} />
               <Route path="/*" element={<Error />} />
             </Route>
           </Routes>

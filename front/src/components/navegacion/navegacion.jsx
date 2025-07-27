@@ -5,6 +5,18 @@ import '@/components/navegacion/navegacion.css';
 import { Link } from "react-router-dom";
 
 // Vínculos del menú de navegación (títulos y rutas)
+
+const dataProductosAdmin = [
+    {
+        texto: "Ver lista",
+        linkTo: "/productosAdmin"
+    },
+    {
+        texto: "Agregar",
+        linkTo: "/alta"
+    }
+]
+
 const dataProductos = [
     {
         texto: "Remeras",
@@ -32,6 +44,21 @@ const dataProductos = [
     }
 ];
 
+const fijosAdmin = [
+    {
+        texto: "Ventas",
+        linkTo: "/ventas"
+    },
+    {
+        texto: "Descuentos",
+        linkTo: "/descuentos"
+    },
+    {
+        texto: "Usuarios",
+        linkTo: "/usuarios"
+    }
+]
+
 const fijos = [
     {
         texto: "Nosotros",
@@ -45,7 +72,8 @@ const fijos = [
 
 const Navegacion = ({ pantalla }) => {
 
-    // Clases variables según pantalla
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+
     const clases = {
         pantalla: pantalla === 'pantallaChica' ? 'pChica' : '',
         div: pantalla === 'pantallaChica' ? 'dropdown' : '',
@@ -57,11 +85,9 @@ const Navegacion = ({ pantalla }) => {
     const [desplegadoMenuGrande, setDesplegadoMenuGrande] = useState(null);
     const [desplegadoMenuChico, setDesplegadoMenuChico] = useState(false);
     
-    // Referencias
     const ulRef = useRef(null);
     const contenidoBtnRef = useRef(null);
 
-    // Elementos que no van a hacer que se cierre el menú desplegable al hacer click en ellos
     const noCerrarRef = useRef({});
 
     const asignarRef = (referencia) => (a) => {
@@ -106,7 +132,6 @@ const Navegacion = ({ pantalla }) => {
         return () => document.removeEventListener("click", cerrarMenu);
     }, [desplegadoMenuChico, setDesplegadoMenuChico]);
 
-    // Componente de navegación
     return (
         <nav>
             <div className={`${clases.div}`}>
@@ -142,16 +167,33 @@ const Navegacion = ({ pantalla }) => {
                         className='division d-block d-md-none'
                         ref={asignarRef('division')}
                     />
-                    <ItemDesplegable
-                        titulo={"Productos"}
-                        listaVinculos={dataProductos}
-                        pantalla={pantalla}
-                        desplegado={desplegadoMenuGrande}
-                        setDesplegado={setDesplegadoMenuGrande}
-                    />
-                    {fijos.map((vinculo) => (
-                        <li key={vinculo.linkTo} className={`${clases.li}`}><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
-                    ))}
+                    {usuario && usuario.rol === 'administrador' ?
+                        <>
+                            <ItemDesplegable
+                                titulo={"Productos"}
+                                listaVinculos={dataProductosAdmin}
+                                pantalla={pantalla}
+                                desplegado={desplegadoMenuGrande}
+                                setDesplegado={setDesplegadoMenuGrande}
+                                />
+                            {fijosAdmin.map((vinculo) => (
+                                <li key={vinculo.linkTo} className={`${clases.li}`}><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
+                            ))}
+                        </> :
+                        <>
+                            <ItemDesplegable
+                                titulo={"Productos"}
+                                listaVinculos={dataProductos}
+                                pantalla={pantalla}
+                                desplegado={desplegadoMenuGrande}
+                                setDesplegado={setDesplegadoMenuGrande}
+                            />
+                            {fijos.map((vinculo) => (
+                                <li key={vinculo.linkTo} className={`${clases.li}`}><Link to={vinculo.linkTo} className="links">{vinculo.texto}</Link></li>
+                            ))}
+                        </>
+                    }
+                    
                 </ul>
             </div>
         </nav>

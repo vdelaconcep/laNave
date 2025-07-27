@@ -29,11 +29,16 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('usuario', JSON.stringify(usuario));
         setToken(token);
         setUsuario(usuario);
-        if (usuario.rol === "administrador") return navigate('/admin');
+        const nombreUsuario = usuario?.nombreYApellido?.trim().split(" ")[0];
+        if (usuario.rol === "administrador") {
+            navigate('/productosAdmin');
+            return alert(`Bienvenid@ ${nombreUsuario}!
+            Se habilitó la configuración de administrador`);
+        }
         return navigate('/');
     };
 
-    // Para iniciar sesión con google
+    // Iniciar sesión con google
     // (Para entrar como admin si o si se debe ingresar con contraseña)
     const loginGoogle = async () => {
         try {
