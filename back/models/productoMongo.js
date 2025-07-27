@@ -5,6 +5,10 @@ const productoSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    fechaYHoraModificacion: {
+        type: Date,
+        required: false
+    },
     uuid: {
         type: String,
         required: true

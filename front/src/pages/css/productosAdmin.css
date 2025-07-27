@@ -1,0 +1,45 @@
+.productosAdmin-section {
+    max-width: 700px;
+}
+.productosAdmin-listaItem {
+    background-color: black;
+    cursor: pointer;
+    border-bottom: 1px solid #bebebe;
+}
+
+.productosAdmin-listaItem:first-of-type {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.productosAdmin-listaItem:last-of-type {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom: 0;
+}
+
+.productosAdmin-listaItem-foto {
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+}
+
+.productosAdmin-listaItem p {
+    margin: 0;
+}
+
+.productosAdmin-listaItem h6 {
+    font-size: 1rem;
+}
+
+.productosAdmin-listaItem-precioDiv {
+    width: 125px;
+}
+
+.productosAdmin-vacioLink {
+    color: white;
+}
+
+.productosAdmin-vacioLink:hover {
+    text-shadow: 1px 1px #fdc539;
+}
