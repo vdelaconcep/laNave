@@ -1,11 +1,12 @@
-import { useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import contactoImagen from '@/assets/img/contacto.jpg';
 import BotonPrimario from '@/components/botones/botonPrimario';
 import BotonSecundario from '@/components/botones/botonSecundario';
 import useFormulario from '@/hooks/useFormulario';
+import axios from 'axios';
 import '@/pages/css/pages.css'
-import '@/pages/css/contacto.css'
+import '@/pages/css/formularios.css'
 
 const Contacto = () => {
     const { setBackground } = useContext(BackgroundContext);
@@ -15,22 +16,49 @@ const Contacto = () => {
         return () => setBackground('');
     }, []);
 
-    const mostrarDatosEnviados = (datos) => {
-        alert(JSON.stringify(datos));
+    // Gestión de datos del formulario
+
+    // Valores iniciales
+    const estadoInicial = {
+        nombre: '',
+        email: '',
+        asunto: '',
+        mensaje: ''
     };
 
-    const { inputs, gestionIngreso, gestionEnvio } = useFormulario(mostrarDatosEnviados);
+    const [cargando, setCargando] = useState(false);
+
+    const enviarDatos = async (datos) => {
+
+        // Envío de datos al backend
+        try {
+            setCargando(true);
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/mensajes/mensajeNuevo`, datos);
+
+            if (res.status !== 200) return alert(`Error al enviar tu mensaje: ${res.statusText}`);
+
+            setInputs(estadoInicial);
+            
+            return alert('Se envió tu mensaje. Te responderemos a la brevedad');
+        } catch (err) {
+            return alert(`Error al enviar tu mensaje: ${err.response.data ? err.response.data.error : err}`);
+        } finally {
+            setCargando(false);
+        };
+    };
+
+    const { inputs, setInputs, gestionIngreso, gestionEnvio } = useFormulario(enviarDatos);
 
     return (
         <main>
             <h1 className="pagina-titulo text-white text-center">Dejanos tu mensaje</h1>
-            <div className='contacto-div aparecer row mt-4 mb-5'>
-                <div className='col-6 p-0 d-none d-md-block'>
-                    <img className='contacto-foto' src={contactoImagen} alt="Charly hablando por teléfono" />
-                </div>
-                
-                <form onSubmit={gestionEnvio} className="text-white col-md-6">
-                    <div className="contacto-formDiv container d-flex flex-column rounded-3 p-3 pb-5 p-md-2 pb-md-4">
+            <form onSubmit={gestionEnvio} className='contacto-form d-flex flex-column align-items-center'>
+                <div className='contacto-div aparecer row mt-4 mb-3'>
+                    <aside className='col-6 p-0 d-none d-md-block'>
+                        <img className='contacto-foto' src={contactoImagen} alt="Charly hablando por teléfono" />
+                    </aside>
+                    
+                    <div className="contacto-formDiv container d-flex flex-column rounded-3 p-3 pb-4 p-md-3 pt-md-2 pb-md-2 col-md-6">
                         <label htmlFor="nombre" className="contacto-label form-label ps-2 mt-md-1 mb-0">Nombre:</label>
                         <input 
                             className="contacto-input form-control bg-secondary-subtle"
@@ -38,6 +66,7 @@ const Contacto = () => {
                             name="nombre"
                             value={inputs.nombre}
                             onChange={gestionIngreso}
+                            autoFocus
                             required/>
 
                         <label htmlFor="email" className="contacto-label form-label ps-2 mt-2 mb-0">E-mail:</label>
@@ -67,12 +96,12 @@ const Contacto = () => {
                             onChange={gestionIngreso}
                             required></textarea>
                     </div>
-                    <div className="text-center mt-5 m-md-1 mb-2">
-                        <BotonPrimario tipo='submit' texto={<><span>Enviar </span><i className="fa-solid fa-paper-plane"></i></>} claseAdicional='me-2' />
-                        <BotonSecundario tipo='reset' texto={<><span>Cancelar </span><i className="fa-solid fa-xmark"></i></>} claseAdicional='ms-2' />
-                    </div>
-                </form>
-            </div>
+                </div>
+                <article className="text-center mt-3 mb-5">
+                    <BotonPrimario tipo='submit' texto={cargando ? <><span>Enviando </span><i className="fa-solid fa-spinner fa-spin"></i></> : <><span>Enviar </span><i className="fa-solid fa-paper-plane"></i></>} claseAdicional='me-2' />
+                    <BotonSecundario tipo='reset' texto={<><span>Cancelar </span><i className="fa-solid fa-xmark"></i></>} claseAdicional='ms-2' />
+                </article>
+            </form>
         </main>
     );
 };

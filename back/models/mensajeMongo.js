@@ -1,10 +1,13 @@
 import mongoose from 'mongoose';
 
-// Creación de esquema de contacto
 const mensajeSchema = new mongoose.Schema({
     fechaYHora: {
         type: Date,
         default: Date.now
+    },
+    uuid: {
+        type: String,
+        required: true
     },
     nombre: {
         type: String,
@@ -24,7 +27,6 @@ const mensajeSchema = new mongoose.Schema({
     }
 });
 
-// Exportación del modelo "Mensaje"
 const Mensaje = mongoose.model('Mensaje', mensajeSchema);
 
 export default Mensaje;

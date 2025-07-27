@@ -11,10 +11,6 @@
     border: none;
 }
 
-.busqueda-input:hover {
-    background-color: #bebebe;
-}
-
 @media (max-width: 768px) {
     .busqueda-form {
         width: 100%;

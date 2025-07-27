@@ -26,7 +26,7 @@ const Tarjeta = (props) => {
                 </div>
                 <h5 className='tarjeta-titulo hstack align-items-center p-2 m-0'>{titulo}</h5>
                 <div className='tarjeta-parteInferiorDiv'>
-                    <div className='tarjeta-precioDiv hstack justify-content-around align-items-center'>
+                    <div className='tarjeta-precioDiv d-flex justify-content-around align-items-center'>
                         {props.descuento === 0 ?
                             <p className='tarjeta-precio text-info m-0 fs-4 fw-bold'>ARS {props.precio}</p> :
                             <div>
@@ -48,7 +48,7 @@ const Tarjeta = (props) => {
                             </article>
                         }
                     </div>
-                    <div className='hstack justify-content-center'>
+                    <div>
                         <button className='tarjeta-boton btn w-100 d-flex align-items-center justify-content-center'>
                             <i className="fa-solid fa-plus me-2"></i> Agregar al carrito
                         </button>

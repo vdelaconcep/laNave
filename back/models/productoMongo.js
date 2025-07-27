@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-// Creación de esquema de contacto
 const productoSchema = new mongoose.Schema({
     fechaYHoraAlta: {
         type: Date,
@@ -41,7 +40,6 @@ const productoSchema = new mongoose.Schema({
     }
 });
 
-// Exportación del modelo "Producto"
 const Producto = mongoose.model('Producto', productoSchema);
 
 export default Producto;

@@ -19,7 +19,6 @@ export const Productos = ({filtrarPor, filtro}) => {
     const navigate = useNavigate();
 
     const obtenerProductos = async () => {
-        setCargando(true);
         
         let filtroAplicado;
         if (filtrarPor === 'banda' && filtro === 'busqueda') {
@@ -30,12 +29,13 @@ export const Productos = ({filtrarPor, filtro}) => {
         }
 
         try {
+            setCargando(true);
             const res = await axios.get(`${import.meta.env.VITE_API_URL}/productos?${filtrarPor}=${filtroAplicado}`);
 
             if (res.status !== 200) return alert(`Error al obtener productos: ${res.statusText}`);
             return setDatos(res.data);
         } catch (err) {
-            alert(`Error al obtener productos: ${err.response.data.error || err.message}`);
+            alert(`Error al obtener productos: ${err.response.data ? err.response.data.error : err}`);
             return setDatos([]);
         } finally {
             setCargando(false);
@@ -51,7 +51,7 @@ export const Productos = ({filtrarPor, filtro}) => {
     }, [filtro, searchParams]);
 
     const filtroMayuscula = (filtrarPor === 'banda' && filtro === 'busqueda')
-        ? (`Resultados para ${searchParams.get('banda')}` || 'Resultados')
+        ? (`Resultados para "${searchParams.get('banda')}"` || 'Resultados')
         : filtro[0].toUpperCase() + filtro.slice(1);
 
     return (
@@ -59,17 +59,17 @@ export const Productos = ({filtrarPor, filtro}) => {
             <h1 className="pagina-titulo text-white text-center">{filtroMayuscula}</h1>
 
             {cargando &&
-                <h2 className='text-white'><i className="fa-solid fa-spinner fa-spin"></i></h2>
+                <h2 className='pagina-cargando text-white m-5'><i className="fa-solid fa-spinner fa-spin"></i></h2>
             }
 
             {!cargando && datos.length === 0 &&
-                <>
-                <p>No se encontraron ítems</p>
-                <BotonSecundario
-                    tipo='button'
-                    texto={<><i className="fa-solid fa-arrow-left"></i><span> Volver</span></>}
-                    accion={() => navigate('/')} />
-                </>
+                <article className='mt-5 d-flex flex-column align-items-center'>
+                    <h5 className='text-white mb-5'>No se encontraron ítems</h5>
+                    <BotonSecundario
+                        tipo='button'
+                        texto={<><i className="fa-solid fa-arrow-left"></i><span> Volver</span></>}
+                        accion={() => navigate('/')} />
+                </article>
             }
             <section className={`${aparecer ? 'aparecer' : ''} d-flex flex-wrap justify-content-center pt-0 pt-sm-2 pb-5`}>
                 {datos.map((producto) => (

@@ -66,13 +66,13 @@ const Header = () => {
                             }} />
                     </article>
                 </div>
-                <div className="pe-2">
+                <div className="pe-3">
                     <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={3} />
                 </div>
             </section>
             <section className="d-sm-none">
                 <Link to="/" className='links'><img className="w-100" src={banner} alt="banner" /></Link>
-                <p className="text-end pe-3"><b>REMERAS - BUZOS - MOCHILAS - Y MÁS</b></p>
+                <p className="header-leyenda text-end pe-3"><b>REMERAS - BUZOS - MOCHILAS - Y MÁS</b></p>
             </section>
         </header>
     )

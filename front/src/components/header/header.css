@@ -23,3 +23,7 @@
 .botonCerrarSesion.visible {
     display: block;
 }
+
+.header-leyenda {
+    font-size: 0.8rem;
+}

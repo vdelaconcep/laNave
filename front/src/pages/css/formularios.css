@@ -1,0 +1,85 @@
+/* Formularios con imagen lateral */
+
+.contacto-div, .registro-div, .login-div {
+    width: 90%;
+    max-width: 700px;
+    min-width: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: black;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+}
+
+@media (max-width: 768px) {
+    .contacto-div, .registro-div, .login-div {
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+.contacto-foto, .registro-foto, .login-foto {
+    width: 100%;
+}
+
+.login-foto {
+    aspect-ratio: 442/430;
+}
+
+.contacto-formDiv, .registro-formDiv, .login-formDiv {
+    background-color: black;
+}
+
+.contacto-input, .registro-input, .login-input {
+    height: 32px;
+}
+
+.contacto-textarea,
+.contacto-input, .registro-input, .login-input {
+    background-color: #474747 !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 2px;
+}
+
+.contacto-label, .registro-label, .login-label,
+.contacto-textarea::placeholder {
+    color: #bebebe !important;
+}
+
+.contacto-textarea:focus,
+.contacto-input:focus,
+.registro-input:focus,
+.login-input:focus {
+    background-color: white !important;
+    color: black !important;
+}
+
+.contacto-textarea {
+    resize: none;
+}
+
+@media (max-width: 768px) {
+    .contacto-div, .registro-div, .login-div {
+        overflow: visible;
+    }
+
+    .contacto-form, .registro-form, .login-form {
+        width: 100%;
+    }
+
+    .contacto-formDiv, .registro-formDiv, .login-formDiv {
+        box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+    }
+}
+
+.login-registrateLink {
+    color: white;
+}
+
+.login-registrateLink:hover {
+    text-shadow: 1px 1px #FEC224;
+}
+
+.passwordDiv {
+    position: relative;
+}

@@ -28,10 +28,6 @@
     background: linear-gradient(to top, #794fa0, #0C0C68);
 }
 
-.bg-registro {
-    background: linear-gradient(to top, #EF6B97, #F16474);
-}
-
 .bg-nosotros {
     background: linear-gradient(to bottom, #1899D2, #c1cfd4, #1899D2);
 }
@@ -61,6 +57,10 @@ main {
 
 .pagina-titulo {
     text-shadow: rgba(0, 0, 0, 0.5) 1.95px 1.95px 2.6px;
+}
+
+.pagina-cargando {
+    font-size: 4rem;
 }
 
 @keyframes aparecer {

@@ -2,11 +2,9 @@ import Producto from '../models/productoMongo.js';
 import sharp from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
 
-// Importar configuración de dotenv
 import dotenv from 'dotenv';
 dotenv.config();
 
-// Importar la configuración de Cloudinary
 import { v2 as cloudinary } from 'cloudinary'
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -16,7 +14,6 @@ cloudinary.config({
 
 // Ingresar nuevo producto en la base de datos
 const altaProducto = async (req, res) => {
-    console.log(req.body);
 
     // Si se envió una imagen del producto:
     let imagen = req.file || "";
@@ -71,7 +68,6 @@ const altaProducto = async (req, res) => {
         return res.status(500).json({ error: `Error al recuperar productos de la base de datos: ${err.message}` });
     }
 
-    // Generar uuid
     const uuid = uuidv4();
 
     // Parsear valores recibidos como string

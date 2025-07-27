@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-// Creación de esquema de Usuarios
 const usuarioSchema = new mongoose.Schema({
     fechaYHoraRegistro: {
         type: Date,
@@ -42,7 +41,6 @@ const usuarioSchema = new mongoose.Schema({
     }
 });
 
-// Exportación del modelo "Usuario"
 const Usuario = mongoose.model('Usuario', usuarioSchema);
 
 export default Usuario;

@@ -4,8 +4,7 @@ import useFormulario from '@/hooks/useFormulario';
 import '@/components/busqueda/busqueda.css'
 
 const Busqueda = () => {
-
-    // Para redirigir después de registrarse
+    
     const navigate = useNavigate();
 
     // Gestión de envío del formulario

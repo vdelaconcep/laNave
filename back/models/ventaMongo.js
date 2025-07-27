@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
 
-// Creación de esquema de venta
 const ventaSchema = new mongoose.Schema({
     fecha: {
-        type: String,
-        required: true
+        type: Date,
+        default: Date.now
     },
     usuario: {
         type: String,
@@ -16,7 +15,6 @@ const ventaSchema = new mongoose.Schema({
     }
 });
 
-// Exportación del modelo "Venta"
 const Venta = mongoose.model('Venta', ventaSchema);
 
 export default Venta;

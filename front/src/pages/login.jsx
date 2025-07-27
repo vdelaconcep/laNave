@@ -4,7 +4,7 @@ import { BackgroundContext } from '@/context/backgroundContext';
 import { useAuth } from '@/context/authContext';
 import axios from 'axios';
 import loginImg from '@/assets/img/login.jpg';
-import '@/pages/css/login.css';
+import '@/pages/css/formularios.css';
 import BotonPrimario from '@/components/botones/botonPrimario';
 import BotonSecundario from '@/components/botones/botonSecundario';
 import BotonPassword from '@/components/botones/botonPassword';
@@ -51,13 +51,13 @@ const Login = () => {
         <main>
             <h1 className="pagina-titulo text-white text-center">Iniciá sesión</h1>
             <section className='login-section aparecer mt-4'>
-                <div className='login-div row mb-4'>
-                    <aside className='login-fotoAside col-6 p-0 d-none d-md-block'>
-                        <img className='w-100' src={loginImg} alt="Viudas e Hijas de Roque Enroll" />
-                    </aside>
-                    <div className="col-md-6">
-
-                        <form onSubmit={gestionEnvio} className='container mt-3'>
+                <form onSubmit={gestionEnvio} className='login-form d-flex flex-column align-items-center'>
+                    <div className='login-div row mt-4 mb-3'>
+                        <aside className='col-6 p-0 d-none d-md-block'>
+                            <img className='login-foto' src={loginImg} alt="Viudas e Hijas de Roque Enroll" />
+                        </aside>
+                    
+                        <div className="login-formDiv container d-flex flex-column rounded-3 p-3 pb-4 p-md-3 pt-md-2 pb-md-0 col-md-6">
                             <label htmlFor="email" className="login-label form-label ps-2 mt-0 mb-0">
                                 E-mail:
                             </label>
@@ -69,7 +69,7 @@ const Login = () => {
                                 onChange={gestionIngreso}
                                 autoFocus
                                 required/>
-                            <div className='inputPassword-div'>
+                            <div className='passwordDiv'>
                                 <label htmlFor="password" className="login-label form-label ps-2 mt-2 mb-0">Contraseña:</label>
                                 <input
                                     className="login-input form-control"
@@ -80,24 +80,25 @@ const Login = () => {
                                     required />
                                 <BotonPassword mostrar={mostrarPassword} setMostrar={setMostrarPassword} />
                             </div>
-                            <article className="text-center m-4">
+                            <article className="text-center m-2 mt-3">
                                 <BotonPrimario tipo='submit' texto={<><span>Acceder </span><i className="fa-solid fa-right-to-bracket"></i></>}/>
                             </article>
-                        </form>
+                        
 
-                        <hr className='text-white' />
+                            <hr className='text-white' />
 
-                        <article className="text-center container mt-4 mb-4">
-                            <BotonSecundario
-                                tipo='button'
-                                texto={<><span>Acceder con Google </span><i className="fa-brands fa-google"></i></>}
-                                claseAdicional='w-100'
-                                accion={loginGoogle} />
-                        </article>
+                            <article className="text-center container mt-2 mb-2 mb-md-3">
+                                <BotonSecundario
+                                    tipo='button'
+                                    texto={<><span>Acceder con Google </span><i className="fa-brands fa-google"></i></>}
+                                    claseAdicional='w-100'
+                                    accion={loginGoogle} />
+                            </article>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <h6 className='text-center text-white mb-5'>
-                    ¿No tenés cuenta? <Link to='/registro' className='registrate-Link'>Registrate</Link>
+                    ¿No tenés cuenta? <Link to='/registro' className='login-registrateLink'>Registrate</Link>
                 </h6>
             </section>
         </main>
