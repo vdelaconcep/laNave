@@ -102,7 +102,7 @@ const ProductosAdmin = () => {
                                         <img className='productosAdmin-listaItem-foto' src={producto.imagen ? producto.imagen : sinImagen} alt={producto.imagen ? `Imagen de producto ${producto.uuid}` : 'Imagen no disponible'} />
                                     </div>
                                     <div className='productosAdmin-listaItem-precioDiv p-3 d-flex flex-column align-items-end'>
-                                        <h6 className='text-end mb-2 fw-bold text-warning'>{(!producto.descuento || producto.descuento === 0) ? <span>{`ARS ${producto.precio}`}</span> : <span>{`ARS ${producto.precio * 0.1 * (100 - producto.descuento)}`}</span>}</h6>
+                                        <h6 className='text-end mb-2 fw-bold text-warning'>{(!producto.descuento || producto.descuento === 0) ? <span>{`ARS ${producto.precio}`}</span> : <span>{`ARS ${producto.precio * 0.01 * (100 - producto.descuento)}`}</span>}</h6>
                                         {(producto.descuento && producto.descuento !== 0) ?
                                             <p className='text-end'>{`(anterior: ARS ${producto.precio})`}</p> : ''
                                         }
