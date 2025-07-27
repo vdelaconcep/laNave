@@ -74,9 +74,9 @@ const ProductosAdmin = () => {
                     }
 
                     {!cargando && datos.length === 0 &&
-                        <article className='mt-5 d-flex flex-column align-items-center'>
+                        <article className='mt-5 d-flex flex-column align-items-center text-white'>
                             <h5 className='text-white mb-5'>Aún no hay ítems en la base de datos</h5>
-                            <h5 className='text-center'>Podés empezar a cargar productos <Link to='/productos' className='productosAdmin-vacioLink'>acá</Link>!</h5>
+                            <h5 className='text-center'>¡Podés empezar a cargar productos <Link to='/productos' className='productosAdmin-vacioLink'>acá</Link>!</h5>
                         </article>
                     }
 
