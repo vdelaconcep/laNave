@@ -69,6 +69,21 @@
     box-shadow: none;
 }
 
+/* Botón secundario para eliminar */
+.botonSecundario-btn.eliminar {
+    color: #DC3545 !important;
+    border-color: #DC3545 !important;
+    background-color: black !important;
+}
+
+.botonSecundario-btn.eliminar:hover,
+.botonSecundario-btn.eliminar:focus {
+    background-color: #DC3545 !important;
+    color: white !important;
+    border-color: white !important;
+    box-shadow: none;
+}
+
 
 /* Mostrar/ocultar contraseña */
 .botonPassword {

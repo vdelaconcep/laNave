@@ -3,7 +3,6 @@
 }
 .productosAdmin-listaItem {
     background-color: black;
-    cursor: pointer;
     border-bottom: 1px solid #bebebe;
 }
 
@@ -34,6 +33,14 @@
 
 .productosAdmin-listaItem-precioDiv {
     width: 125px;
+}
+
+.productosAdmin-listaItem-botonEditar, .productosAdmin-listaItem-botonEditar:hover, .productosAdmin-listaItem-botonEditar:active {
+    border: none !important;
+}
+
+.productosAdmin-listaItem-botonEditar:hover {
+    color: white !important;
 }
 
 .productosAdmin-vacioLink {

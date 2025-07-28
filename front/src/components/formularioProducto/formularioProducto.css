@@ -1,37 +1,46 @@
-.alta-div {
+.formProducto-div {
     background-color: #000000;
     max-width: 600px;
     border-radius: 12px;
 }
 
-.alta-input {
+.formProducto-input {
     height: 32px;
     border-radius: 4px !important;
     border: none !important;
     background-color: rgb(231, 229, 229);
 }
 
-.alta-input:disabled {
+.formProducto-input:disabled {
     background-color: #474747;
 }
 
-.alta-article.stock, .alta-article.precio {
+.formProducto-article.stock,
+.formProducto-article.precio {
     display: grid;
     grid-template-columns: 65% 35%;
 }
 
 @media (max-width: 576px) {
-    .alta-article.stock, .alta-article.precio {
+
+    .formProducto-article.stock,
+    .formProducto-article.precio {
         grid-template-columns: 55% 45%;
     }
 }
 
 @keyframes desplegar {
-    from {transform: scaleY(0)}
-    to {transform: scaleY(1)}
+    from {
+        transform: scaleY(0)
+    }
+
+    to {
+        transform: scaleY(1)
+    }
 }
 
-.alta-article.stockConTalles, .alta-article.descuento {
+.formProducto-article.stockConTalles,
+.formProducto-article.descuento {
     transform-origin: top;
     animation: desplegar 300ms ease-in-out forwards;
     color: black;
@@ -39,8 +48,8 @@
     display: grid;
 }
 
-.alta-article.stockConTalles {
-    grid-template-columns: 33.33% 33.33% 33.33% ;
+.formProducto-article.stockConTalles {
+    grid-template-columns: 33.33% 33.33% 33.33%;
     grid-template-rows: 50% 50%;
     justify-items: end;
     align-content: center;
@@ -52,12 +61,13 @@
     }
 }
 
-.alta-input.talle, .alta-input.descuento {
+.formProducto-input.talle,
+.formProducto-input.descuento {
     width: 60px;
     border: 1px solid black !important;
 }
 
-.alta-textoP {
+.formProducto-textoP {
     font-size: 0.8em;
     color: #8EDCC0;
 }

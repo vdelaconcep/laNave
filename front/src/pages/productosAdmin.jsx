@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import { Link } from 'react-router-dom';
+import FormularioProducto from '@/components/formularioProducto/formularioProducto';
 import axios from 'axios';
 import sinImagen from '@/assets/img/tarjeta-alternativa.jpg';
 import '@/pages/css/productosAdmin.css';
@@ -18,6 +19,7 @@ const ProductosAdmin = () => {
 
     const [datos, setDatos] = useState([]);
     const [cargando, setCargando] = useState(false);
+    const [productoAEditar, setProductoAEditar] = useState(null);
 
     const obtenerProductos = async () => {
 
@@ -82,33 +84,50 @@ const ProductosAdmin = () => {
 
                     <section className={`${aparecer ? 'aparecer' : ''} productosAdmin-section text-white mt-4 mb-5`}>
                         {datos.map((producto) => (
-                            <article
-                                className='productosAdmin-listaItem d-flex flex-column flex-sm-row justify-content-sm-between'
-                                key={producto.uuid}>
-                                <div className='d-flex'>
-                                    <div className='p-3 d-none d-sm-block d-flex align-items-center'>
-                                        <img className='productosAdmin-listaItem-foto' src={producto.imagen ? producto.imagen : sinImagen} alt={producto.imagen ? `Imagen de producto ${producto.uuid}` : 'Imagen no disponible'} />
-                                    </div>
-                                
-                                    <div className='p-3'>
-                                        <h6 className='mb-2 fw-bold text-decoration-underline'>{`${(producto.tipo[0].toUpperCase()) + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}`}</h6>
-                                        <p>{`Ingreso: ${formatearFechaYHora(producto.fechaYHoraAlta)}`}</p>
-                                        <p>Modificado: {producto.fechaYHoraModificacion ? <span>{formatearFechaYHora(producto.fechaYHoraModificacion)}</span> : <span>No</span>}</p>
-                                        <p>{`Stock: ${formatearStock(producto.stock)}`}</p>
+                            <>
+                                <article
+                                    className='productosAdmin-listaItem d-flex flex-column flex-sm-row justify-content-sm-between'
+                                    key={producto.uuid}>
+                                    <div className='d-flex'>
+                                        <div className='p-3 d-none d-sm-flex align-items-center'>
+                                            <img className='productosAdmin-listaItem-foto' src={producto.imagen ? producto.imagen : sinImagen} alt={producto.imagen ? `Imagen de producto ${producto.uuid}` : 'Imagen no disponible'} />
+                                        </div>
+                                    
+                                        <div className='p-3'>
+                                            <h6 className='mb-2 fw-bold text-decoration-underline'>{`${(producto.tipo[0].toUpperCase()) + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}`}</h6>
+                                            <p className='text-secondary'>{(`(id: ${producto.uuid})`)}</p>
+                                            <p>{`Ingreso: ${formatearFechaYHora(producto.fechaYHoraAlta)}`}</p>
+                                            <p>Modificado: {producto.fechaYHoraModificacion ? <span>{formatearFechaYHora(producto.fechaYHoraModificacion)}</span> : <span>No</span>}</p>
+                                            <p>{`Stock: ${formatearStock(producto.stock)}`}</p>
+                                            </div>
+                                        </div>
+                                    <div className='d-flex justify-content-between'>
+                                        <div className='p-3 d-block d-sm-none d-flex align-items-start'>
+                                            <img className='productosAdmin-listaItem-foto' src={producto.imagen ? producto.imagen : sinImagen} alt={producto.imagen ? `Imagen de producto ${producto.uuid}` : 'Imagen no disponible'} />
+                                        </div>
+                                        <div className='productosAdmin-listaItem-precioDiv p-3 d-flex flex-column align-items-end justify-content-between'>
+                                            <h6 className='text-end mb-2 fw-bold text-warning'>{(!producto.descuento || producto.descuento === 0) ? <span>{`ARS ${producto.precio}`}</span> : <span>{`ARS ${producto.precio * 0.01 * (100 - producto.descuento)}`}</span>}</h6>
+                                            {(producto.descuento && producto.descuento !== 0) ?
+                                                <p className='text-end'>{`(anterior: ARS ${producto.precio})`}</p> : ''
+                                            }
+                                            <button
+                                                className='productosAdmin-listaItem-botonEditar btn text-secondary p-0'
+                                                onClick={() => setProductoAEditar(producto)}>
+                                                Editar <i className="fa-solid fa-pencil"></i>
+                                            </button>
                                         </div>
                                     </div>
-                                <div className='d-flex justify-content-between'>
-                                    <div className='p-3 d-block d-sm-none d-flex align-items-start'>
-                                        <img className='productosAdmin-listaItem-foto' src={producto.imagen ? producto.imagen : sinImagen} alt={producto.imagen ? `Imagen de producto ${producto.uuid}` : 'Imagen no disponible'} />
+                                </article>
+                                {productoAEditar === producto &&
+                                    <div className='productosAdmin-editarOverlay'
+                                        key={`editar-${producto.uuid}`}>
+                                        <article className='productosAdmin-editarArticle'>
+                                            <FormularioProducto producto={productoAEditar} accion='actualizacion' setProductoAEditar={setProductoAEditar} />
+                                        </article>
                                     </div>
-                                    <div className='productosAdmin-listaItem-precioDiv p-3 d-flex flex-column align-items-end'>
-                                        <h6 className='text-end mb-2 fw-bold text-warning'>{(!producto.descuento || producto.descuento === 0) ? <span>{`ARS ${producto.precio}`}</span> : <span>{`ARS ${producto.precio * 0.01 * (100 - producto.descuento)}`}</span>}</h6>
-                                        {(producto.descuento && producto.descuento !== 0) ?
-                                            <p className='text-end'>{`(anterior: ARS ${producto.precio})`}</p> : ''
-                                        }
-                                    </div>
-                                </div>
-                            </article>))}
+                                }
+                                    
+                            </>))}
                         
                     </section>
                 </>}
