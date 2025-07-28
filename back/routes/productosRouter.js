@@ -1,7 +1,8 @@
 import express from 'express';
 import {
     altaProducto,
-    obtenerProductos
+    obtenerProductos,
+    actualizacionProducto
 } from '../controller/productosController.js';
 
 import { reglasValidacionAlta } from '../helpers/altaValidatorHelper.js';
@@ -23,5 +24,8 @@ router.post('/alta', upload.single('image'), reglasValidacionAlta, validar, ruta
 
 // Obtener productos
 router.get('/', obtenerProductos);
+
+// Modificar productos
+router.put('/actualizar/:id', upload.single('image'), rutaAdmin, actualizacionProducto);
 
 export default router;

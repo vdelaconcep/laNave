@@ -148,6 +148,8 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar }) => {
                 setInputs(estadoInicial);
                 inputFileRef.current.value = '';
             }
+            
+            if (accion === 'actualizacion') setProductoAEditar(null)
 
             return alert(`El producto "${(tipoAEnviar[0].toUpperCase() + tipoAEnviar.slice(1))} ${datos.banda}" ${accion === 'alta' ? 'se ha ingresado' : 'ha sido actualizado'} con éxito`);
         } catch (err) {
@@ -183,7 +185,7 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar }) => {
             if (res.status !== 200 && res.status !== 204) return alert(`Error al eliminar el producto: ${res.statusText}`);
 
             alert(`El producto "${producto.tipo[0].toUpperCase() + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}" ha sido eliminado`);
-            return setEdicion(false);
+            return setProductoAEditar(null);
         } catch (err) {
             return alert(`Error al eliminar el producto: ${err.response.data ? err.response.data.error : err}`);
         } finally {

@@ -145,7 +145,115 @@ const obtenerProductos = async (req, res) => {
     };
 };
 
+// Modificar producto en la base de datos
+const actualizacionProducto = async (req, res) => {
+
+    // Encontrar producto a actualizar
+    let productoAActualizar;
+    try {
+        const producto = await Producto.findOne({ uuid: req.params.id });
+        if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
+        productoAActualizar = producto;
+    } catch (err) {
+        res.status(500).json({ error: `Error al obtener producto de la base de datos: ${err.message}` });
+    };
+
+    // Si se envió una nueva imagen del producto:
+    let imagen = "";
+
+    if (req.file) {
+
+        // Verificar proporción de imagen
+        const metadata = await sharp(req.file.buffer).metadata();
+        const ratio = metadata.width / metadata.height;
+        const diferenciaRelativa = Math.abs(ratio - 1);
+
+        if (diferenciaRelativa > 0.2) {
+            return res.status(400).json({ error: "La relación de aspecto de la imagen debe ser cercana a 1:1 para evitar distorsiones" });
+        }
+
+        // Redimensionar imagen
+        const imagenRedimensionada = await sharp(req.file.buffer)
+            .resize(310, 300)
+            .jpeg({ quality: 100 })
+            .toBuffer();
+
+        // Subir imagen a Cloudinary
+        try {
+            const imagenBase64 = `data:image/jpeg;base64,${imagenRedimensionada.toString('base64')}`;
+
+            const result = await cloudinary.uploader.upload(imagenBase64, {
+                resource_type: "image"
+            });
+
+            imagen = result.secure_url;
+
+        } catch (err) {
+            return res.status(500).json({ error: `Error al subir imagen a Cloudinary: ${err.message}` });
+        }
+    }
+
+    // Chequear número del modelo
+    const banda = req.body.banda || productoAActualizar.banda
+    const tipo = req.body.tipo || productoAActualizar.tipo
+    const modeloActual = productoAActualizar.modelo;
+
+    let modelo
+
+    try {
+        const productos = await Producto.find({ tipo: tipo, banda: banda });
+        
+        const existeModelo = productos.some(
+            (p) => p.modelo === modeloActual && p.uuid !== productoAActualizar.uuid
+        );
+
+        if (existeModelo) {
+            const modelos = productos.map((p) => p.modelo);
+            const modeloNuevo = Math.max(...modelos) + 1;
+
+            modelo = modeloNuevo;
+        } else modelo = modeloActual;
+
+    } catch (err) {
+        return res.status(500).json({ error: `Error al recuperar productos de la base de datos: ${err.message}` });
+    }
+
+    // Parsear valores recibidos como string
+    let stockNumerico = {};
+    if (req.body.stock) {
+        const stock = typeof req.body.stock === 'string' ? JSON.parse(req.body.stock) : req.body.stock;
+        for (const [talle, cantidad] of Object.entries(stock)) {
+            stockNumerico[talle] = Number(cantidad);
+        };
+    } else stockNumerico = productoAActualizar.stock;
+    
+    const precio = req.body.precio ? Number(req.body.precio) : productoAActualizar.precio;
+    const descuento = req.body.descuento ? Number(req.body.descuento) : productoAActualizar.descuento;
+
+    // Actualizar la base de datos
+    const dataActualizada = {
+        tipo: tipo,
+        banda: banda,
+        modelo: modelo,
+        stock: stockNumerico,
+        precio: precio,
+        descuento: descuento,
+        fechaYHoraModificacion: new Date(),
+        ...(imagen ? { imagen: imagen } : {})
+    };
+
+    try {
+        productoAActualizar.set(dataActualizada);
+
+        const productoActualizado = await productoAActualizar.save();
+        res.status(200).send(productoActualizado);
+    } catch (err) {
+        res.status(500).json({ error: `El producto no pudo actualizarse: ${err.message}` });
+    }
+};
+
 export {
     altaProducto,
-    obtenerProductos
+    obtenerProductos,
+    actualizacionProducto
 };
