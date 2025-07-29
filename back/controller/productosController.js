@@ -95,9 +95,9 @@ const altaProducto = async (req, res) => {
     try {
         const producto = new Producto(productoNuevo);
         const productoGuardado = await producto.save();
-        res.status(200).send(productoGuardado);
+        return res.status(200).send(productoGuardado);
     } catch (err) {
-        res.status(500).json({ error: `El producto no pudo ingresarse en la base de datos: ${err.message}` });
+        return res.status(500).json({ error: `El producto no pudo ingresarse en la base de datos: ${err.message}` });
     }
 };
 
@@ -141,7 +141,7 @@ const obtenerProductos = async (req, res) => {
             return res.status(200).json(productosOrdenados);
         } else return res.status(404).json({error: 'Productos no encontrados'})
     } catch (err) {
-        res.status(500).json({ error: `Error al obtener productos de la base de datos: ${err.message}` });
+        return res.status(500).json({ error: `Error al obtener productos de la base de datos: ${err.message}` });
     };
 };
 
@@ -155,7 +155,7 @@ const actualizacionProducto = async (req, res) => {
         if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
         productoAActualizar = producto;
     } catch (err) {
-        res.status(500).json({ error: `Error al obtener producto de la base de datos: ${err.message}` });
+        return res.status(500).json({ error: `Error al obtener producto de la base de datos: ${err.message}` });
     };
 
     // Si se envió una nueva imagen del producto:
@@ -246,14 +246,28 @@ const actualizacionProducto = async (req, res) => {
         productoAActualizar.set(dataActualizada);
 
         const productoActualizado = await productoAActualizar.save();
-        res.status(200).send(productoActualizado);
+        return res.status(200).send(productoActualizado);
     } catch (err) {
-        res.status(500).json({ error: `El producto no pudo actualizarse: ${err.message}` });
+        return res.status(500).json({ error: `El producto no pudo actualizarse: ${err.message}` });
     }
 };
+
+const eliminacionProducto = async (req, res) => {
+    
+    try {
+        const eliminado = await Producto.findOneAndDelete({ uuid: req.params.id });
+
+        if (!eliminado) return res.status(404).json({ error: 'Producto no encontrado' });
+
+        return res.status(204).end();
+    } catch (err) {
+        return res.status(500).json({ error: `Error al eliminar el producto: ${err.message}` });
+    };
+}
 
 export {
     altaProducto,
     obtenerProductos,
-    actualizacionProducto
+    actualizacionProducto,
+    eliminacionProducto
 };

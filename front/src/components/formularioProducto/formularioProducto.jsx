@@ -5,7 +5,7 @@ import BotonPrimario from '@/components/botones/BotonPrimario';
 import BotonSecundario from '@/components/botones/BotonSecundario';
 import '@/components/formularioProducto/formularioProducto.css';
 
-const FormularioProducto = ({ producto, accion, setProductoAEditar }) => {
+const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProductos }) => {
 
     // Definición de tipos de producto y talles
     const tiposProducto = ['remera', 'buzo', 'mochila', 'varios']
@@ -149,7 +149,10 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar }) => {
                 inputFileRef.current.value = '';
             }
             
-            if (accion === 'actualizacion') setProductoAEditar(null)
+            if (accion === 'actualizacion') {
+                setProductoAEditar(null);
+                obtenerProductos();
+            }
 
             return alert(`El producto "${(tipoAEnviar[0].toUpperCase() + tipoAEnviar.slice(1))} ${datos.banda}" ${accion === 'alta' ? 'se ha ingresado' : 'ha sido actualizado'} con éxito`);
         } catch (err) {
@@ -185,14 +188,16 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar }) => {
             if (res.status !== 200 && res.status !== 204) return alert(`Error al eliminar el producto: ${res.statusText}`);
 
             alert(`El producto "${producto.tipo[0].toUpperCase() + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}" ha sido eliminado`);
-            return setProductoAEditar(null);
+            
+            setProductoAEditar(null); 
+            return obtenerProductos();
         } catch (err) {
             return alert(`Error al eliminar el producto: ${err.response.data ? err.response.data.error : err}`);
         } finally {
             setCargandoEliminacion(false);
-        };
+        }
 
-    }
+    };
 
     return (
         <form onSubmit={gestionEnvio} className='mt-4 mb-5'>
