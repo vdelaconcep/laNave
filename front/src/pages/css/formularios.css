@@ -1,8 +1,14 @@
 /* Formularios con imagen lateral */
 
-.contacto-div, .registro-div, .login-div {
-    width: 90%;
-    max-width: 700px;
+.contacto-div {
+    width: 608px;
+}
+
+.login-div {
+    width: 686px;
+}
+
+.contacto-div, .login-div {
     min-width: 300px;
     border-radius: 12px;
     overflow: hidden;
@@ -10,24 +16,44 @@
     box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
 }
 
+.registro-formDiv {
+    width: 400px;
+}
+
 @media (max-width: 768px) {
-    .contacto-div, .registro-div, .login-div {
+    .contacto-div, .login-div {
         background-color: transparent;
         box-shadow: none;
     }
+    .contacto-div, .login-div {
+        width: 70%;
+    }
 }
 
-.contacto-foto, .registro-foto, .login-foto {
-    width: 100%;
+@media (max-width: 576px) {
+    .contacto-div, .login-div {
+        width: 80%;
+    }
+    .registro-formDiv {
+        width: 300px;
+    }
 }
 
 .login-foto {
+    width: 343px;
     aspect-ratio: 442/430;
+}
+
+.contacto-foto {
+    width: 304px;
+    aspect-ratio: 736/778;
 }
 
 .contacto-formDiv, .registro-formDiv, .login-formDiv {
     background-color: black;
 }
+
+
 
 .contacto-input, .registro-input, .login-input {
     height: 32px;

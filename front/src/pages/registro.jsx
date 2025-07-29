@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackgroundContext } from '@/context/backgroundContext';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import '@/pages/css/formularios.css';
 import BotonPrimario from '@/components/botones/botonPrimario';
 import BotonSecundario from '@/components/botones/botonSecundario';
 import BotonPassword from '@/components/botones/botonPassword';
 import useFormulario from '@/hooks/useFormulario';
-import registroImagen from '@/assets/img/registro.jpg';
 
 const Registro = () => {
     // Fondo de pantalla de la sección
@@ -27,7 +27,7 @@ const Registro = () => {
     const enviarDatos = async (datos) => {
 
         // Validación de la contraseña
-        if (datos.password !== datos.passwordConfirm) return alert("Las contraseñas no coinciden");
+        if (datos.password !== datos.passwordConfirm) return toast.warning("Las contraseñas no coinciden");
 
         // (El resto de validaciones necesarias se realizan en el backend)
 
@@ -36,17 +36,22 @@ const Registro = () => {
             setCargando(true);
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/usuarios/registro`, datos);
 
-            if (res.status !== 200) return alert(`Error al registrar el usuario: ${res.statusText}`);
+            if (res.status !== 200) return toast.error(`Error al registrar el usuario: ${res.statusText}`);
 
             setInputs({});
-            alert('El usuario se registró con éxito');
+            toast.success('El usuario se registró con éxito');
             return navigate('/login');
         } catch (err) {
-            return alert(`Error al registrar el usuario: ${err.response.data ? err.response.data.error : err}`);
+            return toast.error(`Error al registrar el usuario: ${err.response.data ? err.response.data.error : err}`);
         } finally {
             setCargando(false);
         };
     };
+
+    const cancelarRegistro = () => {
+        setInputs({});
+        return navigate('/login');
+    }
 
     const { inputs, gestionIngreso, gestionEnvio, setInputs } = useFormulario(enviarDatos);
 
@@ -58,15 +63,11 @@ const Registro = () => {
         <main>
             <h1 className="pagina-titulo text-white text-center">Registrate</h1>
             <section className='aparecer text-white mt-4'>
-                <h5 className='text-center'>
+                <h6 className='text-center'>
                     Completá el formulario con tus datos
-                </h5>
+                </h6>
                 <form onSubmit={gestionEnvio} className='registro-form d-flex flex-column align-items-center'>
-                    <div className='registro-div aparecer row mt-4 mb-3'>
-                        <aside className='col-6 p-0 d-none d-md-block'>
-                            <img className='registro-foto' src={registroImagen} alt="Luca viajando en subte" />
-                        </aside>
-                        <div className='registro-formDiv container d-flex flex-column rounded-3 p-3 pb-4 p-md-3 pt-md-3 pb-md-2 col-md-6'>
+                        <div className='registro-formDiv container rounded-3 p-3 pb-4 mt-2 mb-3'>
                             <label htmlFor="nombreYApellido" className="registro-label form-label ps-2 mb-0">Nombre y Apellido:</label>
                             <input
                                 className="registro-input form-control"
@@ -137,10 +138,9 @@ const Registro = () => {
                                 <BotonPassword mostrar={mostrarPasswordConfirmacion} setMostrar={setMostrarPasswordConfirmacion} />
                             </div>
                         </div>
-                    </div>
                     <article className="text-center mt-3 mb-5">
-                        <BotonPrimario tipo='submit' texto={cargando ? <><span>Enviando </span><i className="fa-solid fa-spinner fa-spin"></i></> : <><span>Enviar </span><i className="fa-solid fa-check"></i></>} claseAdicional='me-2' />
-                        <BotonSecundario tipo='reset' texto={<><span>Cancelar </span><i className="fa-solid fa-xmark"></i></>} claseAdicional='ms-2' />
+                        <BotonSecundario tipo='button' texto={<><i className="fa-solid fa-xmark"></i><span> Cancelar</span></>} claseAdicional='me-2' accion={cancelarRegistro} />
+                        <BotonPrimario tipo='submit' texto={cargando ? <><i className="fa-solid fa-spinner fa-spin"></i><span> Enviando...</span></> : <><i className="fa-solid fa-check"></i><span> Enviar</span></>} claseAdicional='ms-2' />
                     </article>
                 </form>
             </section>

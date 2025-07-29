@@ -2,9 +2,10 @@ import Navegacion from '@/components/navegacion/navegacion';
 import Busqueda from '@/components/busqueda/busqueda';
 import BotonLink from '@/components/botones/botonLink';
 import BotonSecundario from '@/components/botones/botonSecundario';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { Link } from "react-router-dom";
 import { useAuth } from '@/context/authContext';
+import { CarritoContext } from '@/context/carritoContext';
 import logo from '@/assets/img/logo.jpg';
 import banner from '@/assets/img/banner2.png';
 import '@/components/header/header.css';
@@ -31,6 +32,19 @@ const Header = () => {
         document.addEventListener("click", ocultarBoton);
         return () => document.removeEventListener("click", ocultarBoton);
     }, [botonCerrarSesion, setBotonCerrarSesion]);
+
+    // Productos agregados al carrito
+
+    const { carrito, setCarrito } = useContext(CarritoContext);
+
+    const [numeroCarrito, setNumeroCarrito] = useState(0);
+
+    useEffect(() => {
+        const totalProductos = carrito.reduce((acc, producto) => acc + producto.cantidad, 0);
+
+        setNumeroCarrito(totalProductos);
+
+    }, [carrito]);
 
     return (
         <header>
@@ -71,7 +85,7 @@ const Header = () => {
                 <div className="pe-3">
                     {(usuario && usuario.rol && usuario.rol === 'administrador') ?
                         <BotonLink vinculo={"/mensajes"} texto={<><span className='d-none d-sm-inline'>Mensajes </span><span><i className="fa-solid fa-envelope"></i></span></>} numero={3} /> :
-                        <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={3} />}
+                        <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={numeroCarrito} />}
                 </div>
             </section>
             <section className="d-sm-none">

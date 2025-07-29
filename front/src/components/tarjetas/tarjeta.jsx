@@ -1,4 +1,7 @@
-import imagenNoDisponible from '@/assets/img/tarjeta-alternativa.jpg'
+import { useState, useContext } from 'react';
+import { CarritoContext } from '@/context/carritoContext';
+import { toast } from 'react-toastify';
+import imagenNoDisponible from '@/assets/img/tarjeta-alternativa.jpg';
 import '@/components/tarjetas/tarjetas.css';
 
 const Tarjeta = (props) => {
@@ -9,6 +12,44 @@ const Tarjeta = (props) => {
     const cantidad = Object.values(props.stock);
     const talleUnico = talles.includes('U') && talles.length === 1;
     const hayStock = (talleUnico && props.stock['U'] !== 0) || (cantidad.some((numero) => numero !== 0));
+
+    const { carrito, setCarrito } = useContext(CarritoContext);
+
+    const [talleSeleccionado, setTalleSeleccionado] = useState('');
+
+    const agregarAlCarrito = (id, talleSeleccionado) => {
+
+        const stockDisponible = talleUnico && talleSeleccionado === '' ? props.stock['U'] : props.stock[talleSeleccionado];
+
+        if (talleSeleccionado === '' && !('U' in props.stock && Object.keys(props.stock).length === 1)) {
+            return toast.warning('Por favor, seleccioná un talle.');
+        }
+
+        const mismoProducto = carrito.find(producto => producto.id === id && producto.talle === talleSeleccionado);
+
+        let carritoActualizado;
+
+        if (mismoProducto) {
+            if (mismoProducto.cantidad < stockDisponible) {
+                carritoActualizado = carrito.map(producto => producto.id === id && producto.talle === talleSeleccionado ?
+                    { ...producto, cantidad: producto.cantidad + 1 } :
+                    producto)
+            } else {
+                return toast.error(`No hay más stock disponible ${talleSeleccionado !== '' ? `para el talle ${talleSeleccionado}` : ''}`);
+            }
+        } else {
+            const nuevoProducto = {
+                id: id,
+                talle: talleSeleccionado,
+                cantidad: 1
+            };
+            carritoActualizado = [...carrito, nuevoProducto];
+        }
+
+        setCarrito(carritoActualizado);
+
+        return toast.success(`${props.tipo[0].toUpperCase() + props.tipo.slice(1)} ${props.banda} #${props.modelo} se agregó al carrito`);
+    };
 
     return (
         hayStock && (
@@ -38,7 +79,12 @@ const Tarjeta = (props) => {
                         {!talleUnico &&
                             <article>
                                 <label htmlFor={`talle${props.uuid}`} className='me-1'>Talle: </label>
-                                <select className='tarjeta-selectTalle' name="talle" id={`talle${props.uuid}`}>
+                                <select
+                                    className='tarjeta-selectTalle' name="talle"
+                                    id={`talle${props.uuid}`}
+                                    value={talleSeleccionado}
+                                    onChange={(e) => setTalleSeleccionado(e.target.value)}>
+                                    <option value="" disabled hidden>-</option>
                                     {talles
                                         .filter((talle) => props.stock[talle] !== 0)
                                         .map((talle) => (
@@ -49,7 +95,10 @@ const Tarjeta = (props) => {
                         }
                     </div>
                     <div>
-                        <button className='tarjeta-boton btn w-100 d-flex align-items-center justify-content-center'>
+                        <button
+                            className='tarjeta-boton btn w-100 d-flex align-items-center justify-content-center'
+                            type='button'
+                            onClick={() => agregarAlCarrito(props.uuid, talleSeleccionado)}>
                             <i className="fa-solid fa-plus me-2"></i> Agregar al carrito
                         </button>
                     </div>
