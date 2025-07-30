@@ -103,11 +103,11 @@ const Carrito = () => {
     return (
         <main>
             <h1 className="pagina-titulo text-white text-center">Carrito</h1>
-            <section className='carrito-section aparecer container mt-2 mb-5 d-flex flex-column align-items-center'>
+            <section className='carrito-section aparecer container mt-2 mb-3 d-flex flex-column align-items-center'>
                 {carritoVacio ?
-                    <div className='carritoVacio-div d-flex justify-content-center mb-4 mt-2'>
+                    <div className='carritoVacio-div d-flex flex-column align-items-center mb-4 mt-2'>
                             <h5 className='text-center'>Todavía no hay ítems en tu carrito</h5>
-                        <div className='carritoVacio-fotoDiv'>
+                        <div className='carritoVacio-fotoDiv m-2'>
                             <img className='w-100' src={carritoVacioImagen} alt="Intoxicados en Tilcara" />
                         </div>
                         <h5 className='text-center'>¡Te esperamos en la sección <Link to='/productos' className='carritoVacio-link'>productos</Link>!</h5>
