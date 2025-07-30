@@ -107,6 +107,10 @@ const obtenerProductos = async (req, res) => {
     let productos;
     const predefinidos = ['remeras', 'buzos', 'mochilas'];
     try {
+        // Obtener por id
+        if (req.query.id) {
+            productos = await Producto.findOne({uuid: req.query.id})
+        }
 
         // Productos recientes
         if (req.query.recientes) {
@@ -136,12 +140,16 @@ const obtenerProductos = async (req, res) => {
         // Para obtener ofertas (productos con descuento)
         if (req.query.descuento) productos = await Producto.find({ descuento: {$gt: 0} });
 
-        if (productos) {
+        if (productos && !req.query.id) {
             const productosOrdenados = productos.sort((a, b) => new Date(b.fechaYHoraAlta) - new Date(a.fechaYHoraAlta));
             return res.status(200).json(productosOrdenados);
-        } else return res.status(404).json({error: 'Productos no encontrados'})
+
+        } else if (productos && req.query.id) {
+            return res.status(200).json(productos);
+
+        } else return res.status(404).json({ error: `${req.query.id ? 'Producto no encontrado' : 'Productos no encontrados'}` })
     } catch (err) {
-        return res.status(500).json({ error: `Error al obtener productos de la base de datos: ${err.message}` });
+        return res.status(500).json({ error: `Error al obtener ${req.query.id ? 'producto' : 'productos'}` });
     };
 };
 

@@ -38,7 +38,7 @@ const Login = () => {
             login(res.data.token, res.data.usuario);
             setInputs({});
         } catch (err) {
-            return toast.error(`Error al iniciar sesión: ${err.response.data ? err.response.data.error : err}`);
+            return toast.error(`Error al iniciar sesión: ${err.response.data.error}`);
         };
     };
 
@@ -98,9 +98,9 @@ const Login = () => {
                         </div>
                     </div>
                 </form>
-                <h6 className='text-center text-white mb-5'>
+                <h5 className='text-center text-white mb-5'>
                     ¿No tenés cuenta? <Link to='/registro' className='login-registrateLink'>Registrate</Link>
-                </h6>
+                </h5>
             </section>
         </main>
     )

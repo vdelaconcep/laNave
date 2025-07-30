@@ -68,6 +68,7 @@
 .tarjeta-precio.anterior {
     text-shadow: none;
     text-decoration:line-through;
+    text-decoration-color: white;
     font-size: 0.9rem !important;
 }
 

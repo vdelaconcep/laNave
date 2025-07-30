@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import useFormulario from '@/hooks/useFormulario';
 import BotonPrimario from '@/components/botones/BotonPrimario';
@@ -95,7 +96,7 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
         let tipoAEnviar
         if (datos.tipo === 'varios') {
             if (!datos.tipoVarios) {
-                return alert('Se debe indicar descripción del producto');
+                return toast.warning('Se debe indicar descripción del producto');
             } else tipoAEnviar = datos.tipoVarios;
         } else tipoAEnviar = datos.tipo
 
@@ -104,11 +105,11 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
 
         if (!datos.porTalle) {
             if (!datos.U) {
-                return alert("Se debe indicar el stock");
+                return toast.warning("Se debe indicar el stock");
             } else stockAEnviar.U = Number(datos.U);
         } else {
             if (!talles.some(talle => datos[talle])) {
-                return alert("Se debe indicar stock en al menos un talle");
+                return toast.warning("Se debe indicar stock en al menos un talle");
             } else {
                 talles.forEach(talle => {
                     if (datos[talle]) stockAEnviar[talle] = Number(datos[talle]);
@@ -118,7 +119,7 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
         
         // Verificación de descuento (si se indica)
         if (datos.siDescuento) {
-            if (!datos.descuento) return alert("Se debe indicar descuento")
+            if (!datos.descuento) return toast.warning("Se debe indicar descuento")
         } else datos.descuento = 0;
         
         // Armado de datos a enviar al backend
@@ -141,7 +142,7 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
                 ? await axios.post(`${import.meta.env.VITE_API_URL}/productos/alta`, formData, { headers })
                 : await axios.put(`${import.meta.env.VITE_API_URL}/productos/actualizar/${producto.uuid}`, formData, { headers });
 
-            if (res.status !== 200) return alert(`Error al ${accion === 'alta' ? 'ingresar' : 'actualizar'} el producto: ${res.statusText}`);
+            if (res.status !== 200) return toast.error(`Error al ${accion === 'alta' ? 'ingresar' : 'actualizar'} el producto: ${res.statusText}`);
 
             // Limpiar formulario
             if (accion === 'alta') {
@@ -154,9 +155,9 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
                 obtenerProductos();
             }
 
-            return alert(`El producto "${(tipoAEnviar[0].toUpperCase() + tipoAEnviar.slice(1))} ${datos.banda}" ${accion === 'alta' ? 'se ha ingresado' : 'ha sido actualizado'} con éxito`);
+            return toast.success(`El producto "${(tipoAEnviar[0].toUpperCase() + tipoAEnviar.slice(1))} ${datos.banda}" ${accion === 'alta' ? 'se ha ingresado' : 'ha sido actualizado'} con éxito`);
         } catch (err) {
-            return alert(`Error al ${accion === 'alta' ? 'ingresar' : 'actualizar'} el producto: ${err.response.data ? err.response.data.error : err}`);
+            return toast.error(`Error al ${accion === 'alta' ? 'ingresar' : 'actualizar'} el producto: ${err.response.data.error}`);
         } finally {
             setCargandoEnvio(false);
         };
@@ -185,14 +186,14 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
 
             const res = await axios.delete(`${import.meta.env.VITE_API_URL}/productos/eliminar/${producto.uuid}`, { headers });
 
-            if (res.status !== 200 && res.status !== 204) return alert(`Error al eliminar el producto: ${res.statusText}`);
+            if (res.status !== 200 && res.status !== 204) return toast.error(`Error al eliminar el producto: ${res.statusText}`);
 
-            alert(`El producto "${producto.tipo[0].toUpperCase() + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}" ha sido eliminado`);
+            toast.success(`El producto "${producto.tipo[0].toUpperCase() + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}" ha sido eliminado`);
             
             setProductoAEditar(null); 
             return obtenerProductos();
         } catch (err) {
-            return alert(`Error al eliminar el producto: ${err.response.data ? err.response.data.error : err}`);
+            return toast.error(`Error al eliminar el producto: ${err.response.data.error}`);
         } finally {
             setCargandoEliminacion(false);
         }

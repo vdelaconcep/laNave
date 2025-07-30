@@ -42,7 +42,7 @@ const Contacto = () => {
             
             return toast.success('Se envió tu mensaje. Te responderemos a la brevedad');
         } catch (err) {
-            return toast.error(`Error al enviar tu mensaje: ${err.response.data ? err.response.data.error : err}`);
+            return toast.error(`Error al enviar tu mensaje: ${err.response.data.error}`);
         } finally {
             setCargando(false);
         };

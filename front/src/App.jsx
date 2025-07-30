@@ -60,7 +60,7 @@ function App() {
         </BackgroundProvider>
       </BrowserRouter>
       <ToastContainer
-        position="top-right"
+        position="bottom-left"
         autoClose={3000}
         closeOnClick
         hideProgressBar={true}

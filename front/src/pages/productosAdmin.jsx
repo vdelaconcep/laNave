@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import FormularioProducto from '@/components/formularioProducto/formularioProducto';
 import axios from 'axios';
 import sinImagen from '@/assets/img/tarjeta-alternativa.jpg';
@@ -27,10 +28,10 @@ const ProductosAdmin = () => {
             setCargando(true);
             const res = await axios.get(`${import.meta.env.VITE_API_URL}/productos?tipo=todos`);
 
-            if (res.status !== 200) return alert(`Error al obtener productos: ${res.statusText}`);
+            if (res.status !== 200) return toast.error(`Error al obtener productos: ${res.statusText}`);
             return setDatos(res.data);
         } catch (err) {
-            alert(`Error al obtener productos: ${err.response.data ? err.response.data.error : err}`);
+            toast.error(`Error al obtener productos: ${err.response.data ? err.response.data.error : err}`);
             return setDatos([]);
         } finally {
             setCargando(false);
@@ -57,12 +58,8 @@ const ProductosAdmin = () => {
         return stockFormateado;
     };
 
-    const [aparecer, setAparecer] = useState(false);
-
     useEffect(() => {
-        setAparecer(true);
         obtenerProductos();
-        setTimeout(() => setAparecer(false), 800);
     }, []);
     
     return (
@@ -82,60 +79,39 @@ const ProductosAdmin = () => {
                         </article>
                     }
 
-                    <section className={`${aparecer ? 'aparecer' : ''} productosAdmin-section text-white mt-4 mb-5`}>
+                    <section className='aparecer productosAdmin-section text-white mt-4 mb-5'>
                         {datos.map((producto) => (
                             <div
                                 className='productosAdmin-listaItem'
-                                key={`div0-${producto.uuid}`}>
-                                <article
-                                    className='d-flex flex-column flex-sm-row justify-content-sm-between'
-                                    key={`article-${producto.uuid}`}>
-                                    <div
-                                        className='d-flex'
-                                        key={`div1-${producto.uuid}`}>
-                                        <div
-                                            className='p-3 d-none d-sm-flex align-items-center'
-                                            key={`divFoto1-${producto.uuid}`}>
+                                key={producto.uuid}>
+                                <article className='d-flex flex-column flex-sm-row justify-content-sm-between'>
+                                    <div className='d-flex'>
+                                        <div className='p-3 d-none d-sm-flex align-items-center'>
                                             <img
                                                 className='productosAdmin-listaItem-foto'
-                                                key={`foto1-${producto.uuid}`}
                                                 src={producto.imagen ? producto.imagen : sinImagen}
                                                 alt={producto.imagen ? `Imagen de producto ${producto.uuid}` : 'Imagen no disponible'} />
                                         </div>
                                     
-                                        <div
-                                            className='p-3'
-                                            key={`divInfo-${producto.uuid}`}>
-                                            <h6
-                                                className='mb-2 fw-bold text-decoration-underline'
-                                                key={`titulo-${producto.uuid}`}>
+                                        <div className='p-3'>
+                                            <h6 className='mb-2 fw-bold text-decoration-underline'>
                                                 {`${(producto.tipo[0].toUpperCase()) + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}`}</h6>
-                                            <p
-                                                className='text-secondary'
-                                                key={`id-${producto.uuid}`}>
-                                                {(`(id: ${producto.uuid})`)}</p>
-                                            <p key={`dateAlta-${producto.uuid}`}>{`Ingreso: ${formatearFechaYHora(producto.fechaYHoraAlta)}`}</p>
-                                            <p key={`dateModif-${producto.uuid}`}>Modificado: {producto.fechaYHoraModificacion ? <span>{formatearFechaYHora(producto.fechaYHoraModificacion)}</span> : <span>No</span>}</p>
-                                            <p key={`stock-${producto.uuid}`}>{`Stock: ${formatearStock(producto.stock)}`}</p>
-                                            </div>
+                                            <p className='text-secondary'>
+                                                {(`(id: ${producto.uuid})`)}
+                                            </p>
+                                            <p>{`Ingreso: ${formatearFechaYHora(producto.fechaYHoraAlta)}`}</p>
+                                            <p>Modificado: {producto.fechaYHoraModificacion ? <span>{formatearFechaYHora(producto.fechaYHoraModificacion)}</span> : <span>No</span>}</p>
+                                            <p>{`Stock: ${formatearStock(producto.stock)}`}</p>
+                                        </div>
                                     </div>
-                                    <div
-                                        className='d-flex justify-content-between'
-                                        key={`div2-${producto.uuid}`}>
-                                        <div
-                                            className='p-3 d-block d-sm-none d-flex align-items-start'
-                                            key={`divFoto2-${producto.uuid}`}>
+                                    <div className='d-flex justify-content-between'>
+                                        <div className='p-3 d-block d-sm-none d-flex align-items-start'>
                                             <img
                                                 className='productosAdmin-listaItem-foto'
-                                                key={`foto2-${producto.uuid}`}
                                                 src={producto.imagen ? producto.imagen : sinImagen} alt={producto.imagen ? `Imagen de producto ${producto.uuid}` : 'Imagen no disponible'} />
                                         </div>
-                                        <div
-                                            className='productosAdmin-listaItem-precioDiv p-3 d-flex flex-column align-items-end justify-content-between'
-                                            key={`divPrecio-${producto.uuid}`}>
-                                            <h6
-                                                className='text-end mb-2 fw-bold text-warning'
-                                                key={`precio-${producto.uuid}`}>
+                                        <div className='productosAdmin-listaItem-precioDiv p-3 d-flex flex-column align-items-end justify-content-between'>
+                                            <h6 className='text-end mb-2 fw-bold text-warning'>
                                                 {(!producto.descuento || producto.descuento === 0) ? <span>{`ARS ${producto.precio}`}</span> : <span>{`ARS ${producto.precio * 0.01 * (100 - producto.descuento)}`}</span>}</h6>
                                             {(producto.descuento && producto.descuento !== 0) ?
                                                 <p
@@ -145,18 +121,19 @@ const ProductosAdmin = () => {
                                             }
                                             <button
                                                 className='productosAdmin-listaItem-botonEditar btn text-secondary p-0'
-                                                key={`botonEditar-${producto.uuid}`}
-                                                onClick={() => setProductoAEditar(producto)}>
+                                                onClick={() => {
+                                                    if (productoAEditar !== producto) {
+                                                        setProductoAEditar(producto)
+                                                    } else setProductoAEditar(null)
+                                                } }>
                                                 Editar <i className="fa-solid fa-pencil"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </article>
                                 {productoAEditar?.uuid === producto.uuid &&
-                                    <article className='productosAdmin-editarArticle'
-                                        key={`editarArticle-${producto.uuid}`}>
+                                    <article className='productosAdmin-editarArticle'>
                                         <FormularioProducto
-                                            key={`formulario-${producto.uuid}`}
                                             producto={productoAEditar}
                                             accion='actualizacion'
                                             setProductoAEditar={setProductoAEditar}

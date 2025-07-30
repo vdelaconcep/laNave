@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "@/firebase/config";
+import { toast } from 'react-toastify';
 
 // Context que guarda usuario y token en estado
 export const AuthContext = createContext();
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
         const nombreUsuario = usuario?.nombreYApellido?.trim().split(" ")[0];
         if (usuario.rol === "administrador") {
             navigate('/productosAdmin');
-            return alert(`Bienvenid@ ${nombreUsuario}!
+            return toast.success(`Bienvenid@ ${nombreUsuario}!
             Se habilitó la configuración de administrador`);
         }
         return navigate('/');
@@ -53,7 +54,7 @@ export const AuthProvider = ({ children }) => {
 
             login(userFirebase.uid, usuarioGoogle)
         } catch (err) {
-            return alert(`Error al iniciar sesión con Google: ${err}`)
+            return toast.error(`Error al iniciar sesión con Google: ${err}`)
         }
     };
 

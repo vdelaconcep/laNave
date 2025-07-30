@@ -42,7 +42,7 @@ const Registro = () => {
             toast.success('El usuario se registró con éxito');
             return navigate('/login');
         } catch (err) {
-            return toast.error(`Error al registrar el usuario: ${err.response.data ? err.response.data.error : err}`);
+            return toast.error(`Error al registrar el usuario: ${ err.response.data.error}`);
         } finally {
             setCargando(false);
         };

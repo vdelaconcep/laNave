@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import banner from '@/assets/img/banner2.png';
 import Tarjeta from '@/components/tarjetas/tarjeta'
@@ -16,10 +17,10 @@ const Principal = () => {
         try {
             const res = await axios.get(`${import.meta.env.VITE_API_URL}/productos?recientes=true`);
 
-            if (res.status !== 200) return alert(`Error al obtener productos: ${res.statusText}`);
+            if (res.status !== 200) return toast.error(`Error al obtener productos: ${res.statusText}`);
             return setDatos(res.data);
         } catch (err) {
-            alert(`Error al obtener productos: ${err.response.data.error || err.message}`);
+            toast.error(`Error al obtener productos: ${err.response.data.error}`);
             return setDatos([]);
         };
     };
