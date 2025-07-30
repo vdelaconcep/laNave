@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState, useRef } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import { Link } from 'react-router-dom';
 import { CarritoContext } from '@/context/carritoContext';
@@ -23,8 +23,6 @@ const Carrito = () => {
     const [cargando, setCargando] = useState(false);
 
     const [lista, setLista] = useState([]);
-
-    const refs = useRef({});
 
 
     useEffect(() => {
@@ -92,14 +90,6 @@ const Carrito = () => {
         cargar();
     }, []);
 
-    useEffect(() => {
-        const nuevasRef = {};
-        lista.forEach(producto => {
-            nuevasRef[producto.id] = refs.current[producto.id] ?? React.createRef();
-        });
-        refs.current = nuevasRef;
-    }, [lista]);
-
     return (
         <main>
             <h1 className="pagina-titulo text-white text-center">Carrito</h1>
@@ -121,8 +111,7 @@ const Carrito = () => {
                         
                             <article
                                 className='carrito-listaItem d-flex flex-column flex-sm-row justify-content-sm-between'
-                                key={producto.id}
-                                ref={refs.current[producto.id]}>
+                                key={producto.id}>
                                 <div className='d-flex'>
                                     <div className='p-3 d-none d-sm-flex align-items-center'>
                                         <img className='carrito-listaItem-foto'
