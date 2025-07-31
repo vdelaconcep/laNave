@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { BackgroundContext } from '@/context/backgroundContext';
+import { obtenerProducto } from '@/services/productoService';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import Tarjeta from '@/components/tarjetas/tarjeta';
 import BotonSecundario from '@/components/botones/botonSecundario';
 
@@ -31,7 +31,7 @@ export const Productos = ({filtrarPor, filtro}) => {
 
         try {
             setCargando(true);
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/productos?${filtrarPor}=${filtroAplicado}`);
+            const res = await obtenerProducto(filtrarPor, filtroAplicado);
 
             if (res.status !== 200) return toast.error(`Error al obtener productos: ${res.statusText}`);
             return setDatos(res.data);
