@@ -26,6 +26,8 @@ const Carrito = () => {
 
     const [productoEliminado, setProductoEliminado] = useState(false);
 
+    const [total, setTotal] = useState(0)
+
 
     useEffect(() => {
         const estaVacio = Array.isArray(carrito) && carrito.length === 0;
@@ -96,9 +98,16 @@ const Carrito = () => {
     useEffect(() => {
         const cargar = async () => {
             const datos = await carritoCompleto();
+
+            let subtotal = 0;
+            for (let producto of datos) {
+                subtotal = subtotal + (producto.cantidad * producto.precio * (100 - producto.descuento) * 0.01);
+            }
+            setTotal(subtotal);
             setLista(datos);
         };
         cargar();
+        
         setProductoEliminado(false);
     }, [productoEliminado]);
 
@@ -160,7 +169,7 @@ const Carrito = () => {
                                         </div>
                                     </article>);
                             })) : <h5>No es posible visualizar el carrito en este momento. Intentá nuevamente más tarde</h5>}
-                            
+                        {total} 
                         </div>) 
                 }
             </section>
