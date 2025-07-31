@@ -11,6 +11,16 @@
     text-align: center;
 }
 
+/* Estilo de los toast */
+.toast-cuadro {
+    border: 2px solid #929191;
+    border-radius: 12px;
+}
+
+.toast-body {
+    padding: 8px;
+}
+
 /* Background de las secciones */
 .bg-productos {
     background: #fdc539;

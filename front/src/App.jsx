@@ -22,6 +22,7 @@ import Descuentos from '@/pages/descuentos';
 import Usuarios from '@/pages/usuarios';
 import Mensajes from '@/pages/mensajes';
 import Error from '@/pages/error';
+import '@/pages/css/pages.css'
 
 function App() {
 
@@ -69,7 +70,9 @@ function App() {
         pauseOnHover
         transition={Slide}
         transitionDuration={800}
-        theme="dark" />
+        theme="dark"
+        toastClassName="toast-cuadro"
+        bodyClassName="toast-body"/>
     </>
   );
 }
