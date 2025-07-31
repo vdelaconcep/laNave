@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "@/firebase/config";
+import { CarritoContext } from '@/context/carritoContext';
 import { toast } from 'react-toastify';
 
 // Context que guarda usuario y token en estado
@@ -10,6 +11,8 @@ export const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
+
+    const { setCarrito } = useContext(CarritoContext);
     const [usuario, setUsuario] = useState(null);
     const [token, setToken] = useState(null);
     const navigate = useNavigate();
@@ -62,8 +65,10 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('usuario');
+        localStorage.removeItem('carrito');
         setToken(null);
         setUsuario(null);
+        setCarrito([]);
         navigate('/');
     };
 

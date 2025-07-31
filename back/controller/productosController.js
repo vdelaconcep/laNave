@@ -105,7 +105,7 @@ const altaProducto = async (req, res) => {
 const obtenerProductos = async (req, res) => {
 
     let productos;
-    const predefinidos = ['remeras', 'buzos', 'mochilas'];
+    
     try {
         // Obtener por id
         if (req.query.id) {
@@ -113,7 +113,7 @@ const obtenerProductos = async (req, res) => {
         }
 
         // Productos recientes
-        if (req.query.recientes) {
+        if (req.query.recientes === 'true') {
             productos = await Producto.find()
                 .sort({ fechaYHoraAlta: -1 })
                 .limit(11);
@@ -121,14 +121,17 @@ const obtenerProductos = async (req, res) => {
 
         // Obtener productos por tipo
         if (req.query.tipo) {
-            if (req.query.tipo === 'todos') {
-                productos = await Producto.find();
-            } else {
-                if (predefinidos.includes(req.query.tipo)) {
-                    const filtro = req.query.tipo.slice(0, -1);
-                    productos = await Producto.find({ tipo: filtro });
-                } else productos = await Producto.find({ tipo: {$nin: ['remera', 'buzo', 'mochila']} });
+            const predefinidos = ['remeras', 'buzos', 'mochilas'];
+
+            if (predefinidos.includes(req.query.tipo)) {
+                const filtro = req.query.tipo.slice(0, -1);
+                productos = await Producto.find({ tipo: filtro });
             }
+
+            if (req.query.tipo === 'todos') productos = await Producto.find();
+
+            if (req.query.tipo === 'varios') productos = await Producto.find({ tipo: { $nin: ['remera', 'buzo', 'mochila'] } });
+
         };
 
         // Para búsqueda por banda
@@ -138,7 +141,7 @@ const obtenerProductos = async (req, res) => {
         };
 
         // Para obtener ofertas (productos con descuento)
-        if (req.query.descuento) productos = await Producto.find({ descuento: {$gt: 0} });
+        if (req.query.descuento === 'true') productos = await Producto.find({ descuento: {$gt: 0} });
 
         if (productos && !req.query.id) {
             const productosOrdenados = productos.sort((a, b) => new Date(b.fechaYHoraAlta) - new Date(a.fechaYHoraAlta));
@@ -165,6 +168,21 @@ const actualizacionProducto = async (req, res) => {
     } catch (err) {
         return res.status(500).json({ error: `Error al obtener producto de la base de datos: ${err.message}` });
     };
+
+    // Chequear que algún dato se haya cambiado
+    const huboCambios = (
+        (req.body.banda && req.body.banda !== productoAActualizar.banda) ||
+        (req.body.tipo && req.body.tipo !== productoAActualizar.tipo) ||
+        (req.body.precio && Number(req.body.precio) !== productoAActualizar.precio) ||
+        (req.body.descuento && Number(req.body.descuento) !== productoAActualizar.descuento) ||
+        (req.body.stock && JSON.stringify(JSON.parse(req.body.stock)) !== JSON.stringify(productoAActualizar.stock)) ||
+        req.file
+    );
+
+    if (!huboCambios) {
+        return res.status(400).json({ error: 'No se enviaron modificaciones respecto de los datos anteriores' });
+    }
+
 
     // Si se envió una nueva imagen del producto:
     let imagen = "";

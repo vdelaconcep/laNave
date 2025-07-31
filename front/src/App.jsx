@@ -29,8 +29,8 @@ function App() {
     <>
       <BrowserRouter>
         <BackgroundProvider>
-          <AuthProvider>
-            <CarritoProvider>
+          <CarritoProvider>
+            <AuthProvider>
               <Routes>
                 <Route path="/" element={<Layout />}>
                   <Route index element={<Principal />} />
@@ -55,8 +55,8 @@ function App() {
                   <Route path="/*" element={<Error />} />
                 </Route>
               </Routes>
-            </CarritoProvider>
-          </AuthProvider>
+            </AuthProvider>
+          </CarritoProvider>
         </BackgroundProvider>
       </BrowserRouter>
       <ToastContainer

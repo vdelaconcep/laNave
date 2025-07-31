@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import { altaProducto, actualizarProducto, eliminarProducto } from '@/services/productoService';
 import useFormulario from '@/hooks/useFormulario';
 import BotonPrimario from '@/components/botones/BotonPrimario';
 import BotonSecundario from '@/components/botones/BotonSecundario';
@@ -132,15 +132,15 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
         formData.append('precio', Number(datos.precio));
         formData.append('descuento', Number(datos.descuento));
 
-        datos.imagen && formData.append('image', datos.imagen);
+        datos.imagen && formData.append('imagen', datos.imagen);
         
         try {
             // Envío de datos
             setCargandoEnvio(true);
 
             const res = accion === 'alta'
-                ? await axios.post(`${import.meta.env.VITE_API_URL}/productos/alta`, formData, { headers })
-                : await axios.put(`${import.meta.env.VITE_API_URL}/productos/actualizar/${producto.uuid}`, formData, { headers });
+                ? await altaProducto(formData, headers)
+                : await actualizarProducto(producto.uuid, formData, headers)
 
             if (res.status !== 200) return toast.error(`Error al ${accion === 'alta' ? 'ingresar' : 'actualizar'} el producto: ${res.statusText}`);
 
@@ -177,18 +177,18 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
     // Para eliminar el producto de la base de datos
     const [cargandoEliminacion, setCargandoEliminacion] = useState(false);
 
-    const eliminarProducto = async () => {
+    const eliminarProductoPorId = async () => {
         const confirmacion = confirm(`¿Desea eliminar "${producto.tipo[0].toUpperCase() + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}" de la base de datos?`);
         if (!confirmacion) return;
 
         try {
             setCargandoEliminacion(true);
 
-            const res = await axios.delete(`${import.meta.env.VITE_API_URL}/productos/eliminar/${producto.uuid}`, { headers });
+            const res = await eliminarProducto(producto.uuid, headers)
 
             if (res.status !== 200 && res.status !== 204) return toast.error(`Error al eliminar el producto: ${res.statusText}`);
 
-            toast.success(`El producto "${producto.tipo[0].toUpperCase() + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}" ha sido eliminado`);
+            toast.info(`El producto "${producto.tipo[0].toUpperCase() + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}" ha sido eliminado`);
             
             setProductoAEditar(null); 
             return obtenerProductos();
@@ -359,7 +359,7 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
                         tipo='button'
                     texto={cargandoEliminacion ? <><span>Eliminando </span><i className="fa-solid fa-spinner fa-spin"></i></> : <><i className="fa-solid fa-trash-can"></i><span> Eliminar producto</span></>}
                         claseAdicional='eliminar'
-                        accion={() => eliminarProducto()} />}
+                        accion={() => eliminarProductoPorId()} />}
             
             <article className="text-center">
                 <BotonSecundario

@@ -1,23 +1,39 @@
-import { check } from 'express-validator';
+import { check, body } from 'express-validator';
 
-const reglasValidacionAlta = [
+const alMenosUnDato = body().custom((value, { req }) => {
+    const datosPermitidos = ['banda', 'tipo', 'stock', 'precio', 'descuento', 'imagen'];
+
+    const datos = req.body || {};
+
+    const datosPresentes = datosPermitidos.filter(dato => {
+        if (dato === 'imagen') return req.file;
+        return datos[dato] !== undefined && datos[dato] !== '';
+    });
+
+    if (datosPresentes.length === 0) {
+        throw new Error('Debe enviar al menos un dato para modificar');
+    }
+
+    return true;
+});
+
+const reglasValidacionActualizacion = [
+    alMenosUnDato,
+
     check("banda")
+        .optional({ checkFalsy: true })
         .trim()
         .escape()
-        .notEmpty().withMessage("Debe indicar el nombre del artista/ banda")
-        .bail()
         .isLength({ max: 40 }).withMessage("El nombre del artista/ banda no debe superar los 40 caracteres"),
     
     check("tipo")
+        .optional({ checkFalsy: true })
         .trim()
         .escape()
-        .notEmpty().withMessage("Debe indicar el tipo de producto")
-        .bail()
         .isLength({max: 30}).withMessage("El tipo de producto no debe tener más de 30 caracteres"),
 
     check("stock")
-        .notEmpty().withMessage("Debe ingresar el stock disponible")
-        .bail()
+        .optional({ checkFalsy: true })
         .custom((value) => {
             let parseado;
             try {
@@ -30,15 +46,15 @@ const reglasValidacionAlta = [
 
             if (clavesStock.length === 0) throw new Error('Se debe indicar stock');
 
-            if (clavesStock.includes("U") && clavesStock.length > 1) throw new Error('"U" indica talle único, por lo que no pueden especificarse otros talles');
+            if (clavesStock.includes("U") && clavesStock.length > 1) throw new Error('"U" indica talle único, por lo que no pueden especificarse otros talles')
 
             for (const clave of clavesStock) {
                 let cantidad = parseado[clave];
-
+                
                 cantidad = Number(cantidad);
-
-                if (isNaN(cantidad)) throw new Error(`El stock para "${clave}" debe ser un número entero`);
-
+                
+                if(isNaN(cantidad)) throw new Error(`El stock para "${clave}" debe ser un número entero`);
+                
                 if (cantidad < 0 || !Number.isInteger(cantidad)) {
                     throw new Error(`El stock para "${clave}" debe ser un número entero mayor o igual a cero`);
                 }
@@ -48,8 +64,7 @@ const reglasValidacionAlta = [
         }),
 
     check("precio")
-        .notEmpty().withMessage("Debe ingresar un precio")
-        .bail()
+        .optional({ checkFalsy: true })
         .isInt({ min: 1 }).withMessage("El precio ingresado debe ser mayor que 0"),
     
     check("descuento")
@@ -75,4 +90,4 @@ const reglasValidacionAlta = [
         })
 ];
 
-export { reglasValidacionAlta };
+export { reglasValidacionActualizacion };
