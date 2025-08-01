@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFormulario from '@/hooks/useFormulario';
 import '@/components/busqueda/busqueda.css'

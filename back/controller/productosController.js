@@ -52,7 +52,8 @@ const altaProducto = async (req, res) => {
     
     // Definir número del modelo
     const banda = req.body.banda;
-    const tipo = req.body.tipo;
+    let tipo = req.body.tipo;
+    tipo = tipo[0].toLowerCase() + tipo.slice(1);
     let modelo;
 
     try {
@@ -121,10 +122,11 @@ const obtenerProductos = async (req, res) => {
 
         // Obtener productos por tipo
         if (req.query.tipo) {
-            const predefinidos = ['remeras', 'buzos', 'mochilas'];
+            const predefinidos = ['remeras', 'buzos', 'mochilas', 'remera', 'buzo', 'mochila'];
 
             if (predefinidos.includes(req.query.tipo)) {
-                const filtro = req.query.tipo.slice(0, -1);
+                let filtro = req.query.tipo;
+                filtro = filtro.slice(-1) === 's' ? filtro.slice(0,-1) : filtro
                 productos = await Producto.find({ tipo: filtro });
             }
 

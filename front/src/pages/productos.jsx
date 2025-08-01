@@ -25,8 +25,7 @@ export const Productos = ({filtrarPor, filtro}) => {
         if (filtrarPor === 'banda' && filtro === 'busqueda') {
             const bandaBuscada = searchParams.get('banda') || '';
             filtroAplicado = bandaBuscada.toLowerCase();
-        }
-        if (filtrarPor === 'descuento' && filtro === 'ofertas') {
+        } else if (filtrarPor === 'descuento' && filtro === 'ofertas') {
             filtroAplicado = 'true';
         } else {
             filtroAplicado = filtro === 'todos los productos' ? 'todos' : filtro.toLowerCase();
