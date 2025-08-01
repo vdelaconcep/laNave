@@ -39,6 +39,12 @@
     background: linear-gradient(to top, #794fa0, #0C0C68);
 }
 
+@media (max-width: 576px) {
+    .bg-login{
+        background: linear-gradient(to bottom, #794fa0, #0C0C68);
+    }
+}
+
 .bg-nosotros {
     background: linear-gradient(to bottom, #1899D2, #c1cfd4, #1899D2);
 }

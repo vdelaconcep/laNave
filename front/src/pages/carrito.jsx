@@ -32,6 +32,8 @@ const Carrito = () => {
     useEffect(() => {
         const estaVacio = Array.isArray(carrito) && carrito.length === 0;
         if (estaVacio) setCarritoVacio(estaVacio);
+
+
     }, [carrito])
 
     const obtenerPorId = async (id) => {
@@ -71,6 +73,7 @@ const Carrito = () => {
                     id: producto.id,
                     talle: producto.talle,
                     cantidad: producto.cantidad,
+                    stock: producto.talle ? productoBD.stock[producto.talle]: productoBD.stock['U'],
                     tipo: productoBD.tipo,
                     banda: productoBD.banda,
                     modelo: productoBD.modelo,
@@ -95,21 +98,50 @@ const Carrito = () => {
         setProductoEliminado(true);
     };
 
+    const modificarCantidad = (id, talle, operacion) => {
+        const nuevoCarrito = carrito.map((producto) => {
+            if (producto.id === id && producto.talle === talle) {
+                const nuevaCantidad = operacion === 'sumar' ? producto.cantidad + 1 : producto.cantidad - 1;
+                return {
+                    ...producto,
+                    cantidad: Math.max(nuevaCantidad, 1)
+                };
+            }
+            return producto;
+        });
+
+        setCarrito(nuevoCarrito);
+
+        const nuevaLista = lista.map((producto) => {
+            if (producto.id === id && producto.talle === talle) {
+                const nuevaCantidad = operacion === 'sumar' ? producto.cantidad + 1 : producto.cantidad - 1;
+                return { ...producto, cantidad: Math.max(nuevaCantidad, 1) };
+            }
+            return producto;
+        });
+        setLista(nuevaLista);
+    };
+
     useEffect(() => {
         const cargar = async () => {
             const datos = await carritoCompleto();
-
-            let subtotal = 0;
-            for (let producto of datos) {
-                subtotal = subtotal + (producto.cantidad * producto.precio * (100 - producto.descuento) * 0.01);
-            }
-            setTotal(subtotal);
             setLista(datos);
         };
         cargar();
         
         setProductoEliminado(false);
     }, [productoEliminado]);
+
+    useEffect(() => {
+        let subtotal = 0;
+
+        for (let producto of lista) {
+            const precioConDescuento = producto.precio * (1 - (producto.descuento || 0) / 100);
+            subtotal += producto.cantidad * precioConDescuento;
+        }
+
+        setTotal(subtotal);
+    }, [lista]);
 
     return (
         <main>
@@ -128,9 +160,11 @@ const Carrito = () => {
                         <h2 className='pagina-cargando text-white m-5'><i className="fa-solid fa-spinner fa-spin"></i></h2> : 
                         <div className='carritoLleno-div'>
                     
-                            {lista ? (lista.map((producto) => {
+                            {lista ? 
+                                <>
+                                {lista.map((producto) => {
                                 const titulo = `${(producto.tipo[0].toUpperCase()) + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}`
-                                return (
+                                    return (
                                     <article
                                         className='carrito-listaItem d-flex flex-column flex-sm-row justify-content-sm-between'
                                         key={`${producto.id}-${producto.talle}`}>
@@ -145,7 +179,19 @@ const Carrito = () => {
                                                 <h6 className='mb-2 fw-bold text-decoration-underline'>
                                                     {titulo}</h6>
                                                 <p>{producto.talle ? `Talle: ${producto.talle}` : ''}</p>
-                                                <p>{`Cantidad: ${producto.cantidad}`}</p>
+                                                <div className='carrito-listaItem-cantidad d-flex mt-3'>
+                                                    <p>Cantidad: </p>
+                                                    <div className='carrito-listaItem-cantidadBotones d-flex ms-2'>
+                                                        <button
+                                                            onClick={() => modificarCantidad(producto.id, producto.talle, 'restar')}
+                                                            disabled={producto.cantidad <= 1}
+                                                        >-</button>
+                                                        <p className='text-center'>{producto.cantidad}</p>
+                                                        <button
+                                                            onClick={() => modificarCantidad(producto.id, producto.talle, 'sumar')}
+                                                            disabled={producto.cantidad >= producto.stock}>+</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className='d-flex justify-content-between'>
@@ -158,7 +204,11 @@ const Carrito = () => {
                                                     {(!producto.descuento || producto.descuento === 0) ? <span>{`ARS ${producto.precio * producto.cantidad}`}</span> : <span>{`ARS ${(producto.precio * 0.01 * (100 - producto.descuento)) * producto.cantidad}`}</span>}</h6>
                                                 {(producto.descuento && producto.descuento !== 0) ?
                                                     <p className='text-end'>
-                                                        {`(anterior: ARS ${producto.precio * producto.cantidad})`}</p> : ''
+                                                        <span className='text-decoration-line-through'>
+                                                            {`ARS ${producto.precio * producto.cantidad}`}
+                                                        </span>
+                                                        <span>{` (-${producto.descuento}%)`}</span>
+                                                    </p> : ''
                                                 }
                                                 <button
                                                     className='carrito-listaItem-botonEliminar btn text-secondary p-0'
@@ -168,8 +218,13 @@ const Carrito = () => {
                                             </div>
                                         </div>
                                     </article>);
-                            })) : <h5>No es posible visualizar el carrito en este momento. Intentá nuevamente más tarde</h5>}
-                        {total} 
+                                })}
+                                <div className='carrito-divTotal mt-2 p-3'>
+                                    <p className='text-end text-warning mb-0'>
+                                        {`TOTAL ARS ${total}`}    
+                                    </p>
+                                </div>
+                                </> : <h5>No es posible visualizar el carrito en este momento. Intentá nuevamente más tarde</h5>}
                         </div>) 
                 }
             </section>

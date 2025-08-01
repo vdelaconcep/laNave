@@ -59,6 +59,24 @@
     font-size: 1rem;
 }
 
+.carrito-listaItem-cantidadBotones button{
+    height: 25px;
+    width: 25px;
+    box-shadow: none;
+    background-color: black;
+    color: white;
+
+}
+
+.carrito-listaItem-cantidadBotones button:disabled {
+    color:#929191;
+
+}
+
+.carrito-listaItem-cantidadBotones p {
+    width: 30px;
+}
+
 .carrito-listaItem-precioDiv {
     width: 125px;
 }
@@ -71,4 +89,11 @@
 
 .carrito-listaItem-botonEliminar:hover {
     color: white !important;
+}
+
+.carrito-divTotal {
+    background-color: black;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
