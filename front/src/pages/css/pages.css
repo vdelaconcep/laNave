@@ -13,13 +13,15 @@
 
 /* Estilo de los toast */
 .toast-cuadro {
-    border: 2px solid #929191;
+    border: 1px solid white;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
+    box-shadow: 0px 0px 8px white;
+    padding: 1.2rem;
 }
 
 .toast-body {
-    padding: 8px;
+    padding: 1.2rem;
 }
 
 /* Background de las secciones */

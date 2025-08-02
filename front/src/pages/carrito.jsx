@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { CarritoContext } from '@/context/carritoContext';
 import { obtenerProducto } from '@/services/productoService';
 import { toast } from 'react-toastify';
+import Confirm from '@/components/emergentes/confirm'
 import carritoVacioImagen from '@/assets/img/carritoVacio.jpg';
 import '@/pages/css/carrito.css'
 
@@ -16,14 +17,21 @@ const Carrito = () => {
         return () => setBackground('');
     }, []);
     
+    // Carrito guardado en localStorage sólo contiene id, talle y cantidad
     const { carrito, setCarrito } = useContext(CarritoContext);
+
+    // Lista tiene detalles de los productos del carrito (foto, precio, descuento, etc.)
+    const [lista, setLista] = useState([]);
 
     const [carritoVacio, setCarritoVacio] = useState(false);
 
     const [cargando, setCargando] = useState(false);
 
-    const [lista, setLista] = useState([]);
+    const [pregunta, setPregunta] = useState('');
+    const [mostrarConfirm, setMostrarConfirm] = useState(false);
+    const [confirm, setConfirm] = useState(false);
 
+    const [productoAEliminar, setProductoAEliminar] = useState(null);
     const [productoEliminado, setProductoEliminado] = useState(false);
 
     const [total, setTotal] = useState(0)
@@ -33,9 +41,9 @@ const Carrito = () => {
         const estaVacio = Array.isArray(carrito) && carrito.length === 0;
         if (estaVacio) setCarritoVacio(estaVacio);
 
-
     }, [carrito])
 
+    // Obtiene información completa sobre un producto desde el backend (para armar lista)
     const obtenerPorId = async (id) => {
         try {
             const res = await obtenerProducto('id', id);
@@ -51,6 +59,7 @@ const Carrito = () => {
         }
     }
 
+    // Arma copia del carrito con información completa sobre los productos (para después setear lista)
     const carritoCompleto = async () => {
         setCargando(true);
         let carritoActualizado = [];
@@ -89,15 +98,15 @@ const Carrito = () => {
         return carritoParaMostrar;
     };
 
+    // Setea producto a eliminar y llama a confirm
     const quitarProducto = (id, talle, titulo) => {
-        const confirmacion = confirm(`¿Quitar del carrito ${titulo} ${talle ? `talle ${talle}` : ''}?`);
-        if (!confirmacion) return;
-        const productoAQuitarIndex = carrito.findIndex(producto => producto.id === id && producto.talle === talle);
-        if (productoAQuitarIndex === -1) return toast.error('El producto ya no se encuentra en el carrito');
-        carrito.splice(productoAQuitarIndex, 1);
-        setProductoEliminado(true);
+        const siQuitarProducto = `¿Quitar del carrito ${titulo} ${talle ? `talle ${talle}` : ''}?`;
+        setPregunta(siQuitarProducto);
+        setProductoAEliminar({ id, talle });
+        setMostrarConfirm(true);
     };
 
+    // Modifica cantidad requerida de un producto tanto en carrito como en lista (para botones + y -)
     const modificarCantidad = (id, talle, operacion) => {
         const nuevoCarrito = carrito.map((producto) => {
             if (producto.id === id && producto.talle === talle) {
@@ -122,7 +131,10 @@ const Carrito = () => {
         setLista(nuevaLista);
     };
 
+    // Crea/resetea lista (copia ampliada de carrito) al cargar la página o eliminar un producto
     useEffect(() => {
+        setConfirm(false);
+
         const cargar = async () => {
             const datos = await carritoCompleto();
             setLista(datos);
@@ -132,6 +144,7 @@ const Carrito = () => {
         setProductoEliminado(false);
     }, [productoEliminado]);
 
+    // Actualiza el total a pagar cuando se modifica la lista
     useEffect(() => {
         let subtotal = 0;
 
@@ -142,6 +155,23 @@ const Carrito = () => {
 
         setTotal(subtotal);
     }, [lista]);
+
+    // Elimina el producto del carrito al presionar "aceptar"
+    useEffect(() => {
+        if (confirm && productoAEliminar) {
+            const { id, talle } = productoAEliminar;
+            const productoAQuitarIndex = carrito.findIndex(producto => producto.id === id && producto.talle === talle);
+            if (productoAQuitarIndex === -1) {
+                toast.error('El producto ya no se encuentra en el carrito');
+            } else {
+                carrito.splice(productoAQuitarIndex, 1);
+                setCarrito([...carrito]);
+            }
+            setProductoEliminado(true);
+            setProductoAEliminar(null);
+            setConfirm(false);
+        }
+    }, [confirm]);
 
     return (
         <main>
@@ -175,19 +205,21 @@ const Carrito = () => {
                                                     alt={producto.imagen ? `Imagen de producto ${producto.uuid}` : 'Imagen no disponible'} />
                                             </div>
 
-                                            <div className='p-3'>
+                                            <div className='p-3 w-100 w-sm-auto'>
                                                 <h6 className='mb-2 fw-bold text-decoration-underline'>
                                                     {titulo}</h6>
                                                 <p>{producto.talle ? `Talle: ${producto.talle}` : ''}</p>
-                                                <div className='carrito-listaItem-cantidad d-flex mt-3'>
+                                                <div className='carrito-listaItem-cantidad d-flex mt-3 justify-content-center justify-content-sm-start'>
                                                     <p>Cantidad: </p>
                                                     <div className='carrito-listaItem-cantidadBotones d-flex ms-2'>
                                                         <button
+                                                            type='button'
                                                             onClick={() => modificarCantidad(producto.id, producto.talle, 'restar')}
                                                             disabled={producto.cantidad <= 1}
                                                         >-</button>
                                                         <p className='text-center'>{producto.cantidad}</p>
                                                         <button
+                                                            type='button'
                                                             onClick={() => modificarCantidad(producto.id, producto.talle, 'sumar')}
                                                             disabled={producto.cantidad >= producto.stock}>+</button>
                                                     </div>
@@ -228,6 +260,14 @@ const Carrito = () => {
                         </div>) 
                 }
             </section>
+
+            {mostrarConfirm ? 
+                <Confirm
+                    pregunta={pregunta}
+                    setConfirm={setConfirm}
+                    setMostrarConfirm={setMostrarConfirm}
+                /> : ''
+            }
         </main>
     );
 };
