@@ -3,7 +3,7 @@ import { BackgroundContext } from '@/context/backgroundContext';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormularioProducto from '@/components/formularioProducto/formularioProducto';
-import useFechaYHora from '@/hooks/useFechaYHora'; 
+import formatearUTC from '@/utils/formatearUTC'; 
 import axios from 'axios';
 import sinImagen from '@/assets/img/tarjeta-alternativa.jpg';
 import '@/pages/css/productosAdmin.css';
@@ -86,13 +86,13 @@ const ProductosAdmin = () => {
                                         </div>
                                     
                                         <div className='p-3'>
-                                            <h6 className='mb-2 fw-bold text-decoration-underline'>
+                                            <h6 className='productosAdmin-listaItem-titulo mb-2 fw-bold text-decoration-underline'>
                                                 {`${(producto.tipo[0].toUpperCase()) + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}`}</h6>
                                             <p className='text-secondary'>
                                                 {(`(id: ${producto.uuid})`)}
                                             </p>
-                                            <p>{`Ingreso: ${useFechaYHora(producto.fechaYHoraAlta)}`}</p>
-                                            <p>Modificado: {producto.fechaYHoraModificacion ? <span>{useFechaYHora(producto.fechaYHoraModificacion)}</span> : <span>No</span>}</p>
+                                            <p>{`Ingreso: ${formatearUTC(producto.fechaYHoraAlta)}`}</p>
+                                            <p>Modificado: {producto.fechaYHoraModificacion ? <span>{formatearUTC(producto.fechaYHoraModificacion)}</span> : <span>No</span>}</p>
                                             <p>{`Stock: ${formatearStock(producto.stock)}`}</p>
                                         </div>
                                     </div>

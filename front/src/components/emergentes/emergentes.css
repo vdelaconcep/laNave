@@ -1,4 +1,4 @@
-.confirm-overlay {
+.confirm-overlay, .mensaje-respuestaOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,7 +9,7 @@
     z-index: 999;
 }
 
-.confirm-article {
+.confirm-article, .mensaje-respuestaRedactar {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -21,6 +21,10 @@
     border: 2px #929191 solid;
     max-width: 450px;
     min-width: 300px;
+}
+
+.mensaje-respuestaRedactar {
+    background-color: #252525;
 }
 
 @keyframes entrada {
@@ -39,4 +43,28 @@
 
 .entrar {
     animation: entrada 0.8s ease-out;
+}
+
+.mensaje-respuestaTextarea {
+    width: 263px;
+    height: 150px;
+    overflow-y: scroll;
+    resize: none;
+    border-radius: 5px;
+}
+
+.mensaje-respuestaTextarea::-webkit-scrollbar {
+    width: 5px;
+}
+
+.mensaje-respuestaTextarea::-webkit-scrollbar-track {
+    background: transparent;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.mensaje-respuestaTextarea::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }

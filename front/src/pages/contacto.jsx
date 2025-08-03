@@ -85,6 +85,7 @@ const Contacto = () => {
                                 className="contacto-input form-control bg-secondary-subtle"
                                 type="text"
                                 name="asunto"
+                                maxLength={30}
                                 value={inputs.asunto}
                                 onChange={gestionIngreso}
                                 required />

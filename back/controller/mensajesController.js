@@ -65,7 +65,7 @@ const responderMensaje = async (req, res) => {
 
     try {
         await transporter.sendMail({
-            from: GOOGLE_CLIENT,
+            from: 'La nave Rockería',
             to: email,
             subject: 'Respuesta a tu consulta',
             text: respuesta

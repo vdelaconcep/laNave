@@ -1,4 +1,4 @@
-const useFechaYHora = (utc) => {
+const formatearUTC = (utc) => {
     const fecha = new Date(utc);
     return new Intl.DateTimeFormat('es-AR', {
         dateStyle: 'short',
@@ -7,4 +7,4 @@ const useFechaYHora = (utc) => {
     }).format(fecha);
 };
 
-export default useFechaYHora;
+export default formatearUTC;

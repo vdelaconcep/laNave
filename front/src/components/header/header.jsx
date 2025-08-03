@@ -6,6 +6,7 @@ import { useState, useRef, useEffect, useContext } from 'react';
 import { Link } from "react-router-dom";
 import { useAuth } from '@/context/authContext';
 import { CarritoContext } from '@/context/carritoContext';
+import { obtenerMensajesNuevos } from '@/services/mensajeService';
 import logo from '@/assets/img/logo.jpg';
 import banner from '@/assets/img/banner2.png';
 import '@/components/header/header.css';
@@ -36,8 +37,9 @@ const Header = () => {
     // Productos agregados al carrito
 
     const { carrito, setCarrito } = useContext(CarritoContext);
-
     const [numeroCarrito, setNumeroCarrito] = useState(0);
+
+    const [nuevosMensajes, setNuevosMensajes] = useState(0);
 
     useEffect(() => {
         const totalProductos = carrito.reduce((acc, producto) => acc + producto.cantidad, 0);
@@ -45,6 +47,32 @@ const Header = () => {
         setNumeroCarrito(totalProductos);
 
     }, [carrito]);
+
+    // Para obtener permisos de administrador
+    const token = localStorage.getItem('token');
+
+    const headers = {};
+
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
+
+    useEffect(() => {
+        if (usuario && usuario.rol === 'administrador') {
+            const cargarMensajes = async () => {
+                try {
+                    const res = await obtenerMensajesNuevos(headers);
+
+                    if (res.status !== 200) return toast.error(`Error al obtener mensajes nuevos: ${res.statusText}`);
+                    setNuevosMensajes(res.data.length);
+                } catch (err) {
+                    return toast.error(`Error al obtener mensajes nuevos: ${err.response.data.error}`);
+                }
+            };
+
+            cargarMensajes();
+        };
+    }, [usuario]);
 
     return (
         <header>
@@ -84,7 +112,7 @@ const Header = () => {
                 </div>
                 <div className="pe-3">
                     {(usuario && usuario.rol && usuario.rol === 'administrador') ?
-                        <BotonLink vinculo={"/mensajes"} texto={<><span className='d-none d-sm-inline'>Mensajes </span><span><i className="fa-solid fa-envelope"></i></span></>} numero={3} /> :
+                        <BotonLink vinculo={"/mensajes"} texto={<><span className='d-none d-sm-inline'>Mensajes </span><span><i className="fa-solid fa-envelope"></i></span></>} numero={nuevosMensajes} /> :
                         <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={numeroCarrito} />}
                 </div>
             </section>

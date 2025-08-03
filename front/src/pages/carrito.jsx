@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { CarritoContext } from '@/context/carritoContext';
 import { obtenerProducto } from '@/services/productoService';
 import { toast } from 'react-toastify';
-import Confirm from '@/components/emergentes/confirm'
+import Confirm from '@/components/emergentes/confirm';
 import carritoVacioImagen from '@/assets/img/carritoVacio.jpg';
 import '@/pages/css/carrito.css'
 
