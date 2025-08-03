@@ -1,0 +1,53 @@
+.mensajes-lista {
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+    justify-items: center;
+}
+
+.mensajes-article {
+    background-color: #252525;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 300px;
+    height: 320px;
+    color: white;
+}
+
+.mensajes-article:hover {
+    background-color: #303030;
+}
+
+.no-nuevo {
+    border: 2px solid black;
+}
+
+.nuevo {
+    border: 2px solid #fdc539;
+}
+
+.mensajes-article-mensaje {
+    background-color: #bebebe;
+    color: black;
+    height: 120px;
+    overflow-y: scroll;
+    border-radius: 5px;
+}
+
+.mensajes-article-mensaje::-webkit-scrollbar {
+    width: 8px;
+}
+
+.mensajes-article-mensaje::-webkit-scrollbar-track {
+    background: grey;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.mensajes-article-mensaje::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 2px solid gray;
+}

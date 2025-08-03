@@ -70,14 +70,14 @@
 }
 
 /* Botón secundario para eliminar */
-.botonSecundario-btn.eliminar {
+.botonEliminar-btn {
     color: #DC3545 !important;
     border-color: #DC3545 !important;
     background-color: black !important;
 }
 
-.botonSecundario-btn.eliminar:hover,
-.botonSecundario-btn.eliminar:focus {
+.botonEliminar-btn:hover,
+.botonEliminar-btn:focus {
     background-color: #DC3545 !important;
     color: white !important;
     border-color: white !important;

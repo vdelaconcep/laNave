@@ -2,8 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { altaProducto, actualizarProducto, eliminarProducto } from '@/services/productoService';
 import useFormulario from '@/hooks/useFormulario';
-import BotonPrimario from '@/components/botones/BotonPrimario';
-import BotonSecundario from '@/components/botones/BotonSecundario';
+import BotonPrimario from '@/components/botones/botonPrimario';
+import BotonSecundario from '@/components/botones/botonSecundario';
+import BotonEliminar from '@/components/botones/botonEliminar';
 import '@/components/formularioProducto/formularioProducto.css';
 
 const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProductos }) => {
@@ -355,10 +356,8 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
             
             <div className={`d-flex mt-3 ms-3 me-3 ${accion === 'alta' ? 'justify-content-center' : 'justify-content-between'}`} style={{maxWidth: '600px'}}>
             {accion === 'actualizacion' &&
-                    <BotonSecundario
+                    <BotonEliminar
                         tipo='button'
-                    texto={cargandoEliminacion ? <><span>Eliminando </span><i className="fa-solid fa-spinner fa-spin"></i></> : <><i className="fa-solid fa-trash-can"></i><span> Eliminar producto</span></>}
-                        claseAdicional='eliminar'
                         accion={() => eliminarProductoPorId()} />}
             
             <article className="text-center">

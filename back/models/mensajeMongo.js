@@ -24,6 +24,10 @@ const mensajeSchema = new mongoose.Schema({
     mensaje: {
         type: String,
         required: true
+    },
+    nuevo: {
+        type: Boolean,
+        default: true
     }
 });
 

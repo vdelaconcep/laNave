@@ -3,6 +3,7 @@ import { BackgroundContext } from '@/context/backgroundContext';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormularioProducto from '@/components/formularioProducto/formularioProducto';
+import useFechaYHora from '@/hooks/useFechaYHora'; 
 import axios from 'axios';
 import sinImagen from '@/assets/img/tarjeta-alternativa.jpg';
 import '@/pages/css/productosAdmin.css';
@@ -37,15 +38,6 @@ const ProductosAdmin = () => {
             setCargando(false);
         }
     }
-
-    const formatearFechaYHora = (fechaYHora) => {
-        const fecha = new Date(fechaYHora);
-        return new Intl.DateTimeFormat('es-AR', {
-            dateStyle: 'short',
-            timeStyle: 'short',
-            timeZone: 'America/Argentina/Buenos_Aires'
-        }).format(fecha);
-    };
 
     const formatearStock = (stock) => {
         let stockFormateado = '[';
@@ -99,8 +91,8 @@ const ProductosAdmin = () => {
                                             <p className='text-secondary'>
                                                 {(`(id: ${producto.uuid})`)}
                                             </p>
-                                            <p>{`Ingreso: ${formatearFechaYHora(producto.fechaYHoraAlta)}`}</p>
-                                            <p>Modificado: {producto.fechaYHoraModificacion ? <span>{formatearFechaYHora(producto.fechaYHoraModificacion)}</span> : <span>No</span>}</p>
+                                            <p>{`Ingreso: ${useFechaYHora(producto.fechaYHoraAlta)}`}</p>
+                                            <p>Modificado: {producto.fechaYHoraModificacion ? <span>{useFechaYHora(producto.fechaYHoraModificacion)}</span> : <span>No</span>}</p>
                                             <p>{`Stock: ${formatearStock(producto.stock)}`}</p>
                                         </div>
                                     </div>
