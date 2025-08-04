@@ -1,0 +1,23 @@
+
+
+.usuarios-table {
+    border-radius: 10px;
+    overflow: hidden;
+    width: 60vw;
+    max-width: 500px;
+    min-width: 310px;
+    box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 5px;
+}
+
+.usuarios-tableFila:last-of-type {
+    border-color: #2C3034 !important;
+}
+
+.usuarios-table td:first-child,
+.usuarios-table th:first-child {
+    padding-left: 1.5rem;
+}
+
+.usuarios-tableFila-celdaBotones {
+    vertical-align: middle;
+}
