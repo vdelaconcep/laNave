@@ -94,7 +94,7 @@ const Registro = () => {
                                 className="registro-input form-control"
                                 type="email"
                                 name="email"
-                                maxLength={30}
+                                maxLength={40}
                                 value={inputs.email}
                                 onChange={gestionIngreso}
                                 required />

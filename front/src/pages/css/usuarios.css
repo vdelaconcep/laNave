@@ -2,22 +2,59 @@
 
 .usuarios-table {
     border-radius: 10px;
-    overflow: hidden;
+    background-color: #2C3034;
     width: 60vw;
     max-width: 500px;
     min-width: 310px;
     box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 5px;
 }
 
-.usuarios-tableFila:last-of-type {
+.usuario-Fila:last-of-type {
     border-color: #2C3034 !important;
 }
 
 .usuarios-table td:first-child,
 .usuarios-table th:first-child {
-    padding-left: 1.5rem;
+    padding-left: 1rem;
 }
 
-.usuarios-tableFila-celdaBotones {
+.usuario-celdaEmail {
+    word-break: break-word;
+    white-space: normal;
+}
+
+.usuarios-table td {
     vertical-align: middle;
+}
+
+.usuario-celdaBotonDiv {
+    position: relative;
+}
+
+@keyframes mostrarMenuY {
+    from {transform: scaleY(0)}
+    to {transform: scaleY(1)}
+}
+
+.usuarios-ulDesplegable {
+    transform-origin: top center;
+    animation: mostrarMenuY 300ms ease-in-out forwards;
+    position: absolute;
+    top: -17px;
+    right: -22px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #8EDCC0;
+    box-shadow: 0 0 10px black;
+}
+
+.usuarios-desplegableLi {
+    cursor: pointer;
+    color: black !important;
+
+}
+
+.usuarios-desplegableLi:hover {
+    background-color: rgb(234, 234, 234) !important;
+    color: black !important;
 }

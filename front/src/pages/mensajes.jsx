@@ -61,7 +61,7 @@ const Mensajes = () => {
 
             return setMensajes(ordenados);
         } catch (err) {
-            toast.error(`Error al obtener mensajes: ${err.response.data.error}`);
+            toast.error(`Error al obtener mensajes: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
             return setMensajes([]);
         } finally {
             setCargando(false);
@@ -76,7 +76,7 @@ const Mensajes = () => {
             return toast.success('Respuesta enviada');
 
         } catch (err) {
-            return toast.error(`Error al enviar respuesta: ${err.response.data.error}`);
+            return toast.error(`Error al enviar respuesta: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
         } finally {
             setEmailAResponder(null);
             setRespuesta('');

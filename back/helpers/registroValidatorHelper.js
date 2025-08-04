@@ -15,7 +15,7 @@ export const reglasValidacionRegistro = [
         .escape()
         .notEmpty().withMessage("Debe ingresarse una dirección de e-mail")
         .bail()
-        .isLength({ max: 30 }).withMessage("El e-mail no puede tener más de 30 caracteres")
+        .isLength({ max: 40 }).withMessage("El e-mail no puede tener más de 30 caracteres")
         .bail()
         .isEmail().withMessage("Debe ingresarse una dirección de e-mail válida")
         .bail()

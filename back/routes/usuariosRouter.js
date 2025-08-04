@@ -2,7 +2,10 @@ import express from 'express';
 import {
     registrarUsuario,
     iniciarSesion,
-    obtenerUsuarios
+    obtenerUsuarios,
+    cambiarRol,
+    obtenerUsuarioPorID,
+    eliminarRegistro
 } from '../controller/usuariosController.js';
 
 import { reglasValidacionRegistro } from '../helpers/registroValidatorHelper.js';
@@ -23,5 +26,14 @@ router.post('/registro', reglasValidacionRegistro, validar, registrarUsuario);
 
 // Obtener todos los usuarios
 router.get('/', rutaAdmin, obtenerUsuarios);
+
+// Obtener usuario por uuid
+router.get('/:id', rutaAdmin, obtenerUsuarioPorID);
+
+// Cambiar rol de usuario
+router.put('/cambiarRol/:id', rutaAdmin, cambiarRol);
+
+// Eliminar registro de usuario
+router.delete('/eliminar/:id', rutaAdmin, eliminarRegistro);
 
 export default router;

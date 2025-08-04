@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from '@/context/authContext';
 import { CarritoContext } from '@/context/carritoContext';
 import { obtenerMensajesNuevos } from '@/services/mensajeService';
+import { toast } from 'react-toastify';
+import Confirm from '@/components/emergentes/confirm';
 import logo from '@/assets/img/logo.jpg';
 import banner from '@/assets/img/banner2.png';
 import '@/components/header/header.css';
@@ -19,8 +21,11 @@ const Header = () => {
     const nombreUsuario = usuario?.nombreYApellido?.trim().split(" ")[0];
     const textoBtnUsuario = sesionIniciada && nombreUsuario ? nombreUsuario : 'Ingresá'
 
-    // Mostrar/ocultar botón de cerrar sesión
+    // Botón de cerrar sesión
     const [botonCerrarSesion, setBotonCerrarSesion] = useState(false);
+
+    const [mostrarConfirm, setMostrarConfirm] = useState(false);
+    const [confirm, setConfirm] = useState(false);
     
     // Ocultar botón de cerrar sesión al hacer click en cualquier parte
     const refUsuarioDiv = useRef();
@@ -74,6 +79,14 @@ const Header = () => {
         };
     }, [usuario]);
 
+    useEffect(() => {
+        if (confirm) {
+            logout();
+            setBotonCerrarSesion(false);
+            setConfirm(false);
+        }
+    }, [confirm])
+
     return (
         <header>
             <section className="barraSuperior hstack">
@@ -103,11 +116,7 @@ const Header = () => {
                         <BotonSecundario
                             tipo='button'
                             texto='Cerrar sesión'
-                            accion={() => {
-                                const confirmacion = confirm('¿Salir de la sesión actual?');
-                                if (confirmacion) logout();
-                                setBotonCerrarSesion(false);
-                            }} />
+                            accion={() => setMostrarConfirm(true)} />
                     </article>
                 </div>
                 <div className="pe-3">
@@ -120,6 +129,13 @@ const Header = () => {
                 <Link to="/" className='links'><img className="w-100" src={banner} alt="banner" /></Link>
                 <p className="header-leyenda text-end pe-3"><b>REMERAS - BUZOS - MOCHILAS - Y MÁS</b></p>
             </section>
+            {mostrarConfirm ?
+                <Confirm
+                    pregunta='¿Salir de la sesión actual?'
+                    setConfirm={setConfirm}
+                    setMostrarConfirm={setMostrarConfirm}
+                /> : ''
+            }
         </header>
     )
 };

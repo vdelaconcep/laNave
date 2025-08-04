@@ -79,8 +79,59 @@ const obtenerUsuarios = async (req, res) => {
     }
 }
 
+const obtenerUsuarioPorID = async (req, res) => {
+    const id = req.params.id
+    try {
+        const usuario = await Usuario.findOne({ uuid: id });
+        if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+        return res.status(200).json({ usuario });
+    } catch (err) {
+        return res.status(500).json({ error: `Error al obtener usuario: ${err.message}` })
+    }
+}
+
+const cambiarRol = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const usuario = await Usuario.findOne({ uuid: id });
+        if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+        if (usuario.rol === 'cliente') {
+            usuario.rol = 'administrador';
+            await usuario.save();
+            return res.status(200).json({ mensaje: 'Rol actualizado a "administrador"', usuario });
+        } else if (usuario.rol === 'administrador') {
+            const existeOtroAdmin = await Usuario.findOne({
+                rol: 'administrador',
+                uuid: { $ne: id }
+            });
+            if (!existeOtroAdmin) return res.status(400).json({ error: 'El usuario es el único administrador' });
+            usuario.rol = 'cliente';
+            await usuario.save();
+            return res.status(200).json({ mensaje: 'Rol actualizado a "cliente"', usuario });
+        }
+
+    } catch (err) {
+        return res.status(500).json({ error: `Error al actualizar rol de usuario: ${err.message}` })
+    }
+}
+
+const eliminarRegistro = async (req, res) => {
+    const id = req.params.id
+    try {
+        await Usuario.findOneAndDelete({ uuid: id })
+        return res.status(204).end();
+    } catch (err) {
+        return res.status(500).json({ error: `Error al eliminar el registro: ${err.message}` })
+    }
+}
+
 export {
     registrarUsuario,
     iniciarSesion,
-    obtenerUsuarios
+    obtenerUsuarios,
+    obtenerUsuarioPorID,
+    cambiarRol,
+    eliminarRegistro
 };
