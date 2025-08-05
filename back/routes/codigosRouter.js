@@ -1,8 +1,9 @@
 import express from 'express';
 import {
     crearCodigo,
-    /* obtenerCodigos,
-    buscarCodigo */
+    obtenerCodigos,
+    buscarCodigo,
+    eliminarCodigo
 } from '../controller/codigosController.js';
 
 import { reglasValidacionCodigo } from '../helpers/codigoValidatorHelper.js';
@@ -18,10 +19,13 @@ const router = express.Router();
 // Crear código
 router.post('/crear', reglasValidacionCodigo, validar, crearCodigo);
 
-/* // Obtener todos los códigos
+// Obtener todos los códigos
 router.get('/', rutaAdmin, obtenerCodigos);
 
 // Buscar código
-router.get('/:codigo', buscarCodigo); */
+router.get('/:codigo', buscarCodigo);
+
+// Eliminar código por id
+router.delete('/eliminar/:id', rutaAdmin, eliminarCodigo)
 
 export default router;

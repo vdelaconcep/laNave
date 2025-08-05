@@ -28,10 +28,10 @@
 }
 
 .carrito-listaItem {
-    background-color: black;
+    background-color: #252525;
     border-bottom: 1px solid #bebebe;
     width: 100%;
-    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 5px;
 }
 
 .carrito-listaItem:first-of-type {
@@ -55,8 +55,8 @@
     margin: 0;
 }
 
-.carrito-listaItem h6 {
-    font-size: 1rem;
+.carrito-listaItem .titulo {
+    font-size: 1.1rem;
 }
 
 .carrito-listaItem-cantidadBotones {
@@ -70,7 +70,7 @@
     width: 23px;
     border: none;
     box-shadow: none;
-    background-color: black;
+    background-color: #252525;
     color: white;
 }
 
@@ -100,8 +100,21 @@
 }
 
 .carrito-divTotal {
-    background-color: black;
+    background-color: #252525;
+    box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 5px;
     border-radius: 10px;
-    font-size: 1.1rem;
+}
+
+.carrito-divTotal .total {
+    font-size: 1.2rem;
     font-weight: bold;
+}
+
+.carrito-divTotal .codigo {
+    padding-top: 4px;
+    color:#8EDCC0;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    margin: 0;
+    cursor: pointer;
 }

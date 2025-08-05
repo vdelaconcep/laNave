@@ -3,6 +3,7 @@ import { BackgroundContext } from '@/context/backgroundContext';
 import { Link } from 'react-router-dom';
 import { CarritoContext } from '@/context/carritoContext';
 import { obtenerProducto } from '@/services/productoService';
+import {buscarCodigo} from '@/services/codigoService'
 import { toast } from 'react-toastify';
 import Confirm from '@/components/emergentes/confirm';
 import carritoVacioImagen from '@/assets/img/carritoVacio.jpg';
@@ -34,14 +35,11 @@ const Carrito = () => {
     const [productoAEliminar, setProductoAEliminar] = useState(null);
     const [productoEliminado, setProductoEliminado] = useState(false);
 
+    const [ingresarCodigo, setIngresarCodigo] = useState(false);
+    const [codigoIngresado, setCodigoIngresado] = useState('');
+    const [codigoAplicado, setCodigoAplicado] = useState({})
+
     const [total, setTotal] = useState(0)
-
-
-    useEffect(() => {
-        const estaVacio = Array.isArray(carrito) && carrito.length === 0;
-        if (estaVacio) setCarritoVacio(estaVacio);
-
-    }, [carrito])
 
     // Obtiene información completa sobre un producto desde el backend (para armar lista)
     const obtenerPorId = async (id) => {
@@ -54,7 +52,7 @@ const Carrito = () => {
             }
             return res.data;
         } catch (err) {
-            toast.error(`Error al obtener datos del producto: ${err.response.data.error}`);
+            toast.error(`Error al obtener datos del producto: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
             return null
         }
     }
@@ -131,6 +129,29 @@ const Carrito = () => {
         setLista(nuevaLista);
     };
 
+    const handleCodigo = async (evento) => {
+        evento.preventDefault();
+        try {
+            const res = await buscarCodigo(codigoIngresado);
+            if (res.status !== 200 && res.status !== 404) return toast.error(`Error al buscar código: ${res.statusText}`);
+
+            if (res.status === 404) return toast.error('Código no encontrado');
+
+            setCodigoAplicado(res.data);
+            setIngresarCodigo(false);
+            return toast.success('Código de descuento aplicado');
+
+        } catch (err) {
+            return toast.error(`Error al buscar código de descuento: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
+        }
+    }
+
+    useEffect(() => {
+        const estaVacio = Array.isArray(carrito) && carrito.length === 0;
+        if (estaVacio) setCarritoVacio(estaVacio);
+
+    }, [carrito])
+
     // Crea/resetea lista (copia ampliada de carrito) al cargar la página o eliminar un producto
     useEffect(() => {
         setConfirm(false);
@@ -173,6 +194,17 @@ const Carrito = () => {
         }
     }, [confirm]);
 
+    useEffect(() => {
+        const codigoMemoria = JSON.parse(localStorage.getItem('codigo')) || {};
+
+        if (Object.keys(codigoAplicado).length === 0) {
+            setCodigoAplicado(codigoMemoria)
+        } else {
+            localStorage.setItem('codigo', JSON.stringify(codigoAplicado));
+        }
+        setIngresarCodigo(false);
+    }, [codigoAplicado])
+
     return (
         <main>
             <h1 className="pagina-titulo text-white text-center">Carrito</h1>
@@ -206,7 +238,7 @@ const Carrito = () => {
                                             </div>
 
                                             <div className='p-3 w-100 w-sm-auto'>
-                                                <h6 className='mb-2 fw-bold text-decoration-underline'>
+                                                <h6 className='titulo mb-2 fw-bold'>
                                                     {titulo}</h6>
                                                 <p>{producto.talle ? `Talle: ${producto.talle}` : ''}</p>
                                                 <div className='carrito-listaItem-cantidad d-flex mt-3 justify-content-center justify-content-sm-start'>
@@ -251,10 +283,39 @@ const Carrito = () => {
                                         </div>
                                     </article>);
                                 })}
-                                <div className='carrito-divTotal mt-2 p-3'>
-                                    <p className='text-end text-warning mb-0'>
-                                        {`TOTAL ARS ${total}`}    
-                                    </p>
+                                    <div className='carrito-divTotal  mt-2 p-3'>
+                                        <div className='d-sm-flex justify-content-between'>
+                                            <p className='total d-sm-none text-end text-warning mb-0'>
+                                                {`TOTAL ARS ${total}`}
+                                            </p>
+                                            {Object.keys(codigoAplicado).length !== 0 ?
+                                                <p
+                                                    className='codigo text-end text-sm-start'
+                                                    onClick={() => setIngresarCodigo(true)}>
+                                                    Código de descuento aplicado (cambiar)
+                                                </p> : 
+                                                <p
+                                                    className='codigo text-end text-sm-start'
+                                                    onClick={() => setIngresarCodigo(true)}
+                                                >Ingresar código de descuento</p>}
+                                            <p className='total d-none d-sm-block text-end text-warning mb-0'>
+                                                {`TOTAL ARS ${total}`}
+                                            </p>
+                                        </div>
+                                        {ingresarCodigo ?
+                                            <form 
+                                            onSubmit={handleCodigo}
+                                                className='text-end text-sm-start'>
+                                                <input
+                                                    type="text"
+                                                    maxLength={10}
+                                                    value={codigoIngresado}
+                                                    onChange={(e) => setCodigoIngresado(e.target.value)} />
+                                                <button type='submit'>
+                                                    Ingresar
+                                                </button>
+                                            </form> : ''}
+                                        
                                 </div>
                                 </> : <h5>No es posible visualizar el carrito en este momento. Intentá nuevamente más tarde</h5>}
                         </div>) 

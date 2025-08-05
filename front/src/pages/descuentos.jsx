@@ -1,8 +1,10 @@
 import { useEffect, useContext, useState } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import { toast } from 'react-toastify';
-import { generarCodigo } from '@/services/codigoService';
+import { generarCodigo, obtenerCodigos, eliminarCodigo } from '@/services/codigoService';
+import Confirm from '@/components/emergentes/confirm';
 import useFormulario from '@/hooks/useFormulario';
+import formatearUTC from '@/utils/formatearUTC'
 import BotonSecundario from '@/components/botones/botonSecundario';
 import BotonPrimario from '@/components/botones/botonPrimario';
 
@@ -41,6 +43,11 @@ const Descuentos = () => {
 
     const [codigos, setCodigos] = useState([]);
 
+    const [mostrarConfirm, setMostrarConfirm] = useState(false);
+    const [confirm, setConfirm] = useState(false);
+    const [pregunta, setPregunta] = useState(false);
+    const [codigoAEliminar, setCodigoAEliminar] = useState(null);
+
     const crearCodigo = async (datos) => {
 
         datos.creadoPor = usuario.nombreYApellido
@@ -52,6 +59,7 @@ const Descuentos = () => {
             if (res.status !== 200) return toast.error(`Error al crear el código de descuento: ${res.statusText}`);
     
             setInputs(estadoInicial);
+            traerCodigos();
             
             return toast.success('El código de descuento se generó con éxito');
         } catch (err) {
@@ -63,20 +71,61 @@ const Descuentos = () => {
     
     const { inputs, setInputs, gestionIngreso, gestionEnvio } = useFormulario(crearCodigo);
 
+    const traerCodigos = async () => {
+        try {
+            setCargando(true);
+            const res = await obtenerCodigos(headers);
+
+            if (res.status !== 200) return toast.error(`Error al obtener códigos de descuento: ${res.statusText}`);
+
+            return setCodigos(res.data);
+        } catch (err) {
+            return toast.error(`Error al obtener códigos de descuento: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
+        } finally {
+            setCargando(false);
+        };
+    }
+
+    const eliminarCodigoPorID = async (id) => {
+        try {
+            const res = await eliminarCodigo(id, headers);
+
+            if (res.status !== 204) return toast.error(`Error al eliminar el código: ${res.statusText}`);
+
+            traerCodigos();
+
+            return toast.success('El código se ha eliminado con éxito');
+        } catch (err) {
+            return toast.error(`Error al eliminar código de descuento: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
+        }
+    }
+
     useEffect(() => {
+        traerCodigos();
         setInputs((prev) => ({
             ...estadoInicial,
             tipoProducto: 'todo'
         }));
     }, []);
 
+    useEffect(() => {
+        if (confirm && codigoAEliminar) {
+            eliminarCodigoPorID(codigoAEliminar);
+            setCodigoAEliminar(null);
+            setPregunta('');
+            setConfirm(false);
+            setMostrarConfirm(false);
+        }
+    }, [confirm])
+
     return (
         <main>
             {(!usuario || !usuario.rol || usuario.rol !== 'administrador') ? <h4 className='text-white text-center p-2 m-2 pt-4 pb-5 mt-5 mb-5'>Necesitás permisos de administrador para acceder</h4> :
                 <>
                     <h1 className="pagina-titulo text-white text-center">Códigos de descuento</h1>
-                    <section className='text-white mt-2'>
-                        <article className='bg-dark p-4 mb-4 rounded-4'>
+                    <section className='aparecer text-white mt-2 mb-5 d-flex flex-wrap'>
+                        <article className='bg-dark p-4 m-2 rounded-4'>
+                            <h6 className='text-center'>Crear código:</h6>
                             <form onSubmit={gestionEnvio}>
                                 <div className='d-flex mb-3'>
                                     <div className='me-3'>
@@ -168,28 +217,42 @@ const Descuentos = () => {
                                 </div>
                             </form>
                         </article>
-                        {codigos.length > 0 ? 
-                            <article>
-                                <h6>Códigos existentes:</h6>
-                                {codigos.map(codigo => (
-                                    <div>
-                                        <p>{codigo.codigo}</p>
-                                        <p>{codigo.tipoProducto}</p>
-                                        <p>{codigo.banda}</p>
-                                        <p>{codigo.descuento}</p>
-                                        <p>{codigo.creadoPor}</p>
-                                        <p>{codigo.fechaYHora}</p>
-                                        <button>
-                                            Eliminar
-                                        </button>
-                                    </div>
-                                ))}
 
-                            </article> : ''
-                        }
-                        
+                        <article className='d-flex flex-column bg-dark p-4 m-2 rounded-4'>
+                            { cargando &&
+                                <h2 className='pagina-cargando text-white m-5'><i className="fa-solid fa-spinner fa-spin"></i></h2>
+                            }
+                            {(codigos.length > 0 && !cargando) ?
+                                <><h6 className='text-center'>Códigos existentes:</h6>
+                                {codigos.map(codigo => (
+                                    <div className='mb-1'>
+                                        <div className='d-flex justify-content-between'>
+                                            <p className='mb-0'>{`${codigo.codigo} (${codigo.descuento} %)`}</p>
+                                            <button
+                                                type='button'
+                                                title='Eliminar código'
+                                                onClick={() => {
+                                                    setCodigoAEliminar(codigo.uuid)
+                                                    setPregunta(`¿Desea eliminar el código de descuento "${codigo.codigo}"`);
+                                                    setMostrarConfirm(true);
+                                            }}>X</button>
+                                        </div>
+                                        <p className='mb-0'>Aplicado a: {codigo.tipoProducto} {codigo.banda}</p>
+                                        <p className='mb-0'>Creado por: {codigo.creadoPor}, {formatearUTC(codigo.fechaYHora)}</p>
+                                        <hr />
+                                    </div>
+                                ))}</> : ''}
+
+                        </article>
                     </section>
                 </>}
+            {mostrarConfirm ?
+                <Confirm
+                    pregunta={pregunta}
+                    setConfirm={setConfirm}
+                    setMostrarConfirm={setMostrarConfirm}
+                /> : ''
+            }
         </main>
     );
 };
