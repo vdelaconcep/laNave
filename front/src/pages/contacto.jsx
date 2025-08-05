@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import { toast } from 'react-toastify';
+import { enviarMensaje } from '@/services/mensajeService';
 import contactoImagen from '@/assets/img/contacto.jpg';
 import BotonPrimario from '@/components/botones/botonPrimario';
 import BotonSecundario from '@/components/botones/botonSecundario';
 import useFormulario from '@/hooks/useFormulario';
-import axios from 'axios';
 import '@/pages/css/pages.css'
 import '@/pages/css/formularios.css'
 
@@ -34,7 +34,7 @@ const Contacto = () => {
         // Envío de datos al backend
         try {
             setCargando(true);
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/mensajes/mensajeNuevo`, datos);
+            const res = await enviarMensaje(datos);
 
             if (res.status !== 200) return toast.error(`Error al enviar tu mensaje: ${res.statusText}`);
 
@@ -42,7 +42,7 @@ const Contacto = () => {
             
             return toast.success('Se envió tu mensaje. Te responderemos a la brevedad');
         } catch (err) {
-            return toast.error(`Error al enviar tu mensaje: ${err.response.data.error}`);
+            return toast.error(`Error al enviar tu mensaje: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
         } finally {
             setCargando(false);
         };

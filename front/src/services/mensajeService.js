@@ -1,5 +1,9 @@
 import apiClient from "@/services/apiClient";
 
+export const enviarMensaje = (mensaje) => {
+    return apiClient.post('/mensajes/mensajeNuevo', mensaje);
+}
+
 export const obtenerMensajes = (headers) => {
     return apiClient.get('/mensajes', {headers});
 };

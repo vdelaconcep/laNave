@@ -4,6 +4,7 @@ import cors from 'cors';
 import usuariosRouter from './routes/usuariosRouter.js';
 import productosRouter from './routes/productosRouter.js';
 import mensajesRouter from './routes/mensajesRouter.js';
+import codigosRouter from './routes/codigosRouter.js';
 
 // Servidor
 const app = express();
@@ -18,5 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/usuarios', usuariosRouter);
 app.use('/api/productos', productosRouter);
 app.use('/api/mensajes', mensajesRouter);
+app.use('/api/codigos', codigosRouter);
 
 export default app;
