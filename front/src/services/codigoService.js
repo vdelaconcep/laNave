@@ -13,5 +13,9 @@ export const eliminarCodigo = (id, headers) => {
 }
 
 export const buscarCodigo = (codigo) => {
-    return apiClient.get(`/codigos/${codigo}`);
+    return apiClient.get(`/codigos/buscar/${codigo}`);
+}
+
+export const buscarCodigoPorID = (id) => {
+    return apiClient.get(`/codigos/buscarid/${id}`);
 }

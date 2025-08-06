@@ -47,10 +47,11 @@ const Header = () => {
     const [nuevosMensajes, setNuevosMensajes] = useState(0);
 
     useEffect(() => {
-        const totalProductos = carrito.reduce((acc, producto) => acc + producto.cantidad, 0);
+        const totalProductos = carrito
+            .filter(item => item.hasOwnProperty('cantidad'))
+            .reduce((acc, producto) => acc + producto.cantidad, 0);
 
         setNumeroCarrito(totalProductos);
-
     }, [carrito]);
 
     // Para obtener permisos de administrador

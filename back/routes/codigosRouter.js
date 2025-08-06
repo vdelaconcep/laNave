@@ -3,7 +3,8 @@ import {
     crearCodigo,
     obtenerCodigos,
     buscarCodigo,
-    eliminarCodigo
+    eliminarCodigo,
+    buscarCodigoPorID
 } from '../controller/codigosController.js';
 
 import { reglasValidacionCodigo } from '../helpers/codigoValidatorHelper.js';
@@ -23,7 +24,10 @@ router.post('/crear', reglasValidacionCodigo, validar, crearCodigo);
 router.get('/', rutaAdmin, obtenerCodigos);
 
 // Buscar código
-router.get('/:codigo', buscarCodigo);
+router.get('/buscar/:codigo', buscarCodigo);
+
+// Buscar código por ID
+router.get('/buscarid/:id', buscarCodigoPorID)
 
 // Eliminar código por id
 router.delete('/eliminar/:id', rutaAdmin, eliminarCodigo)

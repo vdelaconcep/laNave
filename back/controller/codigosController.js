@@ -52,6 +52,17 @@ const buscarCodigo = async (req, res) => {
     }
 }
 
+const buscarCodigoPorID = async (req, res) => {
+    const codigoIDBuscado = req.params.id;
+    try {
+        const codigo = await Codigo.findOne({uuid: codigoIDBuscado});
+        if (!codigo) return res.status(404).json({ error: 'No se encontró el código de descuento' });
+        res.status(200).send(codigo);
+    } catch (err) {
+        res.status(500).json({ error: `No se ha podido obtener el código de descuento: ${err.message}` });
+    }
+}
+
 const eliminarCodigo = async (req, res) => {
     const idAEliminar = req.params.id;
     try {
@@ -67,5 +78,6 @@ export {
     crearCodigo,
     obtenerCodigos,
     buscarCodigo,
+    buscarCodigoPorID,
     eliminarCodigo
 };

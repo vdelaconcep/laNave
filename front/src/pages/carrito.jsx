@@ -3,7 +3,7 @@ import { BackgroundContext } from '@/context/backgroundContext';
 import { Link } from 'react-router-dom';
 import { CarritoContext } from '@/context/carritoContext';
 import { obtenerProducto } from '@/services/productoService';
-import {buscarCodigo} from '@/services/codigoService'
+import {buscarCodigo, buscarCodigoPorID} from '@/services/codigoService'
 import { toast } from 'react-toastify';
 import Confirm from '@/components/emergentes/confirm';
 import carritoVacioImagen from '@/assets/img/carritoVacio.jpg';
@@ -18,7 +18,7 @@ const Carrito = () => {
         return () => setBackground('');
     }, []);
     
-    // Carrito guardado en localStorage sólo contiene id, talle y cantidad
+    // Carrito guardado en localStorage sólo contiene id, talle y cantidad de productos (puede o no tener dos objetos más que indiquen código de descuento y envío)
     const { carrito, setCarrito } = useContext(CarritoContext);
 
     // Lista tiene detalles de los productos del carrito (foto, precio, descuento, etc.)
@@ -58,11 +58,16 @@ const Carrito = () => {
     }
 
     // Arma copia del carrito con información completa sobre los productos (para después setear lista)
-    const carritoCompleto = async () => {
+    const carritoProductosCompleto = async () => {
         setCargando(true);
         let carritoActualizado = [];
-        let carritoParaMostrar = [];
-        for (let producto of carrito) {
+        let carritoProductosParaMostrar = [];
+
+        const carritoEnvio = carrito.filter(item => item.hasOwnProperty('envio'));
+        const carritoDescuento = carrito.filter(item => item.hasOwnProperty('codigo'));
+        const carritoProductos = carrito.filter(item => item.hasOwnProperty('cantidad'));
+
+        for (let producto of carritoProductos) {
             const productoBD = await obtenerPorId(producto.id);
             if (!productoBD) {
                 toast.error('No se puede actualizar el carrito en este momento');
@@ -88,12 +93,13 @@ const Carrito = () => {
                     descuento: productoBD.descuento,
                     imagen: productoBD.imagen
                 };
-                carritoParaMostrar.push(aMostrar);
+                carritoProductosParaMostrar.push(aMostrar);
             };
         }
+        carritoActualizado = [...carritoActualizado, ...carritoDescuento, ...carritoEnvio]
         setCarrito(carritoActualizado);
         setCargando(false);
-        return carritoParaMostrar;
+        return carritoProductosParaMostrar;
     };
 
     // Setea producto a eliminar y llama a confirm
@@ -106,15 +112,19 @@ const Carrito = () => {
 
     // Modifica cantidad requerida de un producto tanto en carrito como en lista (para botones + y -)
     const modificarCantidad = (id, talle, operacion) => {
-        const nuevoCarrito = carrito.map((producto) => {
-            if (producto.id === id && producto.talle === talle) {
-                const nuevaCantidad = operacion === 'sumar' ? producto.cantidad + 1 : producto.cantidad - 1;
+
+        const nuevoCarrito = carrito.map((elemento) => {
+            if (
+                elemento.hasOwnProperty('cantidad') &&
+                elemento.id === id &&
+                elemento.talle === talle) {
+                const nuevaCantidad = operacion === 'sumar' ? elemento.cantidad + 1 : elemento.cantidad - 1;
                 return {
-                    ...producto,
+                    ...elemento,
                     cantidad: Math.max(nuevaCantidad, 1)
                 };
             }
-            return producto;
+            return elemento;
         });
 
         setCarrito(nuevoCarrito);
@@ -129,6 +139,7 @@ const Carrito = () => {
         setLista(nuevaLista);
     };
 
+    // Cuando el usuario introduce un código de descuento
     const handleCodigo = async (evento) => {
         evento.preventDefault();
         try {
@@ -137,8 +148,15 @@ const Carrito = () => {
 
             if (res.status === 404) return toast.error('Código no encontrado');
 
+            if (carrito.some(item => item.codigo === res.data.uuid)) return toast.info('El código ya fue aplicado');
+
             setCodigoAplicado(res.data);
+            setCodigoIngresado('');
             setIngresarCodigo(false);
+            
+            const carritoSinDescuento = carrito.filter(item => !item.hasOwnProperty('codigo'));
+            const nuevoCarrito = [...carritoSinDescuento, { codigo: res.data.uuid }];
+            setCarrito(nuevoCarrito);
             return toast.success('Código de descuento aplicado');
 
         } catch (err) {
@@ -146,18 +164,40 @@ const Carrito = () => {
         }
     }
 
+    // Si hay un código cargado previamente en el carrito, obtener data actualizada
+    const actualizarCodigo = async () => {
+        if (!ingresarCodigo) {
+            const carritoDescuento = carrito.filter(item => item.hasOwnProperty('codigo'));
+            if (carritoDescuento.length > 0) {
+                try {
+                    const res = await buscarCodigoPorID(carritoDescuento[0].codigo);
+                    if (res.status !== 200) {
+                        setCodigoAplicado({});
+                        return toast.error(`El código de descuento ya no se encuentra disponible: ${res.statusText}`);
+                    };
+                    setCodigoAplicado(res.data);
+                    return toast.info('Se aplicó un código de descuento cargado previamente');
+                } catch (err) {
+                    setCodigoAplicado({});
+                    return toast.error(`Error al buscar código de descuento: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
+                }
+            }
+        }
+    }
+
     useEffect(() => {
-        const estaVacio = Array.isArray(carrito) && carrito.length === 0;
+        const carritoProductos = carrito.filter(item => item.hasOwnProperty('cantidad'));
+        const estaVacio = carritoProductos.length === 0;
         if (estaVacio) setCarritoVacio(estaVacio);
 
     }, [carrito])
 
-    // Crea/resetea lista (copia ampliada de carrito) al cargar la página o eliminar un producto
+    // Crea/resetea lista (array con data detallada de los productos del carrito) al cargar la página o eliminar un producto
     useEffect(() => {
         setConfirm(false);
 
         const cargar = async () => {
-            const datos = await carritoCompleto();
+            const datos = await carritoProductosCompleto();
             setLista(datos);
         };
         cargar();
@@ -182,11 +222,11 @@ const Carrito = () => {
         if (confirm && productoAEliminar) {
             const { id, talle } = productoAEliminar;
             const productoAQuitarIndex = carrito.findIndex(producto => producto.id === id && producto.talle === talle);
-            if (productoAQuitarIndex === -1) {
-                toast.error('El producto ya no se encuentra en el carrito');
+            if (productoAQuitarIndex !== -1) {
+                const nuevoCarrito = carrito.filter(item => !(item.id === id && item.talle === talle));
+                setCarrito(nuevoCarrito);
             } else {
-                carrito.splice(productoAQuitarIndex, 1);
-                setCarrito([...carrito]);
+                toast.error('El producto ya no se encuentra en el carrito');
             }
             setProductoEliminado(true);
             setProductoAEliminar(null);
@@ -194,16 +234,10 @@ const Carrito = () => {
         }
     }, [confirm]);
 
+    // Actualiza código de descuento ingresado previamente (si existe)
     useEffect(() => {
-        const codigoMemoria = JSON.parse(localStorage.getItem('codigo')) || {};
-
-        if (Object.keys(codigoAplicado).length === 0) {
-            setCodigoAplicado(codigoMemoria)
-        } else {
-            localStorage.setItem('codigo', JSON.stringify(codigoAplicado));
-        }
-        setIngresarCodigo(false);
-    }, [codigoAplicado])
+        actualizarCodigo();
+    }, [])
 
     return (
         <main>
