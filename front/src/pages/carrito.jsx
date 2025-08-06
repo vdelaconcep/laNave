@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState, useRef } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import { Link } from 'react-router-dom';
 import { CarritoContext } from '@/context/carritoContext';
@@ -7,7 +7,9 @@ import {buscarCodigo, buscarCodigoPorID} from '@/services/codigoService'
 import { toast } from 'react-toastify';
 import Confirm from '@/components/emergentes/confirm';
 import carritoVacioImagen from '@/assets/img/carritoVacio.jpg';
-import '@/pages/css/carrito.css'
+import BotonSecundario from '@/components/botones/botonSecundario';
+import BotonPrimario from '@/components/botones/botonPrimario';
+import '@/pages/css/carrito.css';
 
 
 const Carrito = () => {
@@ -31,15 +33,18 @@ const Carrito = () => {
     const [pregunta, setPregunta] = useState('');
     const [mostrarConfirm, setMostrarConfirm] = useState(false);
     const [confirm, setConfirm] = useState(false);
+    const [accion, setAccion] = useState('');
 
     const [productoAEliminar, setProductoAEliminar] = useState(null);
     const [productoEliminado, setProductoEliminado] = useState(false);
 
     const [ingresarCodigo, setIngresarCodigo] = useState(false);
     const [codigoIngresado, setCodigoIngresado] = useState('');
-    const [codigoAplicado, setCodigoAplicado] = useState({})
+    const [codigoAplicado, setCodigoAplicado] = useState({});
 
-    const [total, setTotal] = useState(0)
+    const [total, setTotal] = useState(0);
+
+    const ejecutado = useRef(false);
 
     // Obtiene información completa sobre un producto desde el backend (para armar lista)
     const obtenerPorId = async (id) => {
@@ -53,9 +58,9 @@ const Carrito = () => {
             return res.data;
         } catch (err) {
             toast.error(`Error al obtener datos del producto: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
-            return null
+            return null;
         }
-    }
+    };
 
     // Arma copia del carrito con información completa sobre los productos (para después setear lista)
     const carritoProductosCompleto = async () => {
@@ -76,7 +81,7 @@ const Carrito = () => {
             };
             if (producto.cantidad > productoBD.stock) {
                 producto.cantidad = productoBD.stock;
-                toast.info('Se modificó el contenido del carrito en base al stock disponible')
+                toast.info('Se modificó el contenido del carrito en base al stock disponible');
             }
 
             if (producto.cantidad > 0) {
@@ -85,7 +90,7 @@ const Carrito = () => {
                     id: producto.id,
                     talle: producto.talle,
                     cantidad: producto.cantidad,
-                    stock: producto.talle ? productoBD.stock[producto.talle]: productoBD.stock['U'],
+                    stock: producto.talle ? productoBD.stock[producto.talle] : productoBD.stock['U'],
                     tipo: productoBD.tipo,
                     banda: productoBD.banda,
                     modelo: productoBD.modelo,
@@ -96,7 +101,7 @@ const Carrito = () => {
                 carritoProductosParaMostrar.push(aMostrar);
             };
         }
-        carritoActualizado = [...carritoActualizado, ...carritoDescuento, ...carritoEnvio]
+        carritoActualizado = [...carritoActualizado, ...carritoDescuento, ...carritoEnvio];
         setCarrito(carritoActualizado);
         setCargando(false);
         return carritoProductosParaMostrar;
@@ -107,6 +112,7 @@ const Carrito = () => {
         const siQuitarProducto = `¿Quitar del carrito ${titulo} ${talle ? `talle ${talle}` : ''}?`;
         setPregunta(siQuitarProducto);
         setProductoAEliminar({ id, talle });
+        setAccion('eliminar');
         setMostrarConfirm(true);
     };
 
@@ -139,30 +145,69 @@ const Carrito = () => {
         setLista(nuevaLista);
     };
 
+    // Evaluar si aplica el código de descuento e implementarlo (para todos los productos)
+    const aplicarCodigo = () => {
+        let conDescuentoPorCodigo = lista;
+        if ('banda' in codigoAplicado &&
+            typeof codigoAplicado.banda === 'string' && codigoAplicado.banda.trim().length > 0) {
+            const aplicaBanda = conDescuentoPorCodigo.filter(producto => producto.banda.toLowerCase().includes(codigoAplicado.banda.toLowerCase()));
+            conDescuentoPorCodigo = aplicaBanda;
+        }
+        if (codigoAplicado.tipoProducto !== 'todo') {
+            const aplicaTipo = conDescuentoPorCodigo.filter(producto => producto.tipo === codigoAplicado.tipoProducto);
+            conDescuentoPorCodigo = aplicaTipo;
+        }
+
+        const carritoProductos = carrito.filter(item => item.hasOwnProperty('cantidad'));
+        const carritoNuevoProductos = carritoProductos.map((producto) => {
+            const tieneDescuento = conDescuentoPorCodigo.some(p => p.id === producto.id && p.talle === producto.talle);
+            return {
+                ...producto,
+                porCodigo: tieneDescuento ? codigoAplicado.descuento : 0
+            };
+        });
+
+        const carritoSinProductos = carrito.filter(item => !item.hasOwnProperty('cantidad'));
+        const carritoArmado = [...carritoSinProductos, ...carritoNuevoProductos];
+        console.log(carritoArmado);
+        setCarrito(carritoArmado);
+
+        const listaArmada = lista.map((producto) => {
+            const tieneDescuento = conDescuentoPorCodigo.some(p => p.id === producto.id && p.talle === producto.talle);
+            return {
+                ...producto,
+                porCodigo: tieneDescuento ? codigoAplicado.descuento : 0
+            };
+        });
+
+        setLista(listaArmada);
+
+        if (!conDescuentoPorCodigo || conDescuentoPorCodigo.length === 0) return toast.warning('El descuento por código no aplica a los productos del carrito')
+
+        return toast.success('El código de descuento se aplicó con éxito')
+    }
+
     // Cuando el usuario introduce un código de descuento
     const handleCodigo = async (evento) => {
         evento.preventDefault();
         try {
             const res = await buscarCodigo(codigoIngresado);
-            if (res.status !== 200 && res.status !== 404) return toast.error(`Error al buscar código: ${res.statusText}`);
+            if (res.status !== 200 && res.status !== 304) return toast.error(`Error al buscar código: ${res.statusText}`);
 
-            if (res.status === 404) return toast.error('Código no encontrado');
-
-            if (carrito.some(item => item.codigo === res.data.uuid)) return toast.info('El código ya fue aplicado');
-
-            setCodigoAplicado(res.data);
+            if (carrito.some(item => item.codigo === res.data.uuid)) return toast.info('El código ya fue ingresado');
+            
             setCodigoIngresado('');
             setIngresarCodigo(false);
-            
+
             const carritoSinDescuento = carrito.filter(item => !item.hasOwnProperty('codigo'));
             const nuevoCarrito = [...carritoSinDescuento, { codigo: res.data.uuid }];
             setCarrito(nuevoCarrito);
-            return toast.success('Código de descuento aplicado');
+            return setCodigoAplicado(res.data);
 
         } catch (err) {
             return toast.error(`Error al buscar código de descuento: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
         }
-    }
+    };
 
     // Si hay un código cargado previamente en el carrito, obtener data actualizada
     const actualizarCodigo = async () => {
@@ -171,19 +216,29 @@ const Carrito = () => {
             if (carritoDescuento.length > 0) {
                 try {
                     const res = await buscarCodigoPorID(carritoDescuento[0].codigo);
-                    if (res.status !== 200) {
-                        setCodigoAplicado({});
+                    if (res.status !== 200 && res.status !== 304) {
+                        const nuevoCarrito = carrito.filter(item => !item.hasOwnProperty('codigo'))
+                        setCarrito(nuevoCarrito)
                         return toast.error(`El código de descuento ya no se encuentra disponible: ${res.statusText}`);
                     };
-                    setCodigoAplicado(res.data);
-                    return toast.info('Se aplicó un código de descuento cargado previamente');
+                    
+                    toast.info('Se cargó un código de descuento ingresado previamente');
+                    return setCodigoAplicado(res.data);
                 } catch (err) {
-                    setCodigoAplicado({});
+                    const nuevoCarrito = carrito.filter(item => !item.hasOwnProperty('codigo'));
+                    setCarrito(nuevoCarrito)
                     return toast.error(`Error al buscar código de descuento: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
                 }
             }
         }
-    }
+    };
+
+    const vaciarCarrito = () => {
+        const siVaciar = '¿Quitar todos los productos del carrito?';
+        setPregunta(siVaciar);
+        setAccion('vaciar');
+        setMostrarConfirm(true);
+    };
 
     useEffect(() => {
         const carritoProductos = carrito.filter(item => item.hasOwnProperty('cantidad'));
@@ -210,7 +265,7 @@ const Carrito = () => {
         let subtotal = 0;
 
         for (let producto of lista) {
-            const precioConDescuento = producto.precio * (1 - (producto.descuento || 0) / 100);
+            const precioConDescuento = producto.precio * (1 - (producto.descuento || 0) / 100) * (1 - (producto.porCodigo || 0) / 100);
             subtotal += producto.cantidad * precioConDescuento;
         }
 
@@ -219,32 +274,49 @@ const Carrito = () => {
 
     // Elimina el producto del carrito al presionar "aceptar"
     useEffect(() => {
-        if (confirm && productoAEliminar) {
-            const { id, talle } = productoAEliminar;
-            const productoAQuitarIndex = carrito.findIndex(producto => producto.id === id && producto.talle === talle);
-            if (productoAQuitarIndex !== -1) {
-                const nuevoCarrito = carrito.filter(item => !(item.id === id && item.talle === talle));
-                setCarrito(nuevoCarrito);
-            } else {
-                toast.error('El producto ya no se encuentra en el carrito');
+        if (confirm) {
+            if (productoAEliminar && accion === 'eliminar') {
+                const { id, talle } = productoAEliminar;
+                const productoAQuitarIndex = carrito.findIndex(producto => producto.id === id && producto.talle === talle);
+                if (productoAQuitarIndex !== -1) {
+                    const nuevoCarrito = carrito.filter(item => !(item.id === id && item.talle === talle));
+                    setCarrito(nuevoCarrito);
+                } else {
+                    toast.error('El producto ya no se encuentra en el carrito');
+                }
+                setProductoEliminado(true);
+                setProductoAEliminar(null);
+            } else if (accion === 'vaciar') {
+                localStorage.removeItem('carrito');
+                setCarrito([]);
             }
-            setProductoEliminado(true);
-            setProductoAEliminar(null);
-            setConfirm(false);
         }
+            
+        setAccion('');
+        setConfirm(false);
+
     }, [confirm]);
 
     // Actualiza código de descuento ingresado previamente (si existe)
     useEffect(() => {
+        // (Para que no se ejecute dos veces)
+        if (ejecutado.current) return;
+        ejecutado.current = true;
         actualizarCodigo();
     }, [])
+
+    useEffect(() => {
+        if (Object.keys(codigoAplicado).length > 0) {
+            aplicarCodigo();
+        }
+    }, [codigoAplicado]);
 
     return (
         <main>
             <h1 className="pagina-titulo text-white text-center">Carrito</h1>
-            <section className='carrito-section aparecer container mt-2 mb-5 d-flex flex-column align-items-center'>
+            <section className='carrito-section container mt-2 mb-5 d-flex flex-column align-items-center'>
                 {carritoVacio ?
-                    <div className='carritoVacio-div d-flex flex-column align-items-center mt-2'>
+                    <div className='carritoVacio-div aparecer d-flex flex-column align-items-center mt-2'>
                             <h5 className='text-center'>Todavía no hay ítems en tu carrito</h5>
                         <div className='carritoVacio-fotoDiv m-2'>
                             <img className='w-100' src={carritoVacioImagen} alt="Intoxicados en Tilcara" />
@@ -254,7 +326,7 @@ const Carrito = () => {
                     
                     (cargando ? 
                         <h2 className='pagina-cargando text-white m-5'><i className="fa-solid fa-spinner fa-spin"></i></h2> : 
-                        <div className='carritoLleno-div'>
+                        <div className='carritoLleno-div aparecer'>
                     
                             {lista ? 
                                 <>
@@ -322,7 +394,7 @@ const Carrito = () => {
                                             <p className='total d-sm-none text-end text-warning mb-0'>
                                                 {`TOTAL ARS ${total}`}
                                             </p>
-                                            {Object.keys(codigoAplicado).length !== 0 ?
+                                            {Object.keys(codigoAplicado).length > 0 ?
                                                 <p
                                                     className='codigo text-end text-sm-start'
                                                     onClick={() => setIngresarCodigo(true)}>
@@ -349,8 +421,20 @@ const Carrito = () => {
                                                     Ingresar
                                                 </button>
                                             </form> : ''}
-                                        
-                                </div>
+                                    </div>
+                                    <div className='text-center text-sm-end pe-sm-2 mt-3'>
+                                        <BotonSecundario
+                                            tipo='button'
+                                            texto='Vaciar carrito'
+                                            claseAdicional='me-2'
+                                            accion={vaciarCarrito}
+                                        />
+                                        <BotonPrimario
+                                            tipo='button'
+                                            texto='Continuar compra'
+                                        claseAdicional='ms-1'/>
+
+                                    </div>
                                 </> : <h5>No es posible visualizar el carrito en este momento. Intentá nuevamente más tarde</h5>}
                         </div>) 
                 }
