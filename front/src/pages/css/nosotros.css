@@ -8,6 +8,8 @@
 .nosotros-texto {
     font-size: 1em;
     font-weight: 500;
+    color: black;
+    text-shadow: none;
 }
 
 .nosotros-fotoDiv {

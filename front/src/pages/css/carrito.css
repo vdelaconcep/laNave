@@ -110,11 +110,40 @@
     font-weight: bold;
 }
 
-.carrito-divTotal .codigo {
-    padding-top: 4px;
-    color:#8EDCC0;
+.botonMostrarIngresarCodigo {
     text-decoration: underline;
-    font-size: 0.9rem;
-    margin: 0;
-    cursor: pointer;
+    background-color: transparent;
+    border: none !important;
+    box-shadow: none !important;
+    padding-top: 3px;
+}
+
+.inputIngresarCodigo {
+    height: 32px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.botonIngresarCodigo {
+    height: 32px;
+    width: 80px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.letraVerde {
+    color: #8EDCC0;
+}
+
+.descuentos {
+    font-size: 0.8rem;
+}
+
+@media (max-width: 576px) {
+    .botonMostrarIngresarCodigo {
+        font-size: 14px;
+    }
+    .inputIngresarCodigo {
+        width: 170px;
+    }
 }

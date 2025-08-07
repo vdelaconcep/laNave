@@ -3,7 +3,7 @@ import { BackgroundContext } from '@/context/backgroundContext';
 import { Link } from 'react-router-dom';
 import { CarritoContext } from '@/context/carritoContext';
 import { obtenerProducto } from '@/services/productoService';
-import {buscarCodigo, buscarCodigoPorID} from '@/services/codigoService'
+import {buscarCodigo} from '@/services/codigoService'
 import { toast } from 'react-toastify';
 import Confirm from '@/components/emergentes/confirm';
 import carritoVacioImagen from '@/assets/img/carritoVacio.jpg';
@@ -41,10 +41,12 @@ const Carrito = () => {
     const [ingresarCodigo, setIngresarCodigo] = useState(false);
     const [codigoIngresado, setCodigoIngresado] = useState('');
     const [codigoAplicado, setCodigoAplicado] = useState({});
+    const [codigoAplicadoPorUsuario, setCodigoAplicadoPorUsuario] = useState(false);
 
     const [total, setTotal] = useState(0);
 
     const ejecutado = useRef(false);
+    const ejecutadoOtro = useRef(false);
 
     // Obtiene información completa sobre un producto desde el backend (para armar lista)
     const obtenerPorId = async (id) => {
@@ -145,9 +147,9 @@ const Carrito = () => {
         setLista(nuevaLista);
     };
 
-    // Evaluar si aplica el código de descuento e implementarlo (para todos los productos)
+    // Evaluar si aplica el código de descuento e implementarlo en los productos que se muestran
     const aplicarCodigo = () => {
-        let conDescuentoPorCodigo = lista;
+        let conDescuentoPorCodigo = [...lista];
         if ('banda' in codigoAplicado &&
             typeof codigoAplicado.banda === 'string' && codigoAplicado.banda.trim().length > 0) {
             const aplicaBanda = conDescuentoPorCodigo.filter(producto => producto.banda.toLowerCase().includes(codigoAplicado.banda.toLowerCase()));
@@ -157,20 +159,6 @@ const Carrito = () => {
             const aplicaTipo = conDescuentoPorCodigo.filter(producto => producto.tipo === codigoAplicado.tipoProducto);
             conDescuentoPorCodigo = aplicaTipo;
         }
-
-        const carritoProductos = carrito.filter(item => item.hasOwnProperty('cantidad'));
-        const carritoNuevoProductos = carritoProductos.map((producto) => {
-            const tieneDescuento = conDescuentoPorCodigo.some(p => p.id === producto.id && p.talle === producto.talle);
-            return {
-                ...producto,
-                porCodigo: tieneDescuento ? codigoAplicado.descuento : 0
-            };
-        });
-
-        const carritoSinProductos = carrito.filter(item => !item.hasOwnProperty('cantidad'));
-        const carritoArmado = [...carritoSinProductos, ...carritoNuevoProductos];
-        console.log(carritoArmado);
-        setCarrito(carritoArmado);
 
         const listaArmada = lista.map((producto) => {
             const tieneDescuento = conDescuentoPorCodigo.some(p => p.id === producto.id && p.talle === producto.talle);
@@ -182,26 +170,30 @@ const Carrito = () => {
 
         setLista(listaArmada);
 
-        if (!conDescuentoPorCodigo || conDescuentoPorCodigo.length === 0) return toast.warning('El descuento por código no aplica a los productos del carrito')
-
-        return toast.success('El código de descuento se aplicó con éxito')
+        if (!conDescuentoPorCodigo || conDescuentoPorCodigo.length === 0) {
+            toast.warning('El descuento por código no aplica a los productos del carrito');
+        } else if (codigoAplicadoPorUsuario) toast.success('El código de descuento se aplicó con éxito')
+        
+        return setCodigoAplicadoPorUsuario(false);
     }
 
     // Cuando el usuario introduce un código de descuento
     const handleCodigo = async (evento) => {
         evento.preventDefault();
         try {
-            const res = await buscarCodigo(codigoIngresado);
+            const codigoEnMayusculas = codigoIngresado.toUpperCase();
+            const res = await buscarCodigo(codigoEnMayusculas);
             if (res.status !== 200 && res.status !== 304) return toast.error(`Error al buscar código: ${res.statusText}`);
 
-            if (carrito.some(item => item.codigo === res.data.uuid)) return toast.info('El código ya fue ingresado');
+            if (carrito.some(item => item.codigo === res.data.codigo)) return toast.info('El código ya fue ingresado');
             
             setCodigoIngresado('');
             setIngresarCodigo(false);
 
             const carritoSinDescuento = carrito.filter(item => !item.hasOwnProperty('codigo'));
-            const nuevoCarrito = [...carritoSinDescuento, { codigo: res.data.uuid }];
+            const nuevoCarrito = [...carritoSinDescuento, { codigo: res.data.codigo }];
             setCarrito(nuevoCarrito);
+            setCodigoAplicadoPorUsuario(true);
             return setCodigoAplicado(res.data);
 
         } catch (err) {
@@ -215,7 +207,7 @@ const Carrito = () => {
             const carritoDescuento = carrito.filter(item => item.hasOwnProperty('codigo'));
             if (carritoDescuento.length > 0) {
                 try {
-                    const res = await buscarCodigoPorID(carritoDescuento[0].codigo);
+                    const res = await buscarCodigo(carritoDescuento[0].codigo);
                     if (res.status !== 200 && res.status !== 304) {
                         const nuevoCarrito = carrito.filter(item => !item.hasOwnProperty('codigo'))
                         setCarrito(nuevoCarrito)
@@ -227,7 +219,7 @@ const Carrito = () => {
                 } catch (err) {
                     const nuevoCarrito = carrito.filter(item => !item.hasOwnProperty('codigo'));
                     setCarrito(nuevoCarrito)
-                    return toast.error(`Error al buscar código de descuento: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
+                    return toast.error(`Error al actualizar código de descuento: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
                 }
             }
         }
@@ -251,13 +243,15 @@ const Carrito = () => {
     useEffect(() => {
         setConfirm(false);
 
+        if (ejecutadoOtro.current && !productoEliminado) return;
+
         const cargar = async () => {
             const datos = await carritoProductosCompleto();
             setLista(datos);
         };
         cargar();
-        
         setProductoEliminado(false);
+        ejecutadoOtro.current = true;
     }, [productoEliminado]);
 
     // Actualiza el total a pagar cuando se modifica la lista
@@ -306,10 +300,10 @@ const Carrito = () => {
     }, [])
 
     useEffect(() => {
-        if (Object.keys(codigoAplicado).length > 0) {
+        if (Object.keys(codigoAplicado).length > 0 && !cargando) {
             aplicarCodigo();
         }
-    }, [codigoAplicado]);
+    }, [codigoAplicado, cargando]);
 
     return (
         <main>
@@ -331,7 +325,9 @@ const Carrito = () => {
                             {lista ? 
                                 <>
                                 {lista.map((producto) => {
-                                const titulo = `${(producto.tipo[0].toUpperCase()) + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}`
+                                    const titulo = `${(producto.tipo[0].toUpperCase()) + producto.tipo.slice(1)} ${producto.banda} #${producto.modelo}`
+                                    const porCodigo = producto.porCodigo || 0;
+                                    const descuento = producto.descuento || 0;
                                     return (
                                     <article
                                         className='carrito-listaItem d-flex flex-column flex-sm-row justify-content-sm-between'
@@ -347,7 +343,7 @@ const Carrito = () => {
                                                 <h6 className='titulo mb-2 fw-bold'>
                                                     {titulo}</h6>
                                                 <p>{producto.talle ? `Talle: ${producto.talle}` : ''}</p>
-                                                <div className='carrito-listaItem-cantidad d-flex mt-3 justify-content-center justify-content-sm-start'>
+                                                <div className='carrito-listaItem-cantidad d-flex mt-2 mt-sm-3 justify-content-start'>
                                                     <p>Cantidad: </p>
                                                     <div className='carrito-listaItem-cantidadBotones d-flex ms-2'>
                                                         <button
@@ -365,21 +361,26 @@ const Carrito = () => {
                                             </div>
                                         </div>
                                         <div className='d-flex justify-content-between'>
-                                            <div className='p-3 d-block d-sm-none d-flex align-items-start'>
+                                            <div className='p-3 pt-0 d-block d-sm-none d-flex align-items-start'>
                                                 <img className='carrito-listaItem-foto'
                                                     src={producto.imagen ? producto.imagen : sinImagen} alt={producto.imagen ? `Imagen de producto ${producto.uuid}` : 'Imagen no disponible'} />
                                             </div>
-                                            <div className='productosAdmin-listaItem-precioDiv p-3 d-flex flex-column align-items-end justify-content-between'>
-                                                <h6 className='text-end mb-2 fw-bold text-warning'>
-                                                    {(!producto.descuento || producto.descuento === 0) ? <span>{`ARS ${producto.precio * producto.cantidad}`}</span> : <span>{`ARS ${(producto.precio * 0.01 * (100 - producto.descuento)) * producto.cantidad}`}</span>}</h6>
-                                                {(producto.descuento && producto.descuento !== 0) ?
-                                                    <p className='text-end'>
-                                                        <span className='text-decoration-line-through'>
-                                                            {`ARS ${producto.precio * producto.cantidad}`}
-                                                        </span>
-                                                        <span>{` (-${producto.descuento}%)`}</span>
-                                                    </p> : ''
-                                                }
+                                            <div className='productosAdmin-listaItem-precioDiv p-3 pt-0 pt-sm-3 d-flex flex-column align-items-end justify-content-between'>
+                                                    <h6 className='text-end mb-2 fw-bold text-warning'>
+                                                        {`ARS ${(producto.precio * (1 - descuento/100) * (1 - porCodigo/100) * producto.cantidad).toFixed(0)}`}</h6>
+                                                    <p className='text-end descuentos'>
+                                                        {(descuento !== 0) ?
+                                                            <>
+                                                                <span className='d-block text-decoration-line-through text-white m-0 p-0'>{`ARS ${producto.precio * producto.cantidad}`}
+                                                                </span>
+                                                                <span className='d-block m-0 p-0'>{`(-${descuento}%)`}</span></> : ''}
+                                                        
+                                                        {porCodigo !== 0 ?
+                                                            <><span className='d-block text-decoration-line-through m-0 p-0 letraVerde' >
+                                                                {`ARS ${descuento === 0 ? producto.precio * producto.cantidad : (producto.precio * producto.cantidad * (1 - descuento/100)).toFixed(0) }`}
+                                                                </span>
+                                                                <span className='d-block letraVerde m-0 p-0'>{`(-${porCodigo}%)`}</span></> : ''}
+                                                    </p>
                                                 <button
                                                     className='carrito-listaItem-botonEliminar btn text-secondary p-0'
                                                     onClick={() => quitarProducto(producto.id, producto.talle, titulo)}>
@@ -394,33 +395,39 @@ const Carrito = () => {
                                             <p className='total d-sm-none text-end text-warning mb-0'>
                                                 {`TOTAL ARS ${total}`}
                                             </p>
-                                            {Object.keys(codigoAplicado).length > 0 ?
-                                                <p
-                                                    className='codigo text-end text-sm-start'
-                                                    onClick={() => setIngresarCodigo(true)}>
-                                                    Código de descuento aplicado (cambiar)
-                                                </p> : 
-                                                <p
-                                                    className='codigo text-end text-sm-start'
-                                                    onClick={() => setIngresarCodigo(true)}
-                                                >Ingresar código de descuento</p>}
+                                            <article className='text-end text-sm-start'>
+                                                <button
+                                                    className='letraVerde botonMostrarIngresarCodigo'
+                                                    type='button'
+                                                    onClick={() => setIngresarCodigo(!ingresarCodigo)}
+                                                    >
+                                                    {Object.keys(codigoAplicado).length > 0 ? 'Código de descuento aplicado (cambiar)' : 'Ingresar código de descuento'}
+                                                </button>
+                                                {ingresarCodigo ?
+                                                    <form
+                                                        onSubmit={handleCodigo}
+                                                        className='text-end text-sm-start mt-2'>
+                                                        <input
+                                                            className='inputIngresarCodigo ps-2'
+                                                            type="text"
+                                                            minLength={5}
+                                                            maxLength={10}
+                                                            value={codigoIngresado}
+                                                            onChange={(e) => setCodigoIngresado(e.target.value)} />
+                                                        <button
+                                                            className='botonIngresarCodigo'
+                                                            type='submit'>
+                                                            Ingresar
+                                                        </button>
+                                                    </form> : ''}
+
+                                            </article>
+                                            
                                             <p className='total d-none d-sm-block text-end text-warning mb-0'>
                                                 {`TOTAL ARS ${total}`}
                                             </p>
                                         </div>
-                                        {ingresarCodigo ?
-                                            <form 
-                                            onSubmit={handleCodigo}
-                                                className='text-end text-sm-start'>
-                                                <input
-                                                    type="text"
-                                                    maxLength={10}
-                                                    value={codigoIngresado}
-                                                    onChange={(e) => setCodigoIngresado(e.target.value)} />
-                                                <button type='submit'>
-                                                    Ingresar
-                                                </button>
-                                            </form> : ''}
+                                        
                                     </div>
                                     <div className='text-center text-sm-end pe-sm-2 mt-3'>
                                         <BotonSecundario
