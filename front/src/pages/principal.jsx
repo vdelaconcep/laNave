@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import banner from '@/assets/img/banner2.png';
 import Tarjeta from '@/components/tarjetas/tarjeta'
+import carouselUno from '@/assets/img/carousel1.jpg';
 
 const Principal = () => {
     const { setBackground } = useContext(BackgroundContext);
@@ -41,6 +42,32 @@ const Principal = () => {
                     style={{aspectRatio: '1988/454'}}/>
                 <p className="text-end pe-3"><b>REMERAS - BUZOS - MOCHILAS - Y MÁS</b></p>
             </section>
+            <div id="carouselPortada" className="carousel slide mt-5 mb-5 w-100" data-ride="carousel">
+                <ol className="carousel-indicators">
+                    <li data-target="#carouselPortada" data-slide-to="0" className="active"></li>
+                    <li data-target="#carouselPortada" data-slide-to="1"></li>
+                    <li data-target="#carouselPortada" data-slide-to="2"></li>
+                </ol>
+                <div className="carousel-inner">
+                    <div className="carousel-item active">
+                        <img className="d-block w-100" src={carouselUno} alt="Mes de Spinetta" />
+                    </div>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src={carouselUno} alt="Second slide" />
+                    </div>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src={carouselUno} alt="Third slide" />
+                    </div>
+                </div>
+                <a className="carousel-control-prev" href="#carouselPortada" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselPortada" role="button" data-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Next</span>
+                </a>
+            </div>
             
             <section className="aparecer d-flex flex-wrap justify-content-center pt-0 pt-sm-2 pb-5">
                 {datos.map((producto) => (
