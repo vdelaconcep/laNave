@@ -371,12 +371,12 @@ const Carrito = () => {
                                                     <p className='text-end descuentos'>
                                                         {(descuento !== 0) ?
                                                             <>
-                                                                <span className='d-block text-decoration-line-through text-white m-0 p-0'>{`ARS ${producto.precio * producto.cantidad}`}
+                                                                <span className='d-block tachado text-decoration-line-through text-white m-0 p-0'>{`ARS ${producto.precio * producto.cantidad}`}
                                                                 </span>
                                                                 <span className='d-block m-0 p-0'>{`(-${descuento}%)`}</span></> : ''}
                                                         
                                                         {porCodigo !== 0 ?
-                                                            <><span className='d-block text-decoration-line-through m-0 p-0 letraVerde' >
+                                                            <><span className='d-block tachado text-decoration-line-through m-0 p-0 letraVerde' >
                                                                 {`ARS ${descuento === 0 ? producto.precio * producto.cantidad : (producto.precio * producto.cantidad * (1 - descuento/100)).toFixed(0) }`}
                                                                 </span>
                                                                 <span className='d-block letraVerde m-0 p-0'>{`(-${porCodigo}%)`}</span></> : ''}
@@ -408,7 +408,7 @@ const Carrito = () => {
                                                         onSubmit={handleCodigo}
                                                         className='text-end text-sm-start mt-2'>
                                                         <input
-                                                            className='inputIngresarCodigo ps-2'
+                                                            className='inputIngresarCodigo ps-2 me-2'
                                                             type="text"
                                                             minLength={5}
                                                             maxLength={10}

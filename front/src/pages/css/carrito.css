@@ -89,6 +89,10 @@
     width: 125px;
 }
 
+.tachado {
+    text-decoration-thickness: 2px !important;
+}
+
 .carrito-listaItem-botonEliminar,
 .carrito-listaItem-botonEliminar:hover,
 .carrito-listaItem-botonEliminar:active {
@@ -120,15 +124,17 @@
 
 .inputIngresarCodigo {
     height: 32px;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+    border-radius: 8px;
+}
+
+.inputIngresarCodigo:focus {
+    border: none !important;
 }
 
 .botonIngresarCodigo {
-    height: 32px;
+    height: 33px;
     width: 80px;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
+    border-radius: 8px;
 }
 
 .letraVerde {
