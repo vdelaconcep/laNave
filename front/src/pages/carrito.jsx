@@ -1,9 +1,9 @@
 import { useEffect, useContext, useState, useRef } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CarritoContext } from '@/context/carritoContext';
 import { obtenerProducto } from '@/services/productoService';
-import {buscarCodigo} from '@/services/codigoService'
+import { buscarCodigo } from '@/services/codigoService';
 import { toast } from 'react-toastify';
 import Confirm from '@/components/emergentes/confirm';
 import carritoVacioImagen from '@/assets/img/carritoVacio.jpg';
@@ -13,6 +13,9 @@ import '@/pages/css/carrito.css';
 
 
 const Carrito = () => {
+
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+
     const { setBackground } = useContext(BackgroundContext);
     
     useEffect(() => {
@@ -20,31 +23,33 @@ const Carrito = () => {
         return () => setBackground('');
     }, []);
     
+    const navigate = useNavigate();
     // Carrito guardado en localStorage sólo contiene id, talle y cantidad de productos (puede o no tener dos objetos más que indiquen código de descuento y envío)
     const { carrito, setCarrito } = useContext(CarritoContext);
 
     // Lista tiene detalles de los productos del carrito (foto, precio, descuento, etc.)
     const [lista, setLista] = useState([]);
-
     const [carritoVacio, setCarritoVacio] = useState(false);
-
     const [cargando, setCargando] = useState(false);
+    const [total, setTotal] = useState(0);
 
+    // Estados para utilizar el confirm
     const [pregunta, setPregunta] = useState('');
     const [mostrarConfirm, setMostrarConfirm] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [accion, setAccion] = useState('');
 
+    // Estados para quitar un producto del carrito
     const [productoAEliminar, setProductoAEliminar] = useState(null);
     const [productoEliminado, setProductoEliminado] = useState(false);
 
+    // Estados para manejar códigos de descuento
     const [ingresarCodigo, setIngresarCodigo] = useState(false);
     const [codigoIngresado, setCodigoIngresado] = useState('');
     const [codigoAplicado, setCodigoAplicado] = useState({});
     const [codigoAplicadoPorUsuario, setCodigoAplicadoPorUsuario] = useState(false);
 
-    const [total, setTotal] = useState(0);
-
+    // Para que ciertos useEffect no se ejecuten dos veces
     const ejecutado = useRef(false);
     const ejecutadoOtro = useRef(false);
 
@@ -232,6 +237,13 @@ const Carrito = () => {
         setMostrarConfirm(true);
     };
 
+    const continuarCompra = () => {
+        if (!usuario) {
+            toast.info('Ingresá para continuar con la compra');
+            return navigate('/login')
+        } else return navigate('/compra')
+    }
+
     useEffect(() => {
         const carritoProductos = carrito.filter(item => item.hasOwnProperty('cantidad'));
         const estaVacio = carritoProductos.length === 0;
@@ -333,7 +345,7 @@ const Carrito = () => {
                                         className='carrito-listaItem d-flex flex-column flex-sm-row justify-content-sm-between'
                                         key={`${producto.id}-${producto.talle}`}>
                                         <div className='d-flex'>
-                                            <div className='p-3 d-none d-sm-flex align-items-center'>
+                                            <div className='p-3 d-none d-sm-flex'>
                                                 <img className='carrito-listaItem-foto'
                                                     src={producto.imagen ? producto.imagen : sinImagen}
                                                     alt={producto.imagen ? `Imagen de producto ${producto.uuid}` : 'Imagen no disponible'} />
@@ -439,7 +451,8 @@ const Carrito = () => {
                                         <BotonPrimario
                                             tipo='button'
                                             texto='Continuar compra'
-                                        claseAdicional='ms-1'/>
+                                            claseAdicional='ms-1'
+                                            accion={continuarCompra} />
 
                                     </div>
                                 </> : <h5>No es posible visualizar el carrito en este momento. Intentá nuevamente más tarde</h5>}

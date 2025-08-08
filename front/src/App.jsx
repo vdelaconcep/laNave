@@ -15,6 +15,7 @@ import Contacto from '@/pages/contacto';
 import Login from '@/pages/login';
 import Registro from '@/pages/registro';
 import Carrito from '@/pages/carrito';
+import Compra from '@/pages/compra';
 import Alta from '@/pages/alta';
 import ProductosAdmin from '@/pages/productosAdmin';
 import Ventas from '@/pages/ventas';
@@ -47,6 +48,7 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/registro" element={<Registro />} />
                   <Route path="/carrito" element={<Carrito />} />
+                  <Route path="/compra" element={<Compra />} />
                   <Route path="/alta" element={<Alta />} />
                   <Route path="/productosAdmin" element={<ProductosAdmin />} />
                   <Route path="/ventas" element={<Ventas />} />

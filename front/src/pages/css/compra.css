@@ -1,0 +1,46 @@
+.compraArticle {
+    background-color: #252525;
+    border-bottom: 1px solid #bebebe;
+    width: 60%;
+    min-width: 300px;
+    max-width: 500px;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+}
+
+.compraArticle:first-of-type {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.compraArticle:last-of-type {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom: none;
+}
+
+.compraArticle-botonMostrar {
+    background-color: transparent;
+    color: white;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.compraArticle-totalProductos {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.compraArticle-producto {
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
+.CompraArticle-precioAnterior {
+    text-decoration-thickness: 2px;
+    font-size: 0.8rem;
+    color: gray;
+}
+
+.compraArticle-datosEnvio {
+    border: 2px solid #0DCAD0;
+}

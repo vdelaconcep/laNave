@@ -34,7 +34,7 @@ const Principal = () => {
 
     return (
         <main>
-            <section className='banner d-none d-sm-block'>
+            <section className='banner d-none d-sm-block mt-sm-4'>
                 <img
                     src={banner}
                     alt="Banner La Nave Rock"
@@ -63,7 +63,7 @@ const Principal = () => {
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carouselPortada" role="button" data-slide="next">
+                <a className="carousel-control-next" href="#carouselPortada" role="button" data-slide="next">
                     <span className="carousel-control-next-icon" aria-hidden="true"></span>
                     <span className="sr-only">Next</span>
                 </a>

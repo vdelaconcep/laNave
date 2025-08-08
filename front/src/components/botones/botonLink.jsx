@@ -9,7 +9,7 @@ const BotonLink = ({ vinculo, texto, numero, accion }) => {
             className="links btnLink-Link p-3"
             onClick={accion ? accion : null}>
             <span className="btnLink-texto">{texto}</span> 
-            {(numero ?? 0) > 0 && location.pathname !== '/carrito' && location.pathname !== '/mensajes' && (
+            {(numero ?? 0) > 0 && location.pathname !== '/carrito' && location.pathname !== '/mensajes' && location.pathname !== '/compra' && (
                 <p className="btnLink-notificacion">{numero}</p>
             )}
         </Link>

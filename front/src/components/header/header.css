@@ -1,5 +1,6 @@
 .barraSuperior {
     height: 60px;
+    box-shadow: 0 0 5px black;
 }
 
 @media (min-width: 576px) {
