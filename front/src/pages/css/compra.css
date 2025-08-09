@@ -44,3 +44,7 @@
 .compraArticle-datosEnvio {
     border: 2px solid #0DCAD0;
 }
+
+.envioInput {
+    height: 30px;
+}

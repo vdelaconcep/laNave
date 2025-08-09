@@ -219,7 +219,6 @@ const Carrito = () => {
                         return toast.error(`El código de descuento ya no se encuentra disponible: ${res.statusText}`);
                     };
                     
-                    toast.info('Se cargó un código de descuento ingresado previamente');
                     return setCodigoAplicado(res.data);
                 } catch (err) {
                     const nuevoCarrito = carrito.filter(item => !item.hasOwnProperty('codigo'));

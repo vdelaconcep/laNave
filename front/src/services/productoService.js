@@ -1,4 +1,4 @@
-import apiClient from "@/services/apiClient";
+import { apiClient } from "@/services/apiClient";
 
 export const altaProducto = (productoNuevo, headers) => {
     return apiClient.post('/productos/alta', productoNuevo, {headers});

@@ -1,4 +1,4 @@
-import apiClient from "@/services/apiClient";
+import { apiClient } from "@/services/apiClient";
 
 export const enviarMensaje = (mensaje) => {
     return apiClient.post('/mensajes/mensajeNuevo', mensaje);
