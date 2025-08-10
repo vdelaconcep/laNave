@@ -75,7 +75,6 @@ const Carrito = () => {
         let carritoActualizado = [];
         let carritoProductosParaMostrar = [];
 
-        const carritoEnvio = carrito.filter(item => item.hasOwnProperty('envio'));
         const carritoDescuento = carrito.filter(item => item.hasOwnProperty('codigo'));
         const carritoProductos = carrito.filter(item => item.hasOwnProperty('cantidad'));
 
@@ -108,7 +107,7 @@ const Carrito = () => {
                 carritoProductosParaMostrar.push(aMostrar);
             };
         }
-        carritoActualizado = [...carritoActualizado, ...carritoDescuento, ...carritoEnvio];
+        carritoActualizado = [...carritoActualizado, ...carritoDescuento];
         setCarrito(carritoActualizado);
         setCargando(false);
         return carritoProductosParaMostrar;
