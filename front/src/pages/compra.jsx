@@ -2,7 +2,7 @@ import { useEffect, useContext, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackgroundContext } from '@/context/backgroundContext';
 import { CarritoContext } from '@/context/carritoContext';
-import { obtenerProducto } from '@/services/productoService';
+import { obtenerProducto, compra } from '@/services/productoService';
 import { buscarCodigo } from '@/services/codigoService';
 import { listarProvincias, listarDepartamentos, listarLocalidades } from '../services/envioService';
 import { toast } from 'react-toastify';
@@ -96,8 +96,10 @@ const Compra = () => {
             navigate('/');
             return null;
         };
-        if (producto.cantidad > productoBD.stock) {
-            toast.info('El ítem solicitado no tiene suficiente stock');
+        const talle = producto.talle === '' ? 'U' : producto.talle;
+
+        if (producto.cantidad > productoBD.stock[talle]) {
+            toast.info(`El ítem solicitado no tiene suficiente stock ${talle !== 'U' ? 'en el talle requerido' : ''}`);
             navigate('/carrito');
             return null;
         }
@@ -113,11 +115,11 @@ const Compra = () => {
 
                     if (res.data.tipoProducto === 'todo') {
                         aplicaTipo = true;
-                    } else aplicaTipo = res.data.tipoProducto === producto.tipo
+                    } else aplicaTipo = res.data.tipoProducto === productoBD.tipo
 
                     if ('banda' in res.data &&
                         typeof res.data.banda === 'string' && res.data.banda.trim().length > 0) {
-                        aplicaBanda = producto.banda.toLowerCase().includes(res.data.banda.toLowerCase());
+                        aplicaBanda = productoBD.banda.toLowerCase().includes(res.data.banda.toLowerCase());
                     } else aplicaBanda = true;
 
                     if (aplicaBanda && aplicaTipo) porCodigo = res.data.descuento;
@@ -149,6 +151,7 @@ const Compra = () => {
     return listaFinal;
     }
 
+    // Devuelve lista de provincias de la API Georef
     const obtenerProvincias = async () => {
         try {
             const res = await listarProvincias();
@@ -165,6 +168,7 @@ const Compra = () => {
         }
     }
 
+    // Devuelve lista de partidos/ departamentos según provincia elegida
     const obtenerDepartamentos = async () => {
 
         const provinciaElegida = provincias.find(provincia => provincia.nombre === datosEnvio.provincia);
@@ -190,6 +194,7 @@ const Compra = () => {
         }
     }
 
+    // Devuelve lista de localidades según partido/ departamento y provincia
     const obtenerLocalidades = async () => {
         const provinciaElegida = provincias.find(provincia => provincia.nombre === datosEnvio.provincia);
         const idProvincia = provinciaElegida ? provinciaElegida.id : '06';
@@ -216,6 +221,7 @@ const Compra = () => {
         }
     }
 
+    // Devuelve costo de envío según dirección ingresada
     const calcularEnvio = () => {
         const provinciaElegida = provincias.find(provincia => provincia.nombre === datosEnvio.provincia);
         if (!provinciaElegida || provinciaElegida.length === 0) return null;
@@ -248,6 +254,7 @@ const Compra = () => {
         setCargandoDepartamentos(false);
     }
 
+    // Comprueba datos ingresados y prepara carrito para enviar al backend
     const confirmarCompra = () => {
         if (!entrega || entrega.length === 0) return toast.warning('Indicar forma de entrega');
         if (entrega === 'correo') {
@@ -259,26 +266,47 @@ const Compra = () => {
         }
         if (!modoPago || modoPago.length === 0) return toast.warning('Indicar forma de pago');
 
-        let carritoActualizado = [];
-
-        const carritoSinEntregaNiPago = carrito.filter(item => !item.hasOwnProperty('entrega') && !item.hasOwnProperty('modoPago'));
-
-        const carritoEntrega = [{
-            entrega: {
-                formaEntrega: entrega,
-                direccion: datosEnvio
-            }
-        }];
-        const carritoModoPago = [{ modoPago: modoPago }];
-
         const totalEnvioFinal = calcularEnvio();
         const totalProductosFinal = modoPago === 'transferencia' ? (totalProductos * 0.8) : totalProductos;
 
-        carritoActualizado = [...carritoSinEntregaNiPago, ...carritoEntrega, ...carritoModoPago];
+        let direccion = {};
+        for (const key in datosEnvio) {
+            if (datosEnvio.hasOwnProperty(key)) {
+                const valor = datosEnvio[key];
+                if (valor && valor !== undefined && valor.length > 0) direccion = {...direccion, [key]: valor}
+            }
+        } 
+
+        let carritoActualizado = [];
+
+        const carritoProductos = carrito.filter(item => !item.hasOwnProperty('entrega') && !item.hasOwnProperty('modoPago') && !item.hasOwnProperty('usuario'));
+
+        
+        const carritoEntrega = [{
+            entrega: {
+                formaEntrega: entrega,
+                direccion: direccion
+            }
+        }];
+        const carritoModoPago = [{ modoPago: modoPago }];
+        const carritoUsuario = [{ usuario: usuario.email }];
+
+        carritoActualizado = [...carritoProductos, ...carritoEntrega, ...carritoModoPago, ...carritoUsuario];
         setCarrito(carritoActualizado);
 
         setPregunta(`Hacé click en "aceptar" para confirmar la compra (total a pagar: ${totalEnvioFinal + totalProductosFinal})`);
         setMostrarConfirm(true);
+    }
+
+    const comprar = async () => {
+        try {
+            const res = await compra(carrito);
+            if (res.status !== 200) return toast.error(`Error al realizar la compra: ${res.statusText}`);
+
+            return alert(`Muchas gracias por comprar en La Nave Rockería! Te enviamos un e-mail con los detalles de tu pedido: ${JSON.stringify(res.data.venta)} `);
+        } catch (err) {
+            return toast.error(`Error al realizar la compra: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
+        }
     }
 
     useEffect(() => {
@@ -320,12 +348,14 @@ const Compra = () => {
 
     useEffect(() => {
         if (confirm) {
-            alert(`Se va a enviar esto: ${JSON.stringify(carrito)}`);
-            alert('Muchas gracias por comprar en La Nave Rockería! Te enviamos un e-mail con los detalles de tu pedido');
+            setConfirm(false);
+            comprar();
+            setCarrito([]);
             navigate('/');
         }
     }, [confirm]);
 
+    // Condición para habilitar el botón "calcular envío"
     const puedeCalcularEnvio =
         datosEnvio.calle.trim() !== '' &&
         datosEnvio.numero.trim() !== '' &&

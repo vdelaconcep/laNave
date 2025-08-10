@@ -238,8 +238,8 @@ const Carrito = () => {
     const continuarCompra = () => {
         if (!usuario) {
             toast.info('Ingresá para continuar con la compra');
-            return navigate('/login')
-        } else return navigate('/compra')
+            return navigate('/login');
+        } else return navigate('/compra');
     }
 
     useEffect(() => {

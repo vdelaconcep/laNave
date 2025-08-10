@@ -3,7 +3,8 @@ import {
     altaProducto,
     obtenerProductos,
     actualizacionProducto,
-    eliminacionProducto
+    eliminacionProducto,
+    compraProducto
 } from '../controller/productosController.js';
 
 import { reglasValidacionAlta } from '../helpers/altaValidatorHelper.js';
@@ -32,5 +33,8 @@ router.put('/actualizar/:id', rutaAdmin, upload.single('imagen'), reglasValidaci
 
 // Eliminar Producto
 router.delete('/eliminar/:id', rutaAdmin, eliminacionProducto);
+
+// Realizar compra
+router.post('/compra', compraProducto);
 
 export default router;
