@@ -2,7 +2,8 @@ import { useEffect, useContext, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BackgroundContext } from '@/context/backgroundContext';
 import { CarritoContext } from '@/context/carritoContext';
-import { obtenerProducto, compra } from '@/services/productoService';
+import { obtenerProducto } from '@/services/productoService';
+import { compra } from '@/services/compraService';
 import { buscarCodigo } from '@/services/codigoService';
 import { listarProvincias, listarDepartamentos, listarLocalidades } from '../services/envioService';
 import { toast } from 'react-toastify';
@@ -526,8 +527,8 @@ const Compra = () => {
                                     <input
                                         className='envioInput form-control'
                                         type="text"
-                                        maxLength={30}
-                                        minLength={3}
+                                        maxLength={40}
+                                        minLength={1}
                                         name='calle'
                                         value={datosEnvio.calle}
                                         onChange={e => setDatosEnvio(prev => ({ ...prev, calle: e.target.value }))}

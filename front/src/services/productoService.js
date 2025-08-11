@@ -12,6 +12,3 @@ export const eliminarProducto = (id, headers) => {
 export const obtenerProducto = (clave, valor) => {
     return apiClient.get(`/productos?${clave}=${valor}`);
 };
-export const compra = (carrito) => {
-    return apiClient.post('/productos/compra', { carrito });
-};
