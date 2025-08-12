@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { altaProducto, actualizarProducto, eliminarProducto } from '@/services/productoService';
 import useFormulario from '@/hooks/useFormulario';
@@ -203,7 +204,7 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
 
     return (
         <form onSubmit={gestionEnvio} className='mt-4 mb-5'>
-            <div className='formProducto-div pt-3 pb-3 m-3'>
+            <div className={`formProducto-div pt-3 pb-3 m-3 ${location.pathname === '/productosAdmin' && 'borde-claro'} ${location.pathname === '/alta' && 'formulario-alta'}`}>
                 <article className='formProducto-article mb-2 ps-4 pe-4'>
                     <label htmlFor="banda" className="formProducto-label form-label ps-2 mb-0 mt-2">Artista / banda:</label>
                     <input
@@ -271,7 +272,7 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
                     </div>
                 </article>
                 {inputs.porTalle &&
-                    <article className='formProducto-article stockConTalles p-2 ps-0 pe-0 pe-sm-4 mb-4'>
+                    <article className='formProducto-article stockConTalles pt-2 pb-2 ps-0 pe-4 p-sm-2 pe-sm-4 mb-4'>
                         {talles.map((talle) => (
                             <div className='mt-2 mb-2' key={talle}>
                                 <label htmlFor={talle} className="formProducto-label form-label me-2 d-block d-sm-inline">{talle}:</label>
@@ -349,7 +350,7 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
                             const archivo = e.target.files[0];
                             setInputs((values) => ({ ...values, imagen: archivo }));
                         }} />
-                    <p className='formProducto-textoP mt-1'>{`${accion === 'actualizacion' ? 'Subir nuevo archivo para cambiar la imagen del producto ' : ''}(Solo archivos jpg. La proporción de la imagen debe ser cercana a 1:1)`}</p>
+                    <p className='formProducto-textoP text-warning mt-1'>{`${accion === 'actualizacion' ? 'Subir nuevo archivo para cambiar la imagen del producto ' : ''}(Solo archivos jpg. La proporción de la imagen debe ser cercana a 1:1)`}</p>
                 </article>
 
             </div>
@@ -357,6 +358,7 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
             <div className={`d-flex mt-3 ms-3 me-3 ${accion === 'alta' ? 'justify-content-center' : 'justify-content-between'}`} style={{maxWidth: '600px'}}>
             {accion === 'actualizacion' &&
                     <BotonEliminar
+                        textoAdicional='producto'
                         tipo='button'
                         accion={() => eliminarProductoPorId()} />}
             

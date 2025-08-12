@@ -69,5 +69,13 @@
 
 .formProducto-textoP {
     font-size: 0.8em;
-    color: #8EDCC0;
+}
+
+.borde-claro {
+    border: 2px solid #929191;
+}
+
+.formulario-alta {
+    background-color: #252525;
+    box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 5px;
 }

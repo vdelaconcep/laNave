@@ -1,4 +1,4 @@
-.confirm-overlay, .mensaje-respuestaOverlay {
+.confirm-overlay, .mensaje-respuestaOverlay, .usuarios-mostrarInfoDivOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,7 +9,7 @@
     z-index: 999;
 }
 
-.confirm-article, .mensaje-respuestaRedactar {
+.confirm-article, .mensaje-respuestaRedactar, .usuarios-mostrarInfoArticle {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -43,6 +43,11 @@
 
 .entrar {
     animation: entrada 0.8s ease-out;
+}
+
+.seCorta {
+    word-break: break-word;
+    white-space: normal;
 }
 
 .mensaje-respuestaTextarea {

@@ -86,7 +86,17 @@ const Ventas = () => {
                                             </ul>
                                                 <p><span className='text-warning fw-bold'>Entrega: </span>{venta.entrega.formaEntrega}</p>
                                             {venta.entrega.direccion ? <>
-                                                    <p><span className='text-warning fw-bold'>Dirección: </span>{`${venta.entrega.direccion.calle} N°${venta.entrega.direccion.numero}${venta.entrega.direccion.pisoDto ? venta.entrega.direccion.pisoDto : ''} ${venta.entrega.direccion.localidad}, ${venta.entrega.direccion.departamento}, ${venta.entrega.direccion.provincia} (CP ${venta.entrega.direccion.cp ? venta.entrega.direccion.cp : ''})`}</p>
+                                                    <p><span className='text-warning fw-bold'>Dirección: </span>
+                                                        {[
+                                                            `${venta.entrega.direccion.calle} N°${venta.entrega.direccion.numero}`,
+                                                            venta.entrega.direccion.pisoDto || '',
+                                                            venta.entrega.direccion.localidad,
+                                                            venta.entrega.direccion.departamento,
+                                                            venta.entrega.direccion.provincia || '',
+                                                        ]
+                                                            .filter(Boolean)
+                                                            .join(', ')}
+                                                        {venta.entrega.direccion.cp && ` (CP ${venta.entrega.direccion.cp})`}</p>
                                             </> : ''}
                                                 <p><span className='text-warning fw-bold'>Modo de pago: </span>{`${venta.modoDePago}`}</p>
                                                 <p><span className='text-warning fw-bold'>Código de descuento: </span>{`${venta.codigoIngresado ? venta.codigoIngresado : 'NO'}`}</p>

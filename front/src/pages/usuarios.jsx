@@ -5,6 +5,7 @@ import { obtenerUsuarios, cambiarRolDeUsuario, eliminarRegistro } from '@/servic
 import { toast } from 'react-toastify';
 import Confirm from '@/components/emergentes/confirm';
 import BotonSecundario from '@/components/botones/botonSecundario';
+import Info from '@/components/emergentes/info';
 import '@/pages/css/usuarios.css';
 
 const Usuarios = () => {
@@ -25,6 +26,7 @@ const Usuarios = () => {
 
     const [usuarioMenu, setUsuarioMenu] = useState({});
     const [accion, setAccion] = useState('');
+    const [mostrarInfo, setMostrarInfo] = useState(false);
 
     const [mostrarConfirm, setMostrarConfirm] = useState(false);
     const [confirm, setConfirm] = useState(false);
@@ -146,68 +148,51 @@ const Usuarios = () => {
                         }
                         {!cargando && usuarios.length !== 0 &&
                             <section className='text-white d-flex flex-column align-items-center mt-2 mb-5'>
-                                <article className='usuarios-Div'>
-                                    <table className='usuarios-table'>
-                                        <thead>
-                                            <tr>
-                                                <th scope='col'>Usuario</th>
-                                                <th scope='col' className='text-center'>Rol</th>
-                                                <th scope='col'></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {(usuarios.map(usuario => 
-                                                <tr
-                                                    className='usuario-Fila'
-                                                    key={usuario.uuid}>
-                                                    <td className='usuario-celdaEmail'>
-                                                        <p className='mb-0 pb-0'>{usuario.email}</p>
-                                                    </td>
-                                                    <td>
-                                                        <p className='mb-0 pb-0 text-center'>{usuario.rol === 'administrador' ? 'admin' : 'cliente'}</p>
-                                                    </td>
-                                                    <td className='usuario-celdaBoton text-center'>
-                                                        <div className='usuario-celdaBotonDiv'>
-                                                            <button
-                                                                className='usuarios-filaBoton btn text-white ps-1 pe-1'
-                                                                title='Acciones'
-                                                                onClick={() => setUsuarioMenu(usuario)}>
-                                                                <i className="fa-solid fa-ellipsis-vertical"></i>
-                                                            </button>
-                                                            {usuarioMenu.uuid === usuario.uuid ?
-                                                                <ul className='usuarios-ulDesplegable list-unstyled text-center fw-bold'>
-                                                                    <li
-                                                                        className='usuarios-desplegableLi p-2 pe-4 ps-4'
-                                                                        onClick={() => setMostrarInfo(true)}
-                                                                    >Ver info</li>
-                                                                    <hr className='text-black p-0 m-0' />
-                                                                    <li
-                                                                        className='usuarios-desplegableLi p-2 pe-4 ps-4'
-                                                                        onClick={() => {
-                                                                            setPregunta(`¿Cambiar rol de usuario de ${usuario.email} a ${usuario.rol === 'administrador' ? 'cliente' : 'administrador'}?`);
-                                                                            setAccion('actualizar');
-                                                                            setMostrarConfirm(true);
-                                                                        }}
-                                                                    >Cambiar rol</li>
-                                                                    <hr className='text-black p-0 m-0' />
-                                                                    <li
-                                                                        className='usuarios-desplegableLi p-2 pe-4 ps-4'
-                                                                        onClick={() => {
-                                                                            setPregunta(`¿Eliminar al usuario ${usuario.email} de la base de datos?`);
-                                                                            setAccion('eliminar');
-                                                                            setMostrarConfirm(true);
-                                                                        }}
-                                                                    >Eliminar</li>
-                                                                </ul> : ''}
-                                                        </div>
-                                                        
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </article>
-
+                                <div className='bg-dark rounded-4'>
+                                    {(usuarios.map(usuario => 
+                                        <article
+                                            key={usuario.uuid}
+                                            className='usuarioArticle d-flex justify-content-between pe-3 ps-3'>
+                                            <div>
+                                                <p className='usuarioEmail mb-0 mt-2'>{usuario.email}</p>
+                                                <p className='text-warning'>{usuario.rol}</p>
+                                            </div>
+                                            <div className='usuario-celdaBotonDiv d-flex justify-content-end align-items-center ms-3'>
+                                                <button
+                                                    className='usuarios-filaBoton btn text-white ps-1 pe-1'
+                                                    title='Acciones'
+                                                    onClick={() => setUsuarioMenu(usuario)}>
+                                                    <i className="fa-solid fa-ellipsis-vertical"></i>
+                                                </button>
+                                                {usuarioMenu.uuid === usuario.uuid ?
+                                                    <ul className='usuarios-ulDesplegable list-unstyled text-center fw-bold'>
+                                                        <li
+                                                            className='usuarios-desplegableLi p-2 pe-4 ps-4'
+                                                            onClick={() => setMostrarInfo(true)}
+                                                        >Ver info</li>
+                                                        <hr className='text-black p-0 m-0' />
+                                                        <li
+                                                            className='usuarios-desplegableLi p-2 pe-4 ps-4'
+                                                            onClick={() => {
+                                                                setPregunta(`¿Cambiar rol de usuario de ${usuario.email} a ${usuario.rol === 'administrador' ? 'cliente' : 'administrador'}?`);
+                                                                setAccion('actualizar');
+                                                                setMostrarConfirm(true);
+                                                            }}
+                                                        >Cambiar rol</li>
+                                                        <hr className='text-black p-0 m-0' />
+                                                        <li
+                                                            className='usuarios-desplegableLi p-2 pe-4 ps-4'
+                                                            onClick={() => {
+                                                                setPregunta(`¿Eliminar al usuario ${usuario.email} de la base de datos?`);
+                                                                setAccion('eliminar');
+                                                                setMostrarConfirm(true);
+                                                            }}
+                                                        >Eliminar</li>
+                                                    </ul> : ''}
+                                            </div>
+                                        </article>
+                                    ))}
+                                </div>
                             </section>
 
                         }
@@ -220,6 +205,11 @@ const Usuarios = () => {
                         setMostrarConfirm={setMostrarConfirm}
                     /> : ''
                 }
+                {mostrarInfo && usuarioMenu ?
+                    <Info
+                        usuario={usuarioMenu}
+                        setMostrarInfo={setMostrarInfo} />
+                    : ''}
             </main>
         );
 };

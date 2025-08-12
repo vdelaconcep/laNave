@@ -5,6 +5,7 @@
 .productosAdmin-listaItem {
     background-color: #252525;
     border-bottom: 1px solid #bebebe;
+    box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 5px;
 }
 
 .productosAdmin-listaItem:first-of-type {

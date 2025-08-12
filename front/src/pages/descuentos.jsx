@@ -7,6 +7,7 @@ import useFormulario from '@/hooks/useFormulario';
 import formatearUTC from '@/utils/formatearUTC'
 import BotonSecundario from '@/components/botones/botonSecundario';
 import BotonPrimario from '@/components/botones/botonPrimario';
+import '@/pages/css/descuentos.css'
 
 const Descuentos = () => {
     const usuario = JSON.parse(localStorage.getItem('usuario'));
@@ -124,12 +125,12 @@ const Descuentos = () => {
                 <>
                     <h1 className="pagina-titulo text-white text-center">Códigos de descuento</h1>
                     <section className='aparecer text-white mt-2 mb-5 d-flex flex-wrap'>
-                        <article className='bg-dark p-4 m-2 rounded-4'>
-                            <h6 className='text-center'>Crear código:</h6>
+                        <article className='ingresarCodigo-Article bg-dark p-4 pt-3 m-2 rounded-4'>
+                            <h6 className='text-center text-warning'>Crear código:</h6>
                             <form onSubmit={gestionEnvio}>
                                 <div className='d-flex mb-3'>
                                     <div className='me-3'>
-                                        <label        className='form-label'>Ingresar nuevo código:</label>
+                                        <label className='form-label'>Ingresar nuevo código:</label>
                                         <input
                                             className='form-control' type="text"
                                             placeholder='5 a 10 caracteres'
@@ -200,10 +201,10 @@ const Descuentos = () => {
                                     onChange={gestionIngreso}
                                     maxLength={40} />
                                 
-                                <p className='mt-0'>(Dejar en blanco para aplicar a todas las bandas)</p>
+                                <p className='aclaracion mt-0 text-warning'>(Dejar en blanco para aplicar a todas las bandas)</p>
 
 
-                                <div className='mt-3 d-flex justify-content-center'>
+                                <div className='mt-5 d-flex justify-content-center'>
                                     <BotonSecundario
                                         tipo='reset'
                                         texto={<><i className="fa-solid fa-xmark"></i><span> Cancelar</span></>}
@@ -211,24 +212,25 @@ const Descuentos = () => {
                                     />
                                     <BotonPrimario
                                         tipo='submit'
-                                        texto={creando ? <><i className="fa-solid fa-spinner fa-spin"></i><span> Creando... </span></> : <><i className="fa-solid fa-percent"></i><span> Crear</span></>}
+                                        texto={creando ? <><i className="fa-solid fa-spinner fa-spin"></i><span> Creando... </span></> : <><i className="fa-solid fa-plus"></i><span> Crear</span></>}
                                         claseAdicional='ms-2'
                                     />
                                 </div>
                             </form>
                         </article>
 
-                        <article className='d-flex flex-column bg-dark p-4 m-2 rounded-4'>
+                        <article className='listaCodigos-Article d-flex flex-column bg-dark p-4 pt-3 m-2 rounded-4'>
                             { cargando &&
                                 <h2 className='pagina-cargando text-white m-5'><i className="fa-solid fa-spinner fa-spin"></i></h2>
                             }
                             {(codigos.length > 0 && !cargando) ?
-                                <><h6 className='text-center'>Códigos existentes:</h6>
+                                <><h6 className='text-center text-warning'>Códigos existentes:</h6>
                                 {codigos.map(codigo => (
                                     <div className='mb-1'>
                                         <div className='d-flex justify-content-between'>
-                                            <p className='mb-0'>{`${codigo.codigo} (${codigo.descuento} %)`}</p>
+                                            <p className='mb-0 codigoNombre'>{`${codigo.codigo} (${codigo.descuento} %)`}</p>
                                             <button
+                                                className='botonEliminar'
                                                 type='button'
                                                 title='Eliminar código'
                                                 onClick={() => {
@@ -237,11 +239,13 @@ const Descuentos = () => {
                                                     setMostrarConfirm(true);
                                             }}>X</button>
                                         </div>
-                                        <p className='mb-0'>Aplicado a: {codigo.tipoProducto} {codigo.banda}</p>
+                                        <p className='mb-0'>Aplicado a: {codigo.tipoProducto === 'todo' ? codigo.tipoProducto : `${codigo.tipoProducto}s`} {codigo.banda}</p>
                                         <p className='mb-0'>Creado por: {codigo.creadoPor}, {formatearUTC(codigo.fechaYHora)}</p>
                                         <hr />
                                     </div>
                                 ))}</> : ''}
+                            
+                            {(codigos.length === 0 && !cargando) ? <h6 className='text-center text-warning'>Aún no hay códigos ingresados</h6> : ''}
 
                         </article>
                     </section>

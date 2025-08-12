@@ -1,0 +1,25 @@
+.codigoNombre {
+    color: #8EDCC0;
+}
+
+.listaCodigos-Article, .ingresarCodigo-Article {
+    box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 5px;
+}
+
+.aclaracion {
+    font-size: 0.8rem;
+}
+
+.botonEliminar {
+    background-color: transparent;
+    color: white;
+}
+
+.botonEliminar:hover {
+    text-shadow: 0 0 3px white;
+}
+
+.botonEliminar, .botonEliminar:hover, .botonEliminar:focus, .botonEliminar:active {
+    border: none !important;
+    box-shadow: none !important;
+}
