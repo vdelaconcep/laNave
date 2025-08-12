@@ -48,7 +48,19 @@ const reglasValidacionCompra = [
 
                 if (!entrega.direccion.calle || entrega.direccion.calle.length < 1 || entrega.direccion.calle.length > 40) throw new Error('Debe indicarse la calle, con hasta 40 caracteres');
 
-                if (!entrega.direccion.numero || typeof entrega.direccion.numero !== "number" || entrega.direccion.numero < 0 || entrega.direccion.numero > 999999) throw new Error('Debe indicarse el número para la dirección, con un valor numérico menor que 999999');
+                let numero = entrega.direccion.numero
+                if (!numero) {
+                    throw new Error('Debe indicarse el número para la dirección');
+                } else {
+                    if (typeof numero === 'string') {
+                        try {
+                            numero = Number(numero)
+                        } catch {
+                            throw new Error('El número de la dirección debe ser efectivamente un valor numérico');
+                        }
+                    }
+                    if (numero < 0 || numero > 999999) throw new Error('El número de la direccióndebe ser menor que 999999');
+                }
 
                 if (entrega.direccion.pisoDto && entrega.direccion.pisoDto.length > 15) throw new Error('El campo para indicar piso y departamento debe tener como máximo 15 caracteres');
 

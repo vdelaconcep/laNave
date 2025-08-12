@@ -100,6 +100,16 @@ const compraProducto = async (req, res) => {
         }
     }
 
+    let codigoArmado = '';
+    if (codigo?.descuento && codigo?.tipoProducto) {
+        const productoTexto = codigo.tipoProducto === 'todo'
+            ? 'todos los productos'
+            : `${codigo.tipoProducto}s`;
+        const bandaTexto = codigo.banda ? ` de ${codigo.banda}` : '';
+
+        codigoArmado = `${codigo.descuento}% sobre ${productoTexto}${bandaTexto}`;
+    }
+
     for (const producto of carritoProductos) {
         const productoBD = productosAComprarBD.find(item => item.uuid === producto.id);
         let totalProducto = productoBD.precio * producto.cantidad;
@@ -147,7 +157,7 @@ const compraProducto = async (req, res) => {
     let nuevaVenta = {
         emailUsuario: usuario.usuario,
         carritoProductos: carritoProductos,
-        codigoIngresado: carritoCodigo || '',
+        codigoIngresado: codigoArmado || '',
         entrega: entrega ? {
             formaEntrega: entrega.formaEntrega,
             direccion: entrega.direccion

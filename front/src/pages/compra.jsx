@@ -280,9 +280,18 @@ const Compra = () => {
 
         let carritoActualizado = [];
 
-        const carritoProductos = carrito.filter(item => !item.hasOwnProperty('entrega') && !item.hasOwnProperty('modoPago') && !item.hasOwnProperty('usuario'));
+        const carritoProductos = carrito
+            .filter(item =>
+                !item.hasOwnProperty('entrega') &&
+                !item.hasOwnProperty('modoPago') &&
+                !item.hasOwnProperty('usuario')
+            )
+            .map(item =>
+                item.id
+                    ? { ...item, talle: item.talle || 'U' }
+                    : item
+            );
 
-        
         const carritoEntrega = [{
             entrega: {
                 formaEntrega: entrega,
@@ -350,9 +359,10 @@ const Compra = () => {
     useEffect(() => {
         if (confirm) {
             setConfirm(false);
+            console.log(carrito)
             comprar();
-            setCarrito([]);
-            navigate('/');
+            /* setCarrito([]);
+            navigate('/'); */
         }
     }, [confirm]);
 
