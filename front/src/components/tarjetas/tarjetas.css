@@ -72,10 +72,11 @@
     font-size: 0.9rem !important;
 }
 
-.tarjeta-selectTalle {
+.tarjeta-selectTalle, .detalle-cantidad {
     border-radius: 4px;
     text-align: center;
     width: 60px;
+    height: 25px;
     background-color: #bebebe;
 }
 
@@ -91,4 +92,75 @@
     background-color: #44d5a0;
     color: black;
     border: none;
+}
+
+.detalleOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    z-index: 1200;
+}
+
+.detalleArticle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1300;
+    color: white;
+}
+
+.detalleDiv {
+    height: 70vh;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.detalleDivInfo, .detalleDivFoto {
+    height: 100%;
+}
+
+.detalleDivInfo {
+    min-width: 300px;
+}
+
+.detalle-botonCerrar, .detalle-botonCerrar:hover, .detalle-botonCerrar:focus, .detalle-botonCerrar:active {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    color: white;
+    font-size: 2rem;
+}
+
+.detalle-botonCerrar:hover {
+    text-shadow: 0 0 4px white;
+}
+
+.detalle-imagen {
+    height: 100%;
+}
+
+.detalle-titulo {
+    text-shadow: 2px 2px 4px #8EDCC0;
+}
+
+.detalle-tablaTalles {
+    min-width: 310px;
+}
+
+.texto-chico {
+    font-size: 0.8rem;
+}
+
+.detalleArticle td {
+    width: 40px;
+    text-align: center;
+}
+
+.detalleArticle th {
+    text-align: center;
 }
