@@ -41,8 +41,10 @@ const Principal = () => {
                     className='w-100'
                     style={{aspectRatio: '1988/454'}}/>
                 <p className="text-end pe-3"><b>REMERAS - BUZOS - MOCHILAS - Y MÁS</b></p>
+                
             </section>
-            <div id="carouselPortada" className="carousel slide mt-5 mb-5 w-100" data-ride="carousel">
+            
+            <div id="carouselPortada" className="carousel slide mt-1 mb-0 w-100" data-ride="carousel">
                 <ol className="carousel-indicators">
                     <li data-target="#carouselPortada" data-slide-to="0" className="active"></li>
                     <li data-target="#carouselPortada" data-slide-to="1"></li>
@@ -68,6 +70,9 @@ const Principal = () => {
                     <span className="sr-only">Next</span>
                 </a>
             </div>
+            <p className='text-center mb-3 ps-2 pe-2'><i className="fa-solid fa-credit-card"></i><span>Hasta 6 cuotas sin interés con tarjeta</span>  - <i className="fa-solid fa-piggy-bank"></i> <span>20% off con transferencia</span></p>
+
+            <p className='fw-bold text-start align-self-start mb-0 ps-sm-5'>Novedades</p>
             
             <section className="aparecer d-flex flex-wrap justify-content-center pt-0 pt-sm-2 pb-5">
                 {datos.map((producto) => (

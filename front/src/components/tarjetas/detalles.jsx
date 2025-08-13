@@ -3,7 +3,7 @@ import { CarritoContext } from '@/context/carritoContext';
 import { toast } from 'react-toastify';
 import SelectorTalle from '@/components/tarjetas/selectorTalle';
 import BotonPrimario from '@/components/botones/botonPrimario';
-import imagenNoDisponible from '@/assets/img/tarjeta-alternativa.jpg';
+import imagenNoDisponible from '@/assets/img/no-disponible.jpg';
 import '@/components/tarjetas/tarjetas.css';
 
 const Detalle = ({ titulo, talleUnico, talles, talleSeleccionado, setTalleSeleccionado, setMostrarDetalles, cantidadSeleccionada, setCantidadSeleccionada, agregarAlCarrito, ...rest }) => {
