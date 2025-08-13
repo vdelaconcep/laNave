@@ -68,19 +68,21 @@ const Tarjeta = (props) => {
         <>
             {hayStock && (
                 <article className='tarjeta-article text-white m-3 d-flex flex-column justify-content-between'>
-                    <div className='tarjeta-div-foto'>
-                        <img
-                            src={props.imagen ? props.imagen : imagenNoDisponible}
-                            alt={titulo}
-                            className={`tarjeta-foto ${props.imagen && 'aumentar'}`}
-                            onClick={() => setMostrarDetalles(true)}/>
-                        {props.descuento > 0 &&
-                            <div className='tarjeta-divDescuento'>
-                                {props.descuento}%
-                            </div>
-                        }
+                    <div className='tarjeta-verDetalle'
+                        onClick={() => setMostrarDetalles(true)}>
+                        <div className='tarjeta-div-foto'>
+                            <img
+                                src={props.imagen ? props.imagen : imagenNoDisponible}
+                                alt={titulo}
+                                className={`tarjeta-foto ${props.imagen && 'aumentar'}`}/>
+                            {props.descuento > 0 &&
+                                <div className='tarjeta-divDescuento'>
+                                    {props.descuento}%
+                                </div>
+                            }
+                        </div>
+                        <h5 className='tarjeta-titulo hstack align-items-center p-2 m-0'>{titulo}</h5>
                     </div>
-                    <h5 className='tarjeta-titulo hstack align-items-center p-2 m-0'>{titulo}</h5>
                     <div className='tarjeta-parteInferiorDiv'>
                         <div className='tarjeta-precioDiv d-flex justify-content-around align-items-center'>
                             {props.descuento === 0 ?

@@ -17,15 +17,16 @@
 .tarjeta-foto {
     aspect-ratio: 1/1;
     width: 100%;
+    transition: transform 200ms;
 }
 
-.tarjeta-foto.aumentar {
+.tarjeta-verDetalle {
     cursor: pointer;
 }
 
-.tarjeta-foto.aumentar:hover {
+.tarjeta-verDetalle:hover .tarjeta-foto.aumentar {
     transform: scale(1.05);
-    transition: 200ms;
+    transition: transform 200ms;
 }
 
 .tarjeta-divDescuento {

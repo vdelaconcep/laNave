@@ -60,8 +60,8 @@ const Principal = () => {
                     </div>
                 </div>
                 <a className="carousel-control-prev" href="#carouselPortada" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Previous</span>
                 </a>
                 <a className="carousel-control-next" href="#carouselPortada" role="button" data-slide="next">
                     <span className="carousel-control-next-icon" aria-hidden="true"></span>

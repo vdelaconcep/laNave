@@ -9,7 +9,7 @@ import '@/components/tarjetas/tarjetas.css';
 const Detalle = ({ titulo, talleUnico, talles, talleSeleccionado, setTalleSeleccionado, setMostrarDetalles, cantidadSeleccionada, setCantidadSeleccionada, agregarAlCarrito, ...rest }) => {
 
     return (
-        <div className='detalleOverlay'>
+        <div className='detalleOverlay d-none d-md-block'>
             <article className='detalleArticle'>
                 <div className='text-end w-100'>
                     <button
@@ -27,7 +27,7 @@ const Detalle = ({ titulo, talleUnico, talles, talleSeleccionado, setTalleSelecc
                     </div>
                     <div className='detalleDivInfo p-4 pt-3 d-flex flex-column align-items-center'>
                         <h2 className='detalle-titulo text-center'>{titulo}</h2>
-                        <h4 className='text-warning text-end align-self-end fw-bold mt-2'>{`ARS ${rest.precio}`}</h4>
+                        <h4 className='text-warning text-center fw-bold mt-2'>{(rest.descuento && rest.descuento > 0) ? <><span className='tarjeta-precio anterior text-white fw-light'>{`ARS ${rest.precio}`}</span><span> </span>{`ARS ${rest.precio*(1-rest.descuento/100)}`}</> : `ARS ${rest.precio}`}</h4>
                         <div className='d-flex mt-3'>
                             <div className='d-flex'>
                                 <label className='form-label me-2'>Cantidad:</label>
