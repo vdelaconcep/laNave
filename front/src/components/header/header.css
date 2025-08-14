@@ -1,12 +1,24 @@
-.barraSuperior {
-    height: 60px;
-    box-shadow: 0 0 5px black;
+header {
+    position: relative;
+    padding-bottom: 60px;
 }
 
-@media (min-width: 576px) {
+.barraSuperior {
+    background-color: black;
+    height: 60px;
+    box-shadow: 0 0 5px black;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    max-width: 100%;
+    z-index: 1050;
+    border-bottom: 0.5px solid #404040;
+}
 
+@media (max-width: 576px) {
     .barraSuperior {
-        background-color: black;
+        height: 55px;
     }
 }
 

@@ -160,7 +160,8 @@ const Navegacion = ({ pantalla }) => {
                         </button>
                         <div
                             ref={asignarRef('busqueda')} className='div-busqueda-chico d-flex justify-content-center p-sm-4 pt-2 pb-2 pt-sm-2 pb-sm-2 w-100 ms-2 me-4 ms-sm-0 me-sm-0'>
-                            <Busqueda />
+                            <Busqueda
+                                onBuscar={() => setDesplegadoMenuChico(false)} />
                         </div>
                     </li>
                     <hr

@@ -11,7 +11,7 @@ const Error = () => {
 
     return (
         <main>
-            <h1 className="pagina-titulo text-white text-center">Página de error</h1>
+            <h1 className="pagina-titulo text-white text-center">Página no encontrada</h1>
         </main>
     );
 };

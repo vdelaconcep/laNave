@@ -70,14 +70,22 @@
     left: -600px !important;
     transform-origin: left center;
     width: 50vw;
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.listaDesplegable::-webkit-scrollbar {
+    display: none;
 }
 
 @media (max-width: 576px) {
     .listaDesplegable.pChica {
-        top: 0 !important;
         padding-top: 0;
-        border-bottom-left-radius: 12px;
-        width: 85vw; 
+        top: 3px !important;
+        width: 85vw;
+        max-height: 100vh;
     }
 }
 
@@ -160,14 +168,6 @@
 }
 
 @media (max-width: 576px) {
-    .menuBarras {
-        color: black;
-    }
-
-    .menuBarras:hover {
-        color: white;
-        text-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    }
 
     .div-busqueda-chico {
         padding-top: 14px !important;

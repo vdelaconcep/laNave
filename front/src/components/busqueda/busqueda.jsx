@@ -2,13 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import useFormulario from '@/hooks/useFormulario';
 import '@/components/busqueda/busqueda.css'
 
-const Busqueda = () => {
+const Busqueda = ({ onBuscar }) => {
     
     const navigate = useNavigate();
 
     // Gestión de envío del formulario
     const buscar = (datos) => {
         navigate(`/resultados?banda=${encodeURIComponent(datos.bandaBuscada)}`);
+        if (onBuscar) onBuscar();
     };
 
     const { inputs, gestionIngreso, gestionEnvio } = useFormulario(buscar);

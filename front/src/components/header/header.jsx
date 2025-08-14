@@ -126,10 +126,6 @@ const Header = () => {
                         <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={numeroCarrito} />}
                 </div>
             </section>
-            <section className="d-sm-none">
-                <Link to="/" className='links'><img className="w-100" src={banner} alt="banner" /></Link>
-                <p className="header-leyenda text-end pe-3"><b>REMERAS - BUZOS - MOCHILAS - Y MÁS</b></p>
-            </section>
             {mostrarConfirm ?
                 <Confirm
                     pregunta='¿Salir de la sesión actual?'

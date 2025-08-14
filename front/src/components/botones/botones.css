@@ -1,24 +1,13 @@
 /* Botón del header (con notificación) */
 .btnLink-Link {
-    color: black;
+    color: white;
     font-size: 1.1em;
     position: relative;
 }
 
 .btnLink-Link:hover .btnLink-texto{
     color: white;
-    text-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-}
-
-@media (min-width: 576px) {
-    .btnLink-texto {
-        color: white;
-    }
-
-    .btnLink-Link:hover .btnLink-texto {
-        color: white;
-        text-shadow: 1px 1px #FEC224;
-    }
+    text-shadow: 1px 1px #FEC224;
 }
 
 .btnLink-notificacion {

@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
-import { useContext } from 'react';
+import { Outlet, useLocation } from "react-router-dom";
+import { useContext, useEffect } from 'react';
 import Header from '@/components/header/header';
 import { BackgroundContext } from '../context/backgroundContext';
 import Footer from '@/components/footer/footer';
@@ -7,6 +7,16 @@ import Footer from '@/components/footer/footer';
 
 function Layout() {
     const { background } = useContext(BackgroundContext);
+
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "auto"
+        });
+    }, [pathname]);
 
 
     return (

@@ -6,6 +6,7 @@ import BotonSecundario from '@/components/botones/botonSecundario';
 import banner from '@/assets/img/banner2.png';
 import Tarjeta from '@/components/tarjetas/tarjeta'
 import carouselUno from '@/assets/img/carousel1.jpg';
+import carouselDos from '@/assets/img/carousel2.jpg';
 
 const Principal = () => {
     const { setBackground } = useContext(BackgroundContext);
@@ -35,43 +36,43 @@ const Principal = () => {
 
     return (
         <main>
-            <section className='banner d-none d-sm-block mt-sm-4'>
+            <section className='banner mt-3 mt-sm-4'>
                 <img
                     src={banner}
                     alt="Banner La Nave Rock"
                     className='w-100'
                     style={{aspectRatio: '1988/454'}}/>
-                <p className="text-end pe-3"><b>REMERAS - BUZOS - MOCHILAS - Y MÁS</b></p>
+                <p className="text-center text-sm-end pe-sm-3"><b>REMERAS - BUZOS - MOCHILAS - Y MÁS</b></p>
                 
             </section>
             
-            <div id="carouselPortada" className="carousel slide mt-4 mb-0 w-100" data-ride="carousel">
+            <div id="carouselPortada" className="carousel slide mt-4 mb-0 w-100" data-bs-ride="carousel">
                 <ol className="carousel-indicators">
-                    <li data-target="#carouselPortada" data-slide-to="0" className="active"></li>
-                    <li data-target="#carouselPortada" data-slide-to="1"></li>
-                    <li data-target="#carouselPortada" data-slide-to="2"></li>
+                    <li data-bs-target="#carouselPortada" data-bs-slide-to="0" className="active"></li>
+                    <li data-bs-target="#carouselPortada" data-bs-slide-to="1"></li>
+                    <li data-bs-target="#carouselPortada" data-bs-slide-to="2"></li>
                 </ol>
                 <div className="carousel-inner">
                     <div className="carousel-item active">
                         <img className="d-block w-100" src={carouselUno} alt="Mes de Spinetta" />
                     </div>
                     <div className="carousel-item">
-                        <img className="d-block w-100" src={carouselUno} alt="Second slide" />
+                        <img className="d-block w-100" src={carouselDos} alt="Envíos gratis a zona sur GBA" />
                     </div>
                     <div className="carousel-item">
                         <img className="d-block w-100" src={carouselUno} alt="Third slide" />
                     </div>
                 </div>
-                <a className="carousel-control-prev" href="#carouselPortada" role="button" data-slide="prev">
+                <a className="carousel-control-prev" href="#carouselPortada" role="button" data-bs-slide="prev">
                     <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Previous</span>
+                    <span className="visually-hidden">Previous</span>
                 </a>
-                <a className="carousel-control-next" href="#carouselPortada" role="button" data-slide="next">
+                <a className="carousel-control-next" href="#carouselPortada" role="button" data-bs-slide="next">
                     <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Next</span>
+                    <span className="visually-hidden">Next</span>
                 </a>
             </div>
-            <p className='text-center mb-5 mt-2 ps-2 pe-2'><i className="fa-solid fa-credit-card"></i><span>Hasta 6 cuotas sin interés con tarjeta</span>  - <i className="fa-solid fa-piggy-bank"></i> <span>20% off con transferencia</span></p>
+            <p className='text-center mb-5 mt-2 ps-2 pe-2'><i className="fa-solid fa-credit-card"></i><span>Hasta 6 cuotas sin interés con tarjeta</span>  - <i className="fa-solid fa-piggy-bank"></i> <span>20% off con transferencia</span> - <i className="fa-solid fa-truck-fast"></i> <span>Envíos a todo el país</span></p>
 
             <h1 className="pagina-titulo text-white text-center">Novedades</h1>
             
