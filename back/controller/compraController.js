@@ -135,7 +135,6 @@ const compraProducto = async (req, res) => {
         };
 
         producto.precioFinal = totalProducto;
-        console.log(totalProducto);
 
         totalProductos += totalProducto;
     };

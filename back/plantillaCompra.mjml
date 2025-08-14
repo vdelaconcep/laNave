@@ -25,7 +25,7 @@
                         <th>Total</th>
                     </tr>
                     {{#each productos}}
-                    
+                        
                     {{/each}}
                 </mj-table>
             </mj-column>
@@ -33,7 +33,7 @@
         <mj-section background-color="#ffffff" padding="20px">
             <mj-column>
                 <mj-text color="#555555" font-size="16px">
-                    Forma de pago: {{pago}}<br />
+                    Forma de pago: {{pago}}<br /><br />
                     Forma de entrega: {{entrega}}
                 </mj-text>
                 <mj-text font-size="18px" color="#333333">
@@ -43,10 +43,30 @@
         </mj-section>
         <mj-section background-color="#ffffff" padding="20px">
             <mj-column>
-                <mj-text font-size="16px" color="#333333">
-                    Muchas gracias por interesarte en este proyecto, te invito a mi GitHub para ver otros proyectos en los que estoy trabajando: https://github.com/vdelaconcep . 
-                    No dudes en contactarme por mail a vdelaconcep@gmail.com
+                <mj-text font-size="16px" color="#555555" align="left">
+                Muchas gracias por interesarte en este proyecto! <br />
+                Si querés ver más de mis trabajos o ponerte en contacto conmigo, te dejo los enlaces:
                 </mj-text>
+
+                <mj-table align="center" cellpadding="0" cellspacing="0" role="presentation">
+                <tr>
+                    <td style="padding-right:10px;">
+                    <a href="https://github.com/vdelaconcep" style="background-color:#24292e; color:white; padding:10px 25px; border-radius:6px; text-decoration:none; display:inline-block; font-size:14px;">
+                        🔗 GitHub
+                    </a>
+                    </td>
+                    <td style="padding-right:10px;">
+                    <a href="https://www.linkedin.com/in/valeria-de-la-concepci%C3%B3n-mar%C3%ADa-905396324/" style="background-color:#0a66c2; color:white; padding:10px 25px; border-radius:6px; text-decoration:none; display:inline-block; font-size:14px;">
+                        💼 LinkedIn
+                    </a>
+                    </td>
+                    <td>
+                    <a href="mailto:vdelaconcep@gmail.com" style="background-color:#ea4335; color:white; padding:10px 25px; border-radius:6px; text-decoration:none; display:inline-block; font-size:14px;">
+                        📧 Enviame un correo
+                    </a>
+                    </td>
+                </tr>
+                </mj-table>
             </mj-column>
         </mj-section>
     </mj-body>

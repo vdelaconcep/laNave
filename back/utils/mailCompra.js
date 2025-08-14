@@ -7,10 +7,14 @@ export const enviarMailCompra = async (compra) => {
     plantilla = plantilla.replace('{{total}}', compra.total).replace('{{entrega}}', compra.entrega).replace('{{pago}}', compra.pago);
     const filas = compra.productos.map(p => `
         <tr>
-        <td align="center"><img src="${p.imagen}" width="50" style="vertical-align: middle; margin-right: 10px;" />
-        <td align="center">${p.nombre} (talle ${p.talle})</td>
-        <td align="center">${p.cantidad}</td>
-        <td align="center" style="mso-number-format:'\@';">$${p.totalProducto}</td>
+            <td align="center"><img src="${p.imagen}" width="50" style="vertical-align: middle; margin-right: 10px;" /></td>
+            <td align="center">${p.nombre} (talle ${p.talle})</td>
+            <td align="center">${p.cantidad}</td>
+            <td align="center" style="mso-number-format:'\@';">
+                <span style="white-space: nowrap; mso-text-control: none;">
+                    ${p.totalProducto}
+                </span>
+            </td>
         </tr>
         `).join('');
     

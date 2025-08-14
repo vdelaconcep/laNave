@@ -7,13 +7,12 @@
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
     z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .confirm-article, .mensaje-respuestaRedactar, .usuarios-mostrarInfoArticle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     z-index: 1000;
     background-color: black;
     color: white;
@@ -31,18 +30,16 @@
     0% {
         opacity: 0;
         transform: scale(0.5);
-        transform: translate(-50%, -50%);
-    }
-
-    100% {
+        }
+    
+        100% {
         opacity: 1;
         transform: scale(1);
-        transform: translate(-50%, -50%);
     }
 }
 
 .entrar {
-    animation: entrada 0.8s ease-out;
+    animation: entrada 0.5s ease-out;
 }
 
 .seCorta {

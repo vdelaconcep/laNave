@@ -9,6 +9,7 @@ import Confirm from '@/components/emergentes/confirm';
 import carritoVacioImagen from '@/assets/img/carritoVacio.jpg';
 import BotonSecundario from '@/components/botones/botonSecundario';
 import BotonPrimario from '@/components/botones/botonPrimario';
+import sinImagen from '@/assets/img/tarjeta-alternativa.jpg';
 import '@/pages/css/carrito.css';
 
 

@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { BackgroundContext } from '@/context/backgroundContext';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import { obtenerProducto } from '@/services/productoService';
+import BotonSecundario from '@/components/botones/botonSecundario';
 import banner from '@/assets/img/banner2.png';
 import Tarjeta from '@/components/tarjetas/tarjeta'
 import carouselUno from '@/assets/img/carousel1.jpg';
@@ -16,7 +17,7 @@ const Principal = () => {
     
     const obtenerRecientes = async () => {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/productos?recientes=true`);
+            const res = await obtenerProducto('recientes', 'true');
 
             if (res.status !== 200) return toast.error(`Error al obtener productos: ${res.statusText}`);
             return setDatos(res.data);
@@ -44,7 +45,7 @@ const Principal = () => {
                 
             </section>
             
-            <div id="carouselPortada" className="carousel slide mt-1 mb-0 w-100" data-ride="carousel">
+            <div id="carouselPortada" className="carousel slide mt-4 mb-0 w-100" data-ride="carousel">
                 <ol className="carousel-indicators">
                     <li data-target="#carouselPortada" data-slide-to="0" className="active"></li>
                     <li data-target="#carouselPortada" data-slide-to="1"></li>
@@ -70,9 +71,9 @@ const Principal = () => {
                     <span className="sr-only">Next</span>
                 </a>
             </div>
-            <p className='text-center mb-3 ps-2 pe-2'><i className="fa-solid fa-credit-card"></i><span>Hasta 6 cuotas sin interés con tarjeta</span>  - <i className="fa-solid fa-piggy-bank"></i> <span>20% off con transferencia</span></p>
+            <p className='text-center mb-5 mt-2 ps-2 pe-2'><i className="fa-solid fa-credit-card"></i><span>Hasta 6 cuotas sin interés con tarjeta</span>  - <i className="fa-solid fa-piggy-bank"></i> <span>20% off con transferencia</span></p>
 
-            <p className='fw-bold text-start align-self-start mb-0 ps-sm-5'>Novedades</p>
+            <h1 className="pagina-titulo text-white text-center">Novedades</h1>
             
             <section className="aparecer d-flex flex-wrap justify-content-center pt-0 pt-sm-2 pb-5">
                 {datos.map((producto) => (
@@ -80,6 +81,17 @@ const Principal = () => {
                 ))}
                 
             </section>
+            <BotonSecundario
+                texto={<><i className="fa-solid fa-arrow-up"></i><span> ir arriba</span></>}
+                claseAdicional='m-3 mb-4'
+                tipo='button'
+                accion={() => {
+                    window.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                }} />
         </main>
     );
 };

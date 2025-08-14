@@ -313,7 +313,9 @@ const Compra = () => {
             const res = await compra(carrito);
             if (res.status !== 200) return toast.error(`Error al realizar la compra: ${res.statusText}`);
 
-            return alert(`Muchas gracias por comprar en La Nave Rockería! Te enviamos un e-mail con los detalles de tu pedido: ${JSON.stringify(res.data.venta)} `);
+            const mail = res.data.venta.emailUsuario
+
+            return toast.success(`Muchas gracias por comprar en La Nave Rockería! Te enviamos un correo a ${mail} con los detalles de tu pedido`);
         } catch (err) {
             return toast.error(`Error al realizar la compra: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
         }
@@ -359,10 +361,9 @@ const Compra = () => {
     useEffect(() => {
         if (confirm) {
             setConfirm(false);
-            console.log(carrito)
             comprar();
-            /* setCarrito([]);
-            navigate('/'); */
+            setCarrito([]);
+            navigate('/');
         }
     }, [confirm]);
 
