@@ -25,10 +25,10 @@ const Detalle = ({ titulo, talleUnico, talles, talleSeleccionado, setTalleSelecc
                             src={rest.imagen ? rest.imagen : imagenNoDisponible}
                             alt={titulo} />
                     </div>
-                    <div className='detalleDivInfo p-4 pt-3 d-flex flex-column align-items-center'>
+                    <div className='detalleDivInfo p-4 pt-2 d-flex flex-column align-items-center justify-content-center'>
                         <h2 className='detalle-titulo text-center'>{titulo}</h2>
-                        <h4 className='text-warning text-center fw-bold mt-2'>{(rest.descuento && rest.descuento > 0) ? <><span className='tarjeta-precio anterior text-white fw-light'>{`ARS ${rest.precio}`}</span><span> </span>{`ARS ${rest.precio*(1-rest.descuento/100)}`}</> : `ARS ${rest.precio}`}</h4>
-                        <div className='d-flex mt-3'>
+                        <h4 className='text-warning text-center fw-bold mt-1'>{(rest.descuento && rest.descuento > 0) ? <><span className='tarjeta-precio anterior text-white fw-light'>{`ARS ${rest.precio}`}</span><span> </span>{`ARS ${rest.precio*(1-rest.descuento/100)}`}</> : `ARS ${rest.precio}`}</h4>
+                        <div className='d-flex mt-2'>
                             <div className='d-flex'>
                                 <label className='form-label me-2'>Cantidad:</label>
                                 <input
@@ -48,7 +48,7 @@ const Detalle = ({ titulo, talleUnico, talles, talleSeleccionado, setTalleSelecc
                         </div>
                         <BotonPrimario
                             type='button'
-                            claseAdicional='m-4'
+                            claseAdicional='m-3'
                             texto='Agregar al carrito'
                             accion={() => agregarAlCarrito(rest.uuid, talleSeleccionado, cantidadSeleccionada)}/>
                     

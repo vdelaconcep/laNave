@@ -1,0 +1,53 @@
+<mjml>
+    <mj-body background-color="#f4f4f4" font-family="Arial, sans-serif">
+        <mj-section padding="0">
+            <mj-column>
+                <mj-image width="600px" src="https://i.imgur.com/hmQ6OBx.png" alt="Banner de La Nave Rockería" />
+            </mj-column>
+        </mj-section>
+        <mj-section background-color="#ffffff" padding="20px">
+            <mj-column>
+                <mj-text font-size="22px" font-weight="bold" color="#333333">
+                    ¡Muchas gracias por tu compra!
+                </mj-text>
+                <mj-text color="#555555" font-size="16px">
+                    Estos son los detalles de tu pedido:
+                </mj-text>
+            </mj-column>
+        </mj-section>
+        <mj-section background-color="#ffffff" padding="0 20px 20px 20px">
+            <mj-column>
+                <mj-table font-size="14px" cellpadding="8" width="100%">
+                    <tr style="background-color: #eeeeee; font-weight: bold;">
+                        <th></th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                    </tr>
+                    {{#each productos}}
+                    
+                    {{/each}}
+                </mj-table>
+            </mj-column>
+        </mj-section>
+        <mj-section background-color="#ffffff" padding="20px">
+            <mj-column>
+                <mj-text color="#555555" font-size="16px">
+                    Forma de pago: {{pago}}<br />
+                    Forma de entrega: {{entrega}}
+                </mj-text>
+                <mj-text font-size="18px" color="#333333">
+                    Total: <strong>${{total}}</strong>
+                </mj-text>
+            </mj-column>
+        </mj-section>
+        <mj-section background-color="#ffffff" padding="20px">
+            <mj-column>
+                <mj-text font-size="16px" color="#333333">
+                    Muchas gracias por interesarte en este proyecto, te invito a mi GitHub para ver otros proyectos en los que estoy trabajando: https://github.com/vdelaconcep . 
+                    No dudes en contactarme por mail a vdelaconcep@gmail.com
+                </mj-text>
+            </mj-column>
+        </mj-section>
+    </mj-body>
+</mjml>

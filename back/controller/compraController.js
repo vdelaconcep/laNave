@@ -1,6 +1,7 @@
 import Producto from '../models/productoMongo.js';
 import Codigo from '../models/codigoMongo.js';
 import Venta from '../models/ventaMongo.js';
+import { enviarMailCompra } from '../utils/mailCompra.js';
 
 const compraProducto = async (req, res) => {
     const carrito = req.body.carrito;
@@ -15,6 +16,7 @@ const compraProducto = async (req, res) => {
     // Verificación de stock
     const productosSinStock = [];
     const productosAComprarBD = [];
+    
 
     for (let producto of carritoProductos) {
         try {
@@ -132,11 +134,16 @@ const compraProducto = async (req, res) => {
             if (aplicaBanda && aplicaTipo) totalProducto = totalProducto * (1 - codigo.descuento / 100);
         };
 
+        producto.precioFinal = totalProducto;
+        console.log(totalProducto);
+
         totalProductos += totalProducto;
     };
 
     const pago = carrito.find(item => item.hasOwnProperty('modoPago'));
     if (pago && pago.modoPago === 'transferencia') totalProductos = totalProductos * 0.8;
+
+
 
     // Modificación de stock en base de datos de productos
     for (const producto of carritoProductos) {
@@ -167,9 +174,51 @@ const compraProducto = async (req, res) => {
         totalEnvio: totalEnvio
     };
 
+    // Armado de detalles de la compra para enviar por e-mail
+
+    let carritoEmail = [...carritoProductos];
+
+    for (const producto of carritoEmail) {
+        const productoBD = productosAComprarBD.find(item => item.uuid === producto.id);
+        producto.imagen = productoBD.imagen;
+    }
+
+    let entregaEmail;
+    let pagoEmail;
+
+    if (entrega.formaEntrega === 'moto') {
+        entregaEmail = 'Envío en moto (gratis)';
+    } else if (entrega.formaEntrega === 'local') {
+        entregaEmail = 'Retiro en local (gratis)';
+    } else if (entrega.formaEntrega === 'correo') entregaEmail = `Envío por correo: $${totalEnvio}`;
+
+
+    if (pago.modoPago === 'transferencia') {
+        pagoEmail = 'Transferencia (-20 %)';
+    } else if (pago.modoPago === 'conTarjeta') pagoEmail = 'Tarjeta de crédito';
+
     try {
         const venta = new Venta(nuevaVenta);
         const registroGuardado = await venta.save();
+
+        const datosMail = {
+            email: usuario.usuario,
+            productos: carritoEmail.map(p => ({
+                nombre: p.producto,
+                talle: p.talle,
+                cantidad: p.cantidad,
+                totalProducto: p.precioFinal,
+                imagen: p.imagen || ''
+            })),
+            entrega: entregaEmail,
+            pago: pagoEmail,
+            total: totalProductos + totalEnvio
+        };
+
+        enviarMailCompra(datosMail)
+            .then(() => console.log('Mail de compra enviado correctamente'))
+            .catch(err => console.error('Error enviando mail de compra:', err));
+        
         res.status(200).json({
             mensaje: 'La compra se ha registrado con éxito',
             venta: registroGuardado
@@ -177,6 +226,7 @@ const compraProducto = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: `No se ha podido registrar la compra: ${err.message}` });
     }
+
 };
 
 export {

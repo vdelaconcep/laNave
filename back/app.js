@@ -16,6 +16,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/images', express.static('public/images'));
 
 // Rutas
 app.use('/api/usuarios', usuariosRouter);
