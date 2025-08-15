@@ -21,7 +21,6 @@
                     <tr style="background-color: #eeeeee; font-weight: bold;">
                         <th></th>
                         <th>Producto</th>
-                        <th>Cantidad</th>
                         <th>Total</th>
                     </tr>
                     {{#each productos}}
@@ -47,26 +46,40 @@
                 Muchas gracias por interesarte en este proyecto! <br />
                 Si querés ver más de mis trabajos o ponerte en contacto conmigo, te dejo los enlaces:
                 </mj-text>
+            </mj-column>
+            <mj-column>
+                <mj-button 
+                href="https://github.com/vdelaconcep"
+                background-color="#24292e"
+                color="white"
+                font-size="14px"
+                border-radius="6px"
+                padding="10px 25px"
+                >
+                🔗 GitHub
+                </mj-button>
 
-                <mj-table align="center" cellpadding="0" cellspacing="0" role="presentation">
-                <tr>
-                    <td style="padding-right:10px;">
-                    <a href="https://github.com/vdelaconcep" style="background-color:#24292e; color:white; padding:10px 25px; border-radius:6px; text-decoration:none; display:inline-block; font-size:14px;">
-                        🔗 GitHub
-                    </a>
-                    </td>
-                    <td style="padding-right:10px;">
-                    <a href="https://www.linkedin.com/in/valeria-de-la-concepci%C3%B3n-mar%C3%ADa-905396324/" style="background-color:#0a66c2; color:white; padding:10px 25px; border-radius:6px; text-decoration:none; display:inline-block; font-size:14px;">
-                        💼 LinkedIn
-                    </a>
-                    </td>
-                    <td>
-                    <a href="mailto:vdelaconcep@gmail.com" style="background-color:#ea4335; color:white; padding:10px 25px; border-radius:6px; text-decoration:none; display:inline-block; font-size:14px;">
-                        📧 Enviame un correo
-                    </a>
-                    </td>
-                </tr>
-                </mj-table>
+                <mj-button 
+                href="https://www.linkedin.com/in/valeria-de-la-concepci%C3%B3n-mar%C3%ADa-905396324/"
+                background-color="#0a66c2"
+                color="white"
+                font-size="14px"
+                border-radius="6px"
+                padding="10px 25px"
+                >
+                💼 LinkedIn
+                </mj-button>
+
+                <mj-button 
+                href="mailto:vdelaconcep@gmail.com"
+                background-color="#ea4335"
+                color="white"
+                font-size="14px"
+                border-radius="6px"
+                padding="10px 25px"
+                >
+                📧 Envíame un correo
+                </mj-button>
             </mj-column>
         </mj-section>
     </mj-body>
