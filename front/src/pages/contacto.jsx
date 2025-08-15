@@ -68,7 +68,6 @@ const Contacto = () => {
                                 name="nombre"
                                 value={inputs.nombre}
                                 onChange={gestionIngreso}
-                                autoFocus
                                 required/>
 
                             <label htmlFor="email" className="contacto-label form-label ps-2 mt-2 mb-0">E-mail:</label>

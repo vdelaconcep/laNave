@@ -78,7 +78,7 @@
 /* Mostrar/ocultar contraseña */
 .botonPassword {
     font-size: 1.2em;
-    position: absolute; /* Definir position relative para div padre*/
+    position: absolute;
     color: black;
     top: 29px;
     right: 3px;
@@ -86,4 +86,9 @@
 
 .botonPassword:hover {
     color: #8EDCC0;
+}
+
+.botonPassword, .botonPassword:hover, .botonPassword:active, .botonPassword:focus {
+    border: none !important;
+    box-shadow: none !important;
 }
