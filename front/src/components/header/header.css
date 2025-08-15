@@ -37,6 +37,10 @@ header {
     display: block;
 }
 
+.botonCerrarSesion .botonNoWrap {
+    white-space: nowrap;
+}
+
 .header-leyenda {
     font-size: 0.8rem;
 }
@@ -47,6 +51,7 @@ header {
 
 @media (max-width: 576px) {
     .header-logo {
-        height: 30px;
+        height: 40px;
+        padding-bottom: 5px;
     }
 }

@@ -4,6 +4,17 @@
 
 .listaCodigos-Article, .ingresarCodigo-Article {
     box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 5px;
+    width: auto !important;
+}
+
+@media (max-width: 576px) {
+    .listaCodigos-Article, .ingresarCodigo-Article {
+        width: 100% !important;
+    }
+}
+
+.input-ingresar {
+    width: 150px;
 }
 
 .aclaracion {

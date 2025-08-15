@@ -68,7 +68,6 @@ const Login = () => {
                                 name="email"
                                 value={inputs.email}
                                 onChange={gestionIngreso}
-                                autoFocus
                                 required/>
                             <div className='passwordDiv'>
                                 <label htmlFor="password" className="login-label form-label ps-2 mt-2 mb-0">Contraseña:</label>

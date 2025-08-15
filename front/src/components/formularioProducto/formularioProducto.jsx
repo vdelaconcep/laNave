@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { altaProducto, actualizarProducto, eliminarProducto } from '@/services/productoService';
 import useFormulario from '@/hooks/useFormulario';
@@ -358,19 +357,18 @@ const FormularioProducto = ({ producto, accion, setProductoAEditar, obtenerProdu
             <div className={`d-flex mt-3 ms-3 me-3 ${accion === 'alta' ? 'justify-content-center' : 'justify-content-between'}`} style={{maxWidth: '600px'}}>
             {accion === 'actualizacion' &&
                     <BotonEliminar
-                        textoAdicional='producto'
                         tipo='button'
                         accion={() => eliminarProductoPorId()} />}
             
             <article className="text-center">
                 <BotonSecundario
                     tipo={accion === 'alta' ? 'reset' : 'button'}
-                        texto={<><i className="fa-solid fa-xmark"></i><span> Cancelar</span></>}
-                    claseAdicional='me-2'
+                        texto={<><i className="fa-solid fa-xmark d-none d-sm-inline"></i><span> Cancelar</span></>}
+                    claseAdicional='me-1 me-sm-2'
                     accion={accion === 'actualizacion' ? () => setProductoAEditar(null) : null} />
                 <BotonPrimario
                     tipo='submit'
-                        texto={accion === 'alta' ? (cargandoEnvio ? <><span> Agregando... </span><i className="fa-solid fa-spinner fa-spin"></i></> : <><i className="fa-solid fa-plus"></i><span> Agregar</span></>) : (cargandoEnvio ? <><span>Actualizando... </span><i className="fa-solid fa-spinner fa-spin"></i></> : <><i className="fa-solid fa-check"></i><span> Enviar</span></>)} claseAdicional='ms-2' />
+                        texto={accion === 'alta' ? (cargandoEnvio ? <><span> Agregando... </span><i className="fa-solid fa-spinner fa-spin"></i></> : <><i className="fa-solid fa-plus "></i><span> Agregar</span></>) : (cargandoEnvio ? <><span className='d-none d-sm-inline'>Actualizando... </span><i className="fa-solid fa-spinner fa-spin"></i></> : <><i className="fa-solid fa-check d-none d-sm-inline"></i><span> Enviar</span></>)} claseAdicional='ms-sm-2' />
                 
             </article>
             </div>

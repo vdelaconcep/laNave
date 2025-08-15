@@ -117,6 +117,7 @@ const Header = () => {
                         <BotonSecundario
                             tipo='button'
                             texto='Cerrar sesión'
+                            claseAdicional='botonNoWrap'
                             accion={() => setMostrarConfirm(true)} />
                     </article>
                 </div>

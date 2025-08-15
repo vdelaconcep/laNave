@@ -63,6 +63,7 @@
     color: #DC3545 !important;
     border-color: #DC3545 !important;
     background-color: black !important;
+    white-space: nowrap;
 }
 
 .botonEliminar-btn:hover,

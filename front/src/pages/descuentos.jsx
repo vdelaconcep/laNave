@@ -126,13 +126,13 @@ const Descuentos = () => {
                     <h1 className="pagina-titulo text-white text-center">Códigos de descuento</h1>
                     <section className='aparecer text-white mt-2 mb-5 d-flex flex-wrap'>
                         <article className='ingresarCodigo-Article bg-dark p-4 pt-3 m-2 rounded-4'>
-                            <h6 className='text-center text-warning'>Crear código:</h6>
+                            <h5 className='text-center text-warning'>Crear código:</h5>
                             <form onSubmit={gestionEnvio}>
-                                <div className='d-flex mb-3'>
+                                <div className='d-flex mb-3 justify-content-between'>
                                     <div className='me-3'>
-                                        <label className='form-label'>Ingresar nuevo código:</label>
+                                        <label className='form-label'>Ingresar nuevo:</label>
                                         <input
-                                            className='form-control' type="text"
+                                            className='form-control input-ingresar' type="text"
                                             placeholder='5 a 10 caracteres'
                                             name='codigo'
                                             value={inputs.codigo}
@@ -142,7 +142,7 @@ const Descuentos = () => {
                                             required/>
                                     </div>
                                     <div className='ms-3'>
-                                        <label className='form-label'>Descuento (%):</label>
+                                        <label className='form-label'>Desc. (%):</label>
                                         <input
                                             className='form-control'
                                             type="number"
@@ -224,7 +224,7 @@ const Descuentos = () => {
                                 <h2 className='pagina-cargando text-white m-5'><i className="fa-solid fa-spinner fa-spin"></i></h2>
                             }
                             {(codigos.length > 0 && !cargando) ?
-                                <><h6 className='text-center text-warning'>Códigos existentes:</h6>
+                                <><h5 className='text-center text-warning'>Códigos existentes:</h5>
                                 {codigos.map(codigo => (
                                     <div className='mb-1'>
                                         <div className='d-flex justify-content-between'>

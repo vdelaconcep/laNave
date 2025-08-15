@@ -5,6 +5,9 @@ import { obtenerProducto } from '@/services/productoService';
 import BotonSecundario from '@/components/botones/botonSecundario';
 import banner from '@/assets/img/banner2.png';
 import Tarjeta from '@/components/tarjetas/tarjeta';
+import carouselUno from '@/assets/img/carousel1.jpg';
+import carouselDos from '@/assets/img/carousel2.jpg';
+import carouselTres from '@/assets/img/carousel3.jpg';
 
 const Principal = () => {
     const { setBackground } = useContext(BackgroundContext);
@@ -43,6 +46,28 @@ const Principal = () => {
                 <p className="text-center text-sm-end pe-sm-3"><b>REMERAS - BUZOS - MOCHILAS - Y MÁS</b></p>
                 
             </section>
+
+            <div id="carouselPortada" className="carousel slide d-none d-sm-block mt-4 mb-0 w-100" data-bs-ride="carousel">
+                <div className="carousel-inner">
+                    <div className="carousel-item active">
+                        <img className="d-block w-100" src={carouselUno} alt="Mes de Spinetta" />
+                    </div>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src={carouselDos} alt="Envíos gratis a zona sur GBA" />
+                    </div>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src={carouselTres} alt="Rock Argentino orgullo Nacional" />
+                    </div>
+                </div>
+                <a className="carousel-control-prev" href="#carouselPortada" role="button" data-bs-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Previous</span>
+                </a>
+                <a className="carousel-control-next" href="#carouselPortada" role="button" data-bs-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Next</span>
+                </a>
+            </div>
             
             <p className='text-center mb-4 mb-sm-5 mt-2 ps-2 pe-2'><i className="fa-solid fa-credit-card"></i><span>Hasta 6 cuotas sin interés con tarjeta</span>  - <i className="fa-solid fa-piggy-bank"></i> <span>20% off con transferencia</span> - <i className="fa-solid fa-truck-fast"></i> <span>Envíos a todo el país</span></p>
 
