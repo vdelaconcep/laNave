@@ -24,9 +24,11 @@
     cursor: pointer;
 }
 
-.tarjeta-verDetalle:hover .tarjeta-foto.aumentar {
-    transform: scale(1.05);
-    transition: transform 200ms;
+@media (min-width: 768px) {
+    .tarjeta-verDetalle:hover .tarjeta-foto.aumentar {
+        transform: scale(1.05);
+        transition: transform 200ms;
+    }
 }
 
 .tarjeta-divDescuento {
