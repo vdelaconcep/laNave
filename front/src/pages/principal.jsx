@@ -50,7 +50,7 @@ const Principal = () => {
                 
             </section>
 
-            <div id="carouselPortada" className="carousel slide d-block d-sm-none mt-4 mb-0 w-100" data-bs-ride="carousel">
+            <div id="carouselChicoPortada" className="carousel slide d-block d-sm-none mt-4 mb-0 w-100" data-bs-ride="carousel">
                 <div className="carousel-inner">
                     <div className="carousel-item active">
                         <img className="d-block w-100" src={carouselUnoChico} alt="Mes de Spinetta" />
@@ -62,14 +62,14 @@ const Principal = () => {
                         <img className="d-block w-100" src={carouselTresChico} alt="Rock Argentino orgullo Nacional" />
                     </div>
                 </div>
-                <a className="carousel-control-prev" href="#carouselPortada" role="button" data-bs-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Previous</span>
-                </a>
-                <a className="carousel-control-next" href="#carouselPortada" role="button" data-bs-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Next</span>
-                </a>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselChicoPortada" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselChicoPortada" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
 
             <div id="carouselPortada" className="carousel slide d-none d-sm-block mt-4 mb-0 w-100" data-bs-ride="carousel">
@@ -84,14 +84,14 @@ const Principal = () => {
                         <img className="d-block w-100" src={carouselTres} alt="Rock Argentino orgullo Nacional" />
                     </div>
                 </div>
-                <a className="carousel-control-prev" href="#carouselPortada" role="button" data-bs-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Previous</span>
-                </a>
-                <a className="carousel-control-next" href="#carouselPortada" role="button" data-bs-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Next</span>
-                </a>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselPortada" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselPortada" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
             
             <p className='text-center mb-4 mb-sm-5 mt-2 ps-2 pe-2'><i className="fa-solid fa-credit-card"></i><span>Hasta 6 cuotas sin interés con tarjeta</span>  - <i className="fa-solid fa-piggy-bank"></i> <span>20% off con transferencia</span> - <i className="fa-solid fa-truck-fast"></i> <span>Envíos a todo el país</span></p>
