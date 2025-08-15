@@ -94,8 +94,8 @@ const Header = () => {
                 <div className='d-block d-lg-none'>
                     <Navegacion pantalla={'pantallaChica'} />   
                 </div>
-                <div className="ps-3 d-none d-sm-block">
-                    <Link to="/" className='links' title="Página principal"><img src={logo} alt="logo" style={{ height: "50px" }} /></Link>
+                <div className="ps-sm-3">
+                    <Link to="/" className='links' title="Página principal"><img src={logo} alt="logo" className='header-logo'/></Link>
                 </div>
                 <div className="d-none d-lg-block ps-4 ps-xl-0 ms-md-auto me-md-auto">
                     <Navegacion pantalla={'pantallaGrande'} />
@@ -106,7 +106,7 @@ const Header = () => {
                     </div>
                 }
                 <div
-                    className="header-usuarioDiv pe-2 ms-auto ms-lg-0"
+                    className="header-usuarioDiv pe-sm-2 ms-auto ms-lg-0"
                     ref={refUsuarioDiv}>
                     <BotonLink
                         vinculo={sesionIniciada ? "#" : "/login"}
@@ -120,7 +120,7 @@ const Header = () => {
                             accion={() => setMostrarConfirm(true)} />
                     </article>
                 </div>
-                <div className="pe-3">
+                <div className="pe-1 pe-sm-3">
                     {(usuario && usuario.rol && usuario.rol === 'administrador') ?
                         <BotonLink vinculo={"/mensajes"} texto={<><span className='d-none d-sm-inline'>Mensajes </span><span><i className="fa-solid fa-envelope"></i></span></>} numero={nuevosMensajes} /> :
                         <BotonLink vinculo={"/carrito"} texto={<><span className='d-none d-sm-inline'>Carrito</span><span><i className="fa-solid fa-cart-shopping"></i></span></>} numero={numeroCarrito} />}

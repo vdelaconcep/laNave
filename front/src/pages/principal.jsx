@@ -46,37 +46,11 @@ const Principal = () => {
                 
             </section>
             
-            <div id="carouselPortada" className="carousel slide mt-4 mb-0 w-100" data-bs-ride="carousel">
-                <ol className="carousel-indicators">
-                    <li data-bs-target="#carouselPortada" data-bs-slide-to="0" className="active"></li>
-                    <li data-bs-target="#carouselPortada" data-bs-slide-to="1"></li>
-                    <li data-bs-target="#carouselPortada" data-bs-slide-to="2"></li>
-                </ol>
-                <div className="carousel-inner">
-                    <div className="carousel-item active">
-                        <img className="d-block w-100" src={carouselUno} alt="Mes de Spinetta" />
-                    </div>
-                    <div className="carousel-item">
-                        <img className="d-block w-100" src={carouselDos} alt="Envíos gratis a zona sur GBA" />
-                    </div>
-                    <div className="carousel-item">
-                        <img className="d-block w-100" src={carouselUno} alt="Third slide" />
-                    </div>
-                </div>
-                <a className="carousel-control-prev" href="#carouselPortada" role="button" data-bs-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Previous</span>
-                </a>
-                <a className="carousel-control-next" href="#carouselPortada" role="button" data-bs-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Next</span>
-                </a>
-            </div>
-            <p className='text-center mb-5 mt-2 ps-2 pe-2'><i className="fa-solid fa-credit-card"></i><span>Hasta 6 cuotas sin interés con tarjeta</span>  - <i className="fa-solid fa-piggy-bank"></i> <span>20% off con transferencia</span> - <i className="fa-solid fa-truck-fast"></i> <span>Envíos a todo el país</span></p>
+            <p className='text-center mb-4 mb-sm-5 mt-2 ps-2 pe-2'><i className="fa-solid fa-credit-card"></i><span>Hasta 6 cuotas sin interés con tarjeta</span>  - <i className="fa-solid fa-piggy-bank"></i> <span>20% off con transferencia</span> - <i className="fa-solid fa-truck-fast"></i> <span>Envíos a todo el país</span></p>
 
             <h1 className="pagina-titulo text-white text-center">Novedades</h1>
             
-            <section className="aparecer d-flex flex-wrap justify-content-center pt-0 pt-sm-2 pb-5">
+            <section className="aparecer d-flex flex-wrap justify-content-center pt-0 pt-sm-2 pb-4 pb-sm-5">
                 {datos.map((producto) => (
                     <Tarjeta key={producto.uuid} {...producto} />
                 ))}

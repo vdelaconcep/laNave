@@ -40,3 +40,13 @@ header {
 .header-leyenda {
     font-size: 0.8rem;
 }
+
+.header-logo {
+    height: 50px;
+}
+
+@media (max-width: 576px) {
+    .header-logo {
+        height: 30px;
+    }
+}
