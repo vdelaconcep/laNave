@@ -69,23 +69,25 @@ const Ventas = () => {
                                                         accion={() => navigate('/productosAdmin')} />
                                                 </article>
                                             }
-                        <section className='aparecer text-white mt-2 mb-5'>
-                            <div className='listaVenta-div bg-dark p-3 pt-0 rounded-4' style={{ boxShadow: 'rgba(0, 0, 0, 0.4) 3px 3px 5px'}}>
+                        
                                 {!cargando && ventas.length !== 0 &&
-                                    (ventas.map(venta =>
+                                    <>
+                                    <section className='aparecer text-white mt-2 mb-5'>
+                                        <div className='listaVenta-div bg-dark p-3 pt-0 rounded-4' style={{ boxShadow: 'rgba(0, 0, 0, 0.4) 3px 3px 5px' }}>
+                                    {(ventas.map(venta =>
                                         <article
                                             key={venta.id}>
                                             <p className='pt-3 ps-2 mb-0'>{formatearUTC(venta.fecha)}</p>
                                             <div className='p-3 pe-4 ps-4 bg-secondary rounded-4'>
-                                            <p className='text-center text-sm-end mb-0 text-decoration-underline'>{`Usuario: ${venta.emailUsuario}`}</p>
-                                            <p className='text-warning fw-bold'>Carrito:</p>
-                                            <ul>
-                                                {venta.carritoProductos.map(item => <li> <span>{item.producto}</span><span className='text-dark'>{` (${item.id})`}</span> <br />
-                                                    <span>{`Talle: ${item.talle}; Cantidad: ${item.cantidad}`}</span>
-                                                </li>)}
-                                            </ul>
+                                                <p className='text-center text-sm-end mb-0 text-decoration-underline'>{`Usuario: ${venta.emailUsuario}`}</p>
+                                                <p className='text-warning fw-bold'>Carrito:</p>
+                                                <ul>
+                                                    {venta.carritoProductos.map(item => <li> <span>{item.producto}</span><span className='text-dark'>{` (${item.id})`}</span> <br />
+                                                        <span>{`Talle: ${item.talle}; Cantidad: ${item.cantidad}`}</span>
+                                                    </li>)}
+                                                </ul>
                                                 <p><span className='text-warning fw-bold'>Entrega: </span>{venta.entrega.formaEntrega}</p>
-                                            {venta.entrega.direccion ? <>
+                                                {venta.entrega.direccion ? <>
                                                     <p><span className='text-warning fw-bold'>Dirección: </span>
                                                         {[
                                                             `${venta.entrega.direccion.calle} N°${venta.entrega.direccion.numero}`,
@@ -97,17 +99,18 @@ const Ventas = () => {
                                                             .filter(Boolean)
                                                             .join(', ')}
                                                         {venta.entrega.direccion.cp && ` (CP ${venta.entrega.direccion.cp})`}</p>
-                                            </> : ''}
+                                                </> : ''}
                                                 <p><span className='text-warning fw-bold'>Modo de pago: </span>{`${venta.modoDePago}`}</p>
                                                 <p><span className='text-warning fw-bold'>Código de descuento: </span>{`${venta.codigoIngresado ? venta.codigoIngresado : 'NO'}`}</p>
-                                            <p className='text-warning text-sm-end fw-bold'>{`Total productos: ARS ${venta.totalProductos}`}</p>
-                                            <p className='text-sm-end text-warning fw-bold mb-0'>{venta.totalEnvio > 0 ? `Total envío: ARS ${venta.totalEnvio}` : ''}</p>
+                                                <p className='text-warning text-sm-end fw-bold'>{`Total productos: ARS ${venta.totalProductos}`}</p>
+                                                <p className='text-sm-end text-warning fw-bold mb-0'>{venta.totalEnvio > 0 ? `Total envío: ARS ${venta.totalEnvio}` : ''}</p>
                                             </div>
                                         </article>
                                     ))}
-                            </div>
+                                </div>
 
-                        </section>
+                                </section>
+                                </>}
                     </>}
             </main>
         );
