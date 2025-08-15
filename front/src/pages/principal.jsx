@@ -4,9 +4,7 @@ import { toast } from 'react-toastify';
 import { obtenerProducto } from '@/services/productoService';
 import BotonSecundario from '@/components/botones/botonSecundario';
 import banner from '@/assets/img/banner2.png';
-import Tarjeta from '@/components/tarjetas/tarjeta'
-import carouselUno from '@/assets/img/carousel1.jpg';
-import carouselDos from '@/assets/img/carousel2.jpg';
+import Tarjeta from '@/components/tarjetas/tarjeta';
 
 const Principal = () => {
     const { setBackground } = useContext(BackgroundContext);
