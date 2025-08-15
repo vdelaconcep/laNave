@@ -18,6 +18,6 @@ const MONGO_URI = process.env.MONGO_URI;
 connectDB(MONGO_URI);
 
 // Ponemos a escuchar el servidor
-app.listen(PORT, (req, res) => {
+app.listen(PORT, '0.0.0.0', (req, res) => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
