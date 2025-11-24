@@ -7,10 +7,8 @@ import banner from '@/assets/img/banner2.png';
 import Tarjeta from '@/components/tarjetas/tarjeta';
 import carouselUno from '@/assets/img/carousel1.jpg';
 import carouselDos from '@/assets/img/carousel2.jpg';
-import carouselTres from '@/assets/img/carousel3.jpg';
 import carouselUnoChico from '@/assets/img/carousel1-chico.jpg';
 import carouselDosChico from '@/assets/img/carousel2-chico.jpg';
-import carouselTresChico from '@/assets/img/carousel3-chico.jpg';
 
 const Principal = () => {
     const { setBackground } = useContext(BackgroundContext);
@@ -58,9 +56,6 @@ const Principal = () => {
                     <div className="carousel-item">
                         <img className="d-block w-100" src={carouselDosChico} alt="Envíos gratis a zona sur GBA" />
                     </div>
-                    <div className="carousel-item">
-                        <img className="d-block w-100" src={carouselTresChico} alt="Rock Argentino orgullo Nacional" />
-                    </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselChicoPortada" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -79,9 +74,6 @@ const Principal = () => {
                     </div>
                     <div className="carousel-item">
                         <img className="d-block w-100" src={carouselDos} alt="Envíos gratis a zona sur GBA" />
-                    </div>
-                    <div className="carousel-item">
-                        <img className="d-block w-100" src={carouselTres} alt="Rock Argentino orgullo Nacional" />
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselPortada" data-bs-slide="prev">
